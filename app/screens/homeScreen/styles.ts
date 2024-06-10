@@ -1,3 +1,3 @@
-const container = "p-5"
+const container = "flex"
 
 export {container}

@@ -35,29 +35,17 @@ export default function Layout() {
               ...drawer.options,
               drawerIcon: () =>
                 drawer.options.title === 'Profile' ?
-                        <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center flex-initial' >
+                        <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
                           <Image source={icons.ProfileIcon} />
                         </View>
-                        /* <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute right-0'>
-                          <Image source={icons.ArrowRight} />
-                        </View> */
                   : drawer.options.title === 'Chats' ?
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
                           <Image source={icons.ChatIcon} />
                         </View>
-                        <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute left-56'>
-                          <Image source={icons.ArrowRight} style={{}} />
-                        </View>
-                    </View>
-                    : <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    : 
                         <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
                           <Image source={icons.SettingsIcon} />
-                        </View>
-                        <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute left-56'>
-                          <Image source={icons.ArrowRight} style={{}} />
-                        </View>
-                    </View>,
+                        </View>,
               drawerItemStyle: {
                 borderWidth: 1,
                 marginHorizontal: 0,

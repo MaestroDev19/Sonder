@@ -6,7 +6,7 @@ import styles from './styles';
 const Avatar = ({ src, initials, ...props }) => {
   return (
     <View
-      className={styles.containerStyles}
+      className={styles.containerStyles + ' ' + props.containerStyle}
       // style={[styles.container, props.containerStyle]}
     >
       {src ? (

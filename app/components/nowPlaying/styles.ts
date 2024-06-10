@@ -45,7 +45,7 @@
 //     },
 // });
 
-const container = "bg-[#B3B3B31A] p-4 rounded-lg"
+const container = "bg-[#B3B3B31A] p-4 rounded-lg mx-5"
 const row = "flex-row items-center justify-between mb-2"
 const leftColumn = "flex-1"
 const songName = "text-lg font-bold text-white"
