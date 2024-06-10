@@ -29,6 +29,7 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "scheme": "tinder-for-spotify-frontend-scheme"
   }
 }
