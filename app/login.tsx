@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
-import Page from "./components/page";
+import Page from "../components/page";
 import { Image } from "expo-image";
 import { dismissAuthSession, openAuthSessionAsync, openBrowserAsync } from "expo-web-browser";
 import { useState } from "react";

@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Dimensions } from 'react-native';
-import { getHomeNavbarOptions } from '../../components/navBar';
-import NowPlaying from '../../components/nowPlaying';
+import { getHomeNavbarOptions } from '../../../components/navBar';
+import NowPlaying from '../../../components/nowPlaying';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { container } from './styles';
 import { Drawer } from 'expo-router/drawer';
 import { useNavigation } from 'expo-router';
-import ProfileCard from '../../components/swipeCards';
-import { ProfileCardProps } from '../../types/types';
-import { profileCards } from '../../constants/profileCardsTemplate';
+import ProfileCard from '../../../components/swipeCards';
+import { ProfileCardProps } from '../../../types/types';
+import { profileCards } from '../../../constants/profileCardsTemplate';
 import { FlatList } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
