@@ -1,11 +1,10 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
-import CustomDrawer from '../components/sidebar';
-import DrawerItems from '../constants/DrawerItems';
+import CustomDrawer from '../../components/sidebar';
+import DrawerItems from '../../constants/DrawerItems';
 import { View, Button, Image, _View } from 'react-native';
 import { Component } from 'react';
 import * as icons from '../../assets/svg/exports'
-import { transform } from 'typescript';
 
 
 export default function Layout() {

@@ -18,3 +18,8 @@ export interface ProfileCardProps {
         artist: string
     }
 }
+
+export enum AsyncStorageKeys {
+    ACCESS_TOKEN = "access-token",
+    REFRESH_TOKEN = "refresh-token",
+}

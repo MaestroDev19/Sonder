@@ -1,9 +1,9 @@
 import { View, Text, Image } from "react-native";
-import * as icons from '../../assets/svg/exports';
+import * as icons from '../assets/svg/exports';
 
 export default [
     {
-        name: "homeScreen/index",
+        name: "home/index",
         options: {
             drawerLabel: config =>
                 <View className="flex-row items-center w-full">

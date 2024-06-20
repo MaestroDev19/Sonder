@@ -1,16 +1,20 @@
 // Import your global CSS file
-import { Stack } from "expo-router";
-import "../global.css";
+import { Stack } from "expo-router"
+import "../global.css"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 export default function RootLayout() {
+
+  const queryClient = new QueryClient();
+  
   return (
-    <Stack
-      screenOptions={{
-        contentStyle: {
-          backgroundColor: "#121212",
-        },
-        headerShown: false,
-      }}
-    />
-  );
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{
+      contentStyle: {
+        backgroundColor: "#121212",
+      },
+      headerShown: false,
+      }}/>
+    </QueryClientProvider>
+  )
 }
