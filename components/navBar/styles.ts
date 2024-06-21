@@ -1,1 +1,1 @@
-export const iconContainer = "p-5"
+export const iconContainer = "p-5 bg-light-"

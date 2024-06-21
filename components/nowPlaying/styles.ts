@@ -1,5 +1,7 @@
 // import { StyleSheet } from 'react-native'
 
+import { StyleSheet } from "nativewind"
+
 // export const styles = StyleSheet.create({
 //     container: {
 //         flex: 1,
@@ -45,14 +47,37 @@
 //     },
 // });
 
-const container = "bg-[#B3B3B31A] p-4 rounded-lg mx-5"
-const row = "flex-row items-center justify-between mb-2"
-const leftColumn = "flex-1"
-const songName = "text-lg font-bold text-white"
-const artist = "text-sm text-[#EFEFEF80]"
-const albumArt = "w-10 h-10 rounded-lg"
-const timestamp = "text-sm text-[#EFEFEF80]"
-const device = "text-sm text-white"
-const divider = "h-px bg-[#EFEFEF33] mb-2"
 
-export default {container, row, leftColumn, songName, artist, albumArt, timestamp, device, divider}
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#B3B3B31A",
+        padding: 12,
+        borderRadius: 10,
+        marginVertical: 5,
+        borderWidth: 1,
+        borderColor: "#EFEFEF33"
+    },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 2
+    },
+    leftColumn: {
+        flex: 1
+    },
+    divider: {
+        marginVertical: 7,
+        backgroundColor: "#EFEFEF33",
+        height: 1
+    },
+    text: {
+        color: "#EFEFEF80",
+    }
+})
+
+export default styles
+
+//export default {container, row, leftColumn, songName, artist, albumArt, timestamp, device, divider}
