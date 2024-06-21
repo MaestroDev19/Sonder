@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageBackground, Animated } from 'react-native';
 import Avatar from "../avatar"
 import { ProfileCardProps } from '../../types/types';
+import { SharedValue } from 'react-native-reanimated';
 
 const ProfileCard = (
     {
@@ -13,7 +14,7 @@ const ProfileCard = (
         likedArtist,
         likedGenre,
         favoriteSong,
-        favoriteArtist
+        favoriteArtist,
     }: ProfileCardProps
 ) => {
     return (

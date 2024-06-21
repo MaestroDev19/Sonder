@@ -5,6 +5,8 @@ import Avatar from '../avatar';
 import {iconContainer } from './styles';
 import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
+import { getCurrentlyPlaying } from '../../api/endpoints/user';
+import {welcome} from '../../api/endpoints/authentication'
 
 
 export function getHomeNavbarOptions() {
@@ -16,7 +18,7 @@ export function getHomeNavbarOptions() {
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <TouchableOpacity className={iconContainer}>
+        <TouchableOpacity className={iconContainer} onPress={() => welcome()}>
           <Text className=''>Notifications</Text>
         </TouchableOpacity>
       ),
