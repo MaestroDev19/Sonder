@@ -7,6 +7,7 @@ import { Component, useEffect } from 'react';
 import * as icons from '../../assets/svg/exports'
 import useAccessToken from '../../hooks/access-token';
 import SonderApi from '../../api';
+import { MessageCircle, Settings, UserRound } from 'lucide-react-native';
 
 
 export default function Layout() {
@@ -60,15 +61,15 @@ export default function Layout() {
               drawerIcon: () =>
                 drawer.options.title === 'Profile' ?
                         <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                          <Image source={icons.ProfileIcon} />
+                          <UserRound stroke="white"/>
                         </View>
                   : drawer.options.title === 'Chats' ?
                         <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                          <Image source={icons.ChatIcon} />
+                          <MessageCircle stroke="white"/>
                         </View>
                     : 
                         <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                          <Image source={icons.SettingsIcon} />
+                          <Settings stroke="white"/>
                         </View>,
               drawerItemStyle: {
                 borderWidth: 1,
