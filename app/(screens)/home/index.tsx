@@ -11,37 +11,30 @@ import { ProfileCardProps } from '../../../types/types';
 import { profileCards } from '../../../constants/profileCardsTemplate';
 import { FlatList } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
+import Page from '../../../components/page';
+import useCurrentTrack from '../../../hooks/current-song';
 
 const HomeScreen: React.FC = () => {
     const navigation = useNavigation();
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
 
-    const renderProfileCard = ({ item }: { item: ProfileCardProps }) => (
-        <ProfileCard
-            headerImage={item.headerImage}
-            avatar={item.avatar}
-            avatarInitials={item.avatarInitials}
-            userName={item.userName}
-            description={item.description}
-            likedArtist={item.likedArtist}
-            likedGenre={item.likedGenre}
-            favoriteSong={item.favoriteSong}
-            favoriteArtist={item.favoriteArtist}
-        />
-    );
+    const { isLoading, currentTrack } = useCurrentTrack()
+    console.log(currentTrack)
 
     return (
         <View className={container}>
             <Drawer.Screen options={getHomeNavbarOptions()} />
 
-            <NowPlaying
-                songName='The Last Year'
-                albumArtUrl='https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'
-                artist='Jessica Pratt'
-                timestamp='0:45'
-                device='lenovo legion'
-            />
+            <View className='px-4'>
+                <NowPlaying
+                    songName={currentTrack?.name || "The Last Year"}
+                    albumArtUrl={currentTrack?.image || 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'}
+                    artist={currentTrack?.artists.join(', ') || 'Jessica Pratt'}
+                    timestamp='0:45'
+                    device='Your Phone'
+                />
+            </View>
             {/* <ProfileCard
                 headerImage={profileCards[0].headerImage}
                 avatar={profileCards[0].avatar}
@@ -68,5 +61,20 @@ const HomeScreen: React.FC = () => {
         </View>
     );
 };
+
+const renderProfileCard = ({ item }: { item: ProfileCardProps }) => (
+    <ProfileCard
+        headerImage={item.headerImage}
+        avatar={item.avatar}
+        avatarInitials={item.avatarInitials}
+        userName={item.userName}
+        description={item.description}
+        likedArtist={item.likedArtist}
+        likedGenre={item.likedGenre}
+        favoriteSong={item.favoriteSong}
+        favoriteArtist={item.favoriteArtist}
+    />
+);
+
 
 export default HomeScreen;
