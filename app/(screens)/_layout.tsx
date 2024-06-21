@@ -3,11 +3,36 @@ import { Drawer } from 'expo-router/drawer';
 import CustomDrawer from '../../components/sidebar';
 import DrawerItems from '../../constants/DrawerItems';
 import { View, Button, Image, _View } from 'react-native';
-import { Component } from 'react';
+import { Component, useEffect } from 'react';
 import * as icons from '../../assets/svg/exports'
+import useAccessToken from '../../hooks/access-token';
+import SonderApi from '../../api';
 
 
 export default function Layout() {
+
+  const { refreshToken } = useAccessToken()
+
+  useEffect(() => {
+    const interceptor = SonderApi.interceptors.response.use(
+      response => {
+        return response;
+      },
+      async (error) => {
+        if (error.response && error.response.status === 401) {
+          // Handle 401 error here, refresh access token
+          await refreshToken()
+          return
+        } 
+        return Promise.reject(error);
+      },
+    );
+
+    return () => {
+      SonderApi.interceptors.response.eject(interceptor);
+    };
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
