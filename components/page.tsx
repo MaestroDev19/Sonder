@@ -1,6 +1,6 @@
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { cn } from "../../lib/utils"
+import { cn } from "../lib/utils"
 
 interface PageProps {
     children?: React.ReactNode,

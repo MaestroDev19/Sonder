@@ -3,43 +3,70 @@ import {
     Text,
     TouchableOpacity,
     Button,
-    Image
+    Image,
+    Pressable,
+    RefreshControl
   } from "react-native";
 import Avatar from "../avatar";
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
+import useCurrentUser from "../../hooks/current-user";
+import { useState, useCallback } from "react";
   
   const CustomDrawer = (props) => {
+    const { userProfile, isLoading, refreshUser } = useCurrentUser();
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      refreshUser()
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
+
     return (
       <>
         <DrawerContentScrollView
           {...props}
-          contentContainerStyle={{ marginHorizontal: 15}}
-          className="bg-[#121212] pt-[65px]"
+          style={{ backgroundColor: "#121212" }}
+          contentContainerStyle={{ marginHorizontal: 15 }}
+          className="bg-background pt-[65px] h-full"
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
         >
-            <Avatar src="https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg" initials="S" containerStyle={{height: 50, width: 50}} />
-            <View className="mt-3">
+            <Avatar 
+              src={userProfile?.profile_image} 
+              initials={userProfile?.name.at(0).toUpperCase() || "S"} 
+            />
+            <View className="mt-3 text-white">
                 <TouchableOpacity>
-                    <Text className="text-[20px] font-bold text-white">
-                        Display Name
+                    <Text className="text-3xl capitalize font-bold text-white">
+                        { userProfile?.name }
                     </Text>
-                    <Text className="text-sm text-[#EFEFEF80]">
-                        @username
+                    <Text className="text-grey-text font-semibold">
+                        @{userProfile?.spotify_username}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                className="flex-row items-center mt-3.5">
-                    <View className="bg-[#EFEFEF1A] rounded-[10px] border-[#B3B3B333] border px-4 py-1.5">
-                        <Text className="text-center text-[#EFEFEF]">219</Text>
+                  onPress={refreshUser}
+                  className="flex-row flex gap-2 items-center mt-3.5"
+                >
+                    <View style={{ padding: 4, borderRadius: 3 }} className="bg-[#EFEFEF1A] rounded-[10px] border-[#B3B3B333] border p-4 px-4 py-1.5">
+                        <Text className="text-center text-white font-semibold">219</Text>
                     </View>
-                    <Text className="ml-1.5 text-xl text-[#EFEFEF80]">Friends</Text>
+                    <Text className="ml-1.5 text-xl text-grey-text font-semibold">Friends</Text>
                 </TouchableOpacity>
             </View>
+
             <View className="mt-6">
-                <DrawerItemList {...props} /> 
+              <DrawerItemList {...props} /> 
             </View>
         </DrawerContentScrollView>
-        <View className="p-5 bg-[#121212]">
-          <Button title="logout" color={"#C62525"} />
+        <View className="pb-20 px-4 bg-[#121212]">
+
+          <Pressable className="flex items-center justify-center h-10 rounded-md" style={{ backgroundColor: "#C62525", borderRadius: 12 }}>
+            <Text className="text-white font-semibold text-xl">Logout</Text>
+          </Pressable>
         </View>
       </>
     );

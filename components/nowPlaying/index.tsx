@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import styles from './styles'
+import { Image } from 'expo-image';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 interface NowPlayingProps {
     songName: string;
@@ -10,6 +12,15 @@ interface NowPlayingProps {
     device: string;
 }
 
+const row = "flex flex-row items-center justify-between mb-2"
+const leftColumn = "flex-1"
+const songName = "text-lg font-bold text-white"
+const artist = "text-sm text-[#EFEFEF80]"
+const albumArt = "w-10 h-10 rounded-lg"
+const timestamp = "text-sm text-[#EFEFEF80]"
+const device = "text-sm text-white"
+const divider = "h-px  mb-2"
+
 const NowPlaying: React.FC<NowPlayingProps> = ({
     songName,
     artist,
@@ -18,18 +29,18 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     device,
 }) => {
     return (
-        <View className={styles.container}>
-            <View className={styles.row}>
-                <View className={styles.leftColumn}>
-                    <Text className={styles.songName}>{songName}</Text>
-                    <Text className={styles.artist}>{artist}</Text>
+        <View style={styles.container}>
+            <View style={styles.row}>
+                <View>
+                    <Text className="text-white text-xl font-semibold">{songName}</Text>
+                    <Text style={styles.text}>{artist}</Text>
                 </View>
-                <Image className={styles.albumArt} source={{ uri: albumArtUrl }} />
+                <Image style={{ borderRadius: 5, width: scale(40), height: verticalScale(40) }} source={{ uri: albumArtUrl }} />
             </View>
-            <View className={styles.divider}></View>
-            <View className={styles.row}>
-                <Text className={styles.device}>{device}</Text>
-                <Text className={styles.timestamp}>{timestamp}</Text>
+            <View style={styles.divider}></View>
+            <View style={styles.row}>
+                <Text className="text-white font-semibold">{device}</Text>
+                <Text style={styles.text}>{timestamp}</Text>
             </View>
         </View>
     );
