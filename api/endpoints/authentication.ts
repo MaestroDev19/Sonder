@@ -1,47 +1,51 @@
+import SonderApi from '../index'
 import axios from 'axios';
-import {BASE_URL} from '../../constants/baseUrl';
 
-export async function welcome(): Promise<string> {
+export const welcome = async (): Promise<any> => {
     try {
-        const response = await axios.get(`${BASE_URL}/`);
+        const response = await SonderApi.get('/');
         return response.data;
     } catch (error) {
         throw new Error('Failed to fetch welcome message');
     }
-}
+};
 
-export async function login(): Promise<string> {
+export const login = async (): Promise<string> => {
     try {
-        const response = await axios.get(`${BASE_URL}/login`);
-        return response.data.url;
+        const response = await SonderApi.get('/login');
+        if (!response.data.data) console.error(response.data.message);
+        return response.data.data;
     } catch (error) {
         throw new Error('Failed to fetch login URL');
     }
-}
+};
 
-export async function token(code: string): Promise<any> {
+export const token = async (code: string): Promise<any> => {
     try {
-        const response = await axios.get(`${BASE_URL}/token?code=${code}`);
-        return response.data;
+        const response = await SonderApi.get(`/token?code=${code}`);
+        if (!response.data.data) console.error(response.data.message);
+        return response.data.data;
     } catch (error) {
         throw new Error('Failed to fetch token');
     }
-}
+};
 
-export async function renewToken(refreshToken: string): Promise<any> {
+export const renewToken = async (refreshToken: string): Promise<any> => {
     try {
-        const response = await axios.post(`${BASE_URL}/renew-token`, { refresh_token: refreshToken });
-        return response.data;
+        const response = await SonderApi.post('/renew-token', { refresh_token: refreshToken });
+        if (!response.data.data) console.error(response.data.message);
+        return response.data.data;
     } catch (error) {
         throw new Error('Failed to renew token');
     }
-}
+};
 
-export async function me(accessToken: string): Promise<any> {
+export const me = async (accessToken: string): Promise<any> => {
     try {
-        const response = await axios.get(`${BASE_URL}/me`, { headers: { Authorization: `Bearer ${accessToken}` } });
-        return response.data;
+        const response = await SonderApi.get('/me', { headers: { Authorization: `Bearer ${accessToken}` } });
+        if (!response.data.data) console.error(response.data.message);
+        return response.data.data;
     } catch (error) {
         throw new Error('Failed to fetch user profile');
     }
-}
+};

@@ -1,52 +1,58 @@
-import axios from 'axios';
-import { BASE_URL } from '../../constants/baseUrl';
+import SonderApi from '../index';
 
-export const getUser = (id: string): Promise<any> => {
-    return axios.get(`${BASE_URL}/users/${id}`)
-        .then(response => response.data)
-        .catch(error => {
-            throw new Error(error.response.data.message);
-        });
-};
-
-export const getTopItems = (id: string, type: string): Promise<any> => {
-    return axios.get(`${BASE_URL}/users/${id}/top/${type}`)
-        .then(response => response.data)
-        .catch(error => {
-            throw new Error(error.response.data.message);
-        });
-};
-
-export const createTopItems = (type: string, access_token: string, user_id: string): Promise<any> => {
-    return axios.post(`${BASE_URL}/users/me/top/${type}`, { access_token, user_id })
-        .then(response => response.data)
-        .catch(error => {
-            throw new Error(error.response.data.message);
-        });
-};
-
-export const getCurrentlyPlaying = async (country, accessToken) => {
+export const getUser = async (id: string): Promise<any> => {
     try {
-        const response = await axios.get(`${BASE_URL}/users/me/playing`, {
-            params: { country },
-            headers: { Authorization: `Bearer ${accessToken}` }
-        });
-        return response.data;
+        const response = await SonderApi.get(`/users/${id}`);
+        if (!response.data.data) console.error(response.data.message)
+        return response.data.data;
     } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
-            console.error('API Error:', error.response.data.message);
-            throw new Error(error.response.data.message);
-        } else {
-            console.error('Unknown Error:', error);
-            throw new Error('An error occurred while fetching currently playing data.');
-        }
+        throw new Error(error.response.data.message);
     }
 };
 
-export const getSimilarUsers = (): Promise<any> => {
-    return axios.get(`${BASE_URL}/users`)
-        .then(response => response.data)
-        .catch(error => {
-            throw new Error(error.response.data.message);
-        });
+export const getTopItems = async (id: string, type: string): Promise<any> => {
+    try {
+        const response = await SonderApi.get(`/users/${id}/top/${type}`);
+        if (!response.data.data) console.error(response.data.message);
+        return response.data.data;
+    } catch (error) {
+        throw new Error(error.response.data.message);
+    }
 };
+
+export const createTopItems = async (type: string, access_token: string, user_id: string): Promise<any> => {
+    try {
+        const response = await SonderApi.post(`/users/me/top/${type}`, { access_token, user_id });
+        if (!response.data.data) console.error(response.data.message)
+        return response.data.data;
+    } catch (error) {
+        throw new Error(error.response.data.message);
+    }
+};
+
+export const getCurrentlyPlaying = async (country: string, accessToken: string): Promise<any> => {
+    try {
+        const response = await SonderApi.get(`/users/me/playing`, {
+            params: { country },
+            headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (!response.data.data) console.error(response.data.message)
+        console.log("hello")
+        console.log(response.data.data)
+        return response.data.data;
+    } catch (error) {
+        console.error('API Error:', error.response.data.message);
+        throw new Error(error.response.data.message);
+    }
+};
+
+export const getSimilarUsers = async (): Promise<any> => {
+    try {
+        const response = await SonderApi.get(`/users`);
+        if (!response.data.data) console.error(response.data.message)
+        return response.data.data;
+    } catch (error) {
+        throw new Error(error.response.data.message);
+    }
+};
+

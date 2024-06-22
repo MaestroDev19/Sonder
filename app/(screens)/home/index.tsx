@@ -15,7 +15,7 @@ import { PanGestureHandler } from 'react-native-gesture-handler';
 import { PanResponder } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
-const HomeScreen: React.FC = () => {
+const Home: React.FC = () => {
     const navigation = useNavigation();
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
@@ -154,4 +154,4 @@ const HomeScreen: React.FC = () => {
     );
 };
 
-export default HomeScreen;
+export default Home;

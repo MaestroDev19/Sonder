@@ -14,13 +14,13 @@ const LoginPage = () => {
 
     const getLoginUrl = async () => {
         router.push('/home')
-        /*
+        
         const res = await fetch("https://sonder-api.vercel.app/login");
         const { data } = await res.json();
         //const result = await openBrowserAsync(data.url)
         //console.log(result)
         setLoginUrl(data.url)
-        */
+        
         
     }
 

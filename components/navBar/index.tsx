@@ -5,12 +5,11 @@ import Avatar from '../avatar';
 import {iconContainer } from './styles';
 import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
-import { getCurrentlyPlaying } from '../../api/endpoints/user';
 import {welcome} from '../../api/endpoints/authentication'
 
 
 export function getHomeNavbarOptions() {
-    const navigation = useNavigation('/screens')
+    const navigation = useNavigation('/(screens)')
     return {
       headerLeft: () => (
         <TouchableOpacity className={iconContainer}  onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
@@ -18,7 +17,7 @@ export function getHomeNavbarOptions() {
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <TouchableOpacity className={iconContainer} onPress={() => welcome()}>
+        <TouchableOpacity className={iconContainer}>
           <Text className=''>Notifications</Text>
         </TouchableOpacity>
       ),
