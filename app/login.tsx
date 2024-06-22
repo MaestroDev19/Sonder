@@ -6,14 +6,15 @@ import { dismissAuthSession, openAuthSessionAsync, openBrowserAsync } from "expo
 import { useState } from "react";
 import WebView from "react-native-webview";
 import { useRouter } from "expo-router";
+import useAccessToken from "../hooks/access-token";
 
 const LoginPage = () => {
 
     const [loginUrl, setLoginUrl] = useState("");
     const router = useRouter()
+    const { saveAccessToken } = useAccessToken()
 
     const getLoginUrl = async () => {
-        router.push('/home')
         
         const res = await fetch("https://sonder-api.vercel.app/login");
         const { data } = await res.json();
@@ -24,10 +25,12 @@ const LoginPage = () => {
         
     }
 
-    const getAccessToken = (url: string) => {
+    const getAccessToken = async (url: string) => {
         if(!url.includes('sonder-api')) return
 
         //Authenticate
+        await saveAccessToken(url)
+        return router.push('/home')
     }
     return (
         <Page className="flex flex-col items-center justify-evenly px-3">
