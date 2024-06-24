@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Dimensions, Pressable,Text } from 'react-native';
 import { getHomeNavbarOptions } from '../../../components/navBar';
 import NowPlaying from '../../../components/nowPlaying';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -14,13 +14,25 @@ import Carousel from 'react-native-reanimated-carousel';
 import Page from '../../../components/page';
 import useCurrentTrack from '../../../hooks/current-song';
 
+function millisecondsToMSFormat(milliseconds: number): string {
+    // Calculate minutes and seconds from milliseconds
+    const minutes = Math.floor(milliseconds / (1000 * 60)); // Minutes
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000); // Seconds
+  
+    // Format minutes and seconds with leading zeros
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+  
+    // Combine minutes and seconds with colon separator
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
+
 const HomeScreen: React.FC = () => {
     const navigation = useNavigation();
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
 
-    const { isLoading, currentTrack } = useCurrentTrack()
-    console.log(currentTrack)
+    const { isLoading, currentTrack, refreshTrack, currentTrackProgress } = useCurrentTrack();
 
     return (
         <View className={container}>
@@ -31,21 +43,10 @@ const HomeScreen: React.FC = () => {
                     songName={currentTrack?.name || "The Last Year"}
                     albumArtUrl={currentTrack?.image || 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'}
                     artist={currentTrack?.artists.join(', ') || 'Jessica Pratt'}
-                    timestamp='0:45'
+                    timestamp={millisecondsToMSFormat(currentTrackProgress)}
                     device='Your Phone'
                 />
             </View>
-            {/* <ProfileCard
-                headerImage={profileCards[0].headerImage}
-                avatar={profileCards[0].avatar}
-                avatarInitials={profileCards[0].avatarInitials}
-                userName={profileCards[0].userName}
-                description={profileCards[0].description}
-                likedArtist={profileCards[0].likedArtist}
-                likedGenre={profileCards[0].likedGenre}
-                favoriteSong={profileCards[0].favoriteSong}
-                favoriteArtist={profileCards[0].favoriteArtist}
-            /> */}
 
             <Carousel
                 loop
