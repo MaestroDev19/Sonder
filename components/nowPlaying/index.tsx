@@ -31,7 +31,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     return (
         <View style={styles.container}>
             <View style={styles.row}>
-                <View>
+                <View className='max-w-[90%]'>
                     <Text className="text-white text-xl font-semibold">{songName}</Text>
                     <Text style={styles.text}>{artist}</Text>
                 </View>
