@@ -53,7 +53,7 @@ const HomeScreen: React.FC = () => {
               duration: 300,
               useNativeDriver: true,
             }).start(() => {
-              dy > 0 ? console.log(carouselRef.current.prev()) : carouselRef.current.next() // Reset position for potential reuse
+              dy > 0 ? carouselRef.current.prev() : carouselRef.current.next() // Reset position for potential reuse
               pan.setValue(0);
             });
           } else {
@@ -114,7 +114,7 @@ const HomeScreen: React.FC = () => {
           userName={item.userName}
           description={item.description}
           likedArtist={item.likedArtist}
-          likedGenre={item.likedGenre}
+          // likedGenre={item.likedGenre}
           favoriteSong={item.favoriteSong}
           favoriteArtist={item.favoriteArtist}
       />

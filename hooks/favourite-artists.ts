@@ -8,7 +8,7 @@ const useFavouriteArtists = () => {
     const { accessToken } = useAccessToken();
     const { userProfile } = useCurrentUser();
 
-    console.log(accessToken)
+
     const { isLoading, data: favouriteArtists } = useQuery({
         queryKey: ['favourite-artists'],
         queryFn: async () => {

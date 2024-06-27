@@ -7,7 +7,7 @@ export interface ProfileCardProps {
     userName: string;
     description: string;
     likedArtist: string[];
-    likedGenre: string[];
+    // likedGenre: string[];
     favoriteSong: {
         albumart: string;
         songName: string;

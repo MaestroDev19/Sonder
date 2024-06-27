@@ -36,7 +36,7 @@ import { useState, useCallback } from "react";
         >
             <Avatar 
               src={userProfile?.profile_image} 
-              initials={userProfile?.name.at(0).toUpperCase() || "S"} 
+              initials={userProfile?.name.at(0)?.toUpperCase() || "S"} 
             />
             <View className="mt-3 text-white">
                 <TouchableOpacity>
