@@ -15,12 +15,12 @@ const LoginPage = () => {
     const { saveAccessToken } = useAccessToken()
 
     const getLoginUrl = async () => {
-        
-        const res = await fetch("https://sonder-api.vercel.app/login");
-        const { data } = await res.json();
-        //const result = await openBrowserAsync(data.url)
-        //console.log(result)
-        setLoginUrl(data.url)
+        router.push('/home')
+        // const res = await fetch("https://sonder-api.vercel.app/login");
+        // const { data } = await res.json();
+        // //const result = await openBrowserAsync(data.url)
+        // //console.log(result)
+        // setLoginUrl(data.url)
         
         
     }

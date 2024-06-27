@@ -29,7 +29,7 @@ const Avatar = ({ src, initials, className, width, height, ...props }: AvatarPro
       ) : (
         <View
           // style={styles.initials}
-          style={{ width: 100, height: 100, borderRadius: 999 }}
+          style={{ width: width ?? 100, height: height ?? 100, borderRadius: 999 }}
           className={styles.initialsStyles}
         > 
             <Text className='text-3xl font-semibold'>
