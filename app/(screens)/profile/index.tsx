@@ -10,6 +10,7 @@ import useFavouriteSongs from "../../../hooks/favourite-songs";
 import { Image } from "expo-image";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import useFavouriteArtists from "../../../hooks/favourite-artists";
+import useDrawer from "../../../hooks/drawer";
 
 const FirstRoute = () => {
     const { isLoading, favouriteSongs } = useFavouriteSongs();
@@ -72,6 +73,7 @@ const renderScene = SceneMap({
 export default function ProfilePage() {
     const { userProfile, isLoading } = useCurrentUser();
     const layout = useWindowDimensions();
+    const { openDrawer } = useDrawer()
 
     const [index, setIndex] = useState(0);
     const [routes] = useState([
@@ -92,7 +94,9 @@ export default function ProfilePage() {
         <View className="px-3 h-screen w-screen">
             <Drawer.Screen options={{
                 headerLeft: () => (
-                    <ArrowLeft stroke="white"/>
+                    <Pressable onPress={openDrawer}>
+                        <ArrowLeft stroke="white"/>
+                    </Pressable>
                 )
             }} />
 
