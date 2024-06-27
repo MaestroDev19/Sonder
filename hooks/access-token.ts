@@ -29,6 +29,7 @@ async function refreshAccessToken() {
 async function getTokens(tokenUrl: string) {
     const res = await fetch(tokenUrl, { cache: "no-cache" });
     const { data } = await res.json();
+    console.log('access and refresh token', data)
     return data as { access_token: string, refresh_token: string }    
 }
 

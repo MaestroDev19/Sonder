@@ -41,10 +41,10 @@ const useCurrentTrack = () => {
     }, [currentTrack?.name])
     
     useEffect(() => {
-        if(currentTrackProgress >= currentTrack.duration) {
+        if(currentTrackProgress >= currentTrack!.duration) {
             return refreshTrack();
         }
-    }, [currentTrackProgress])
+    }, [currentTrack, currentTrackProgress])
 
 
     const refreshTrack = () => {

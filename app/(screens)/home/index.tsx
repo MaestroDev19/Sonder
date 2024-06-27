@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-import React, { useEffect } from 'react';
-import { useState, useRef } from 'react';
-import { Animated, View, Dimensions, ViewStyle, FlatList } from 'react-native';
-=======
-import React, { useEffect, useState } from 'react';
-import { View, Dimensions, Pressable,Text } from 'react-native';
->>>>>>> upstream/dev
+import React, { useState, useRef, useEffect } from 'react';
+import { Animated, View, Dimensions, Pressable,Text, ViewStyle, FlatList } from 'react-native';
 import { getHomeNavbarOptions } from '../../../components/navBar';
 import NowPlaying from '../../../components/nowPlaying';
 import { container } from './styles';
@@ -20,9 +14,6 @@ import Carousel from 'react-native-reanimated-carousel';
 import Page from '../../../components/page';
 import useCurrentTrack from '../../../hooks/current-song';
 
-<<<<<<< HEAD
-const Home: React.FC = () => {
-=======
 function millisecondsToMSFormat(milliseconds: number): string {
     // Calculate minutes and seconds from milliseconds
     const minutes = Math.floor(milliseconds / (1000 * 60)); // Minutes
@@ -37,14 +28,12 @@ function millisecondsToMSFormat(milliseconds: number): string {
 }
 
 const HomeScreen: React.FC = () => {
->>>>>>> upstream/dev
     const navigation = useNavigation();
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
     const pan = useRef(new Animated.Value(0)).current;
     const carouselRef = useRef(null);
 
-<<<<<<< HEAD
       
     const panResponder = useRef(
       PanResponder.create({
@@ -78,15 +67,8 @@ const HomeScreen: React.FC = () => {
     ).current;
   
 
-    const { isLoading, currentTrack, refreshTrack } = useCurrentTrack()
-    useEffect(() => { 
-        refreshTrack()
-    }, [])
-    console.log(currentTrack)
-=======
-    const { isLoading, currentTrack, refreshTrack, currentTrackProgress } = useCurrentTrack();
->>>>>>> upstream/dev
 
+    const { isLoading, currentTrack, refreshTrack, currentTrackProgress } = useCurrentTrack();
 
     return (
         <View className={container}>
@@ -101,7 +83,6 @@ const HomeScreen: React.FC = () => {
                     device='Your Phone'
                 />
             </View>
-<<<<<<< HEAD
               <Animated.View
                 style={{
                   transform: [{ translateY: pan }],
@@ -121,8 +102,6 @@ const HomeScreen: React.FC = () => {
                   renderItem={renderProfileCard}
                   />
               </Animated.View>
-=======
->>>>>>> upstream/dev
 
             </View>
     );
@@ -141,4 +120,4 @@ const HomeScreen: React.FC = () => {
       />
   )
 
-export default Home;
+export default HomeScreen;
