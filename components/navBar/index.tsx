@@ -17,7 +17,7 @@ export function getHomeNavbarOptions() {
 
     return {
       header: () => (
-        <View className='flex items-center justify-between flex-row w-full px-4 py-5'>
+        <View className='flex items-center justify-between flex-row w-screen px-4 py-5'>
           <TouchableOpacity  onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
             <Avatar width={50} height={50} className='h-10 w-10' src={userProfile?.profile_image || ""} initials="S" />
           </TouchableOpacity>

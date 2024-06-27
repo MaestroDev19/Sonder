@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import SonderApi from "../api"
 import useAccessToken from "./access-token"
 import { CurrentTrack, User } from "../types/types";
+import { useEffect, useState } from "react";
 
 const useCurrentTrack = () => {
     const { accessToken } = useAccessToken();
@@ -15,10 +16,36 @@ const useCurrentTrack = () => {
                     "Authorization": `Bearer ${accessToken}`
                 }
             });
-            return response.data.data as CurrentTrack
+            const currentTrack = response.data.data as CurrentTrack
+            console.log(currentTrack)
+            setCurrentTrackProgress(currentTrack?.progress)
+            return currentTrack
         },
         enabled: !!accessToken,
     })
+
+    const [currentTrackProgress, setCurrentTrackProgress] = useState<number>(0)
+
+    useEffect(() => {
+        if(!currentTrack) return
+        const interval = setInterval(() => {
+            setCurrentTrackProgress((prev) => prev + 1000)
+            
+        }, 1000)
+        
+        
+        
+        return () => {
+            clearInterval(interval)
+        }
+    }, [currentTrack?.name])
+    
+    useEffect(() => {
+        if(currentTrackProgress >= currentTrack.duration) {
+            return refreshTrack();
+        }
+    }, [currentTrackProgress])
+
 
     const refreshTrack = () => {
         queryClient.invalidateQueries({
@@ -28,7 +55,7 @@ const useCurrentTrack = () => {
 
 
 
-    return { isLoading, currentTrack, refreshTrack }
+    return { isLoading, currentTrack, refreshTrack, currentTrackProgress }
 }
 
 export default useCurrentTrack
