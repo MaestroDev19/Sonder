@@ -2,24 +2,25 @@ import { Pressable, ScrollView, Text, useWindowDimensions, View } from "react-na
 import Page from "../../../components/page";
 import useCurrentUser from "../../../hooks/current-user";
 import Avatar from "../../../components/avatar";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { SceneMap, TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import { useState } from "react";
 import { Drawer } from "expo-router/drawer";
 import { ArrowLeft, Calendar } from "lucide-react-native";
 import useFavouriteSongs from "../../../hooks/favourite-songs";
 import { Image } from "expo-image";
-import { scale, verticalScale } from "react-native-size-matters";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import useFavouriteArtists from "../../../hooks/favourite-artists";
+import useDrawer from "../../../hooks/drawer";
 
 const FirstRoute = () => {
     const { isLoading, favouriteSongs } = useFavouriteSongs();
     return (
-        <ScrollView style={{ flex: 1, height: "100%" }} contentContainerClassName="pb-56">
+        <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "100%" }} contentContainerClassName="pb-56">
             {
                 isLoading ? <Text className="text-white">Loading</Text> :
                 favouriteSongs?.map((track) => (
                 <View className="bg-[#B3B3B31A] rounded-md flex flex-row gap-4 items-center p-3 border border-[#EFEFEF33] mb-4" key={track.id}>
-                    <Text className="text-white py-4 px-5 font-bold rounded-md border border-light-grey">
+                    <Text className="text-white py-4 px-5 font-bold rounded-md border border-[#EFEFEF4A] bg-[#B3B3B31A]">
                         {track?.position}
                     </Text>
                     <Image source={{ uri: track?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
@@ -37,14 +38,13 @@ const FirstRoute = () => {
   
 const SecondRoute = () => {
     const { isLoading, favouriteArtists } = useFavouriteArtists();
-    console.log(favouriteArtists)
     return (
-        <ScrollView style={{ flex: 1, height: "100%" }} contentContainerClassName="pb-56">
+        <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "100%" }} contentContainerClassName="pb-56">
             {
                 isLoading ? <Text className="text-white">Loading</Text> :
                 favouriteArtists?.map((artist) => (
                 <View className="bg-[#B3B3B31A] rounded-md flex flex-row gap-4 items-center p-3 border border-[#EFEFEF33] mb-4" key={artist.id}>
-                    <Text className="text-white py-4 px-5 font-bold rounded-md border border-light-grey">
+                    <Text className="text-white py-4 px-5 font-bold rounded-md border border-[#EFEFEF4A] bg-[#B3B3B31A]">
                         {artist?.position}
                     </Text>
                     <Image source={{ uri: artist?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
@@ -73,6 +73,7 @@ const renderScene = SceneMap({
 export default function ProfilePage() {
     const { userProfile, isLoading } = useCurrentUser();
     const layout = useWindowDimensions();
+    const { openDrawer } = useDrawer()
 
     const [index, setIndex] = useState(0);
     const [routes] = useState([
@@ -93,15 +94,23 @@ export default function ProfilePage() {
         <View className="px-3 h-screen w-screen">
             <Drawer.Screen options={{
                 headerLeft: () => (
-                    <ArrowLeft stroke="white"/>
+                    <Pressable onPress={openDrawer}>
+                        <ArrowLeft stroke="white"/>
+                    </Pressable>
                 )
             }} />
-            <Avatar
-                src={userProfile?.profile_image}
-                initials={userProfile?.name.at(0) || "S"}
-                width={50}
-                height={50}
-            />
+
+            <View className="flex flex-row items-end justify-between">
+                <Avatar
+                    src={userProfile?.profile_image}
+                    initials={userProfile?.name.at(0) || "S"}
+                    width={50}
+                    height={50}
+                />
+                <Pressable className="text-white border border-[#EFEFEF4A] bg-[#EFEFEF1A] py-3 px-6 rounded-lg">
+                    <Text className="text-white font-semibold">Edit Profile</Text>
+                </Pressable>
+            </View>
 
             <Text className="text-white text-3xl font-bold">{userProfile?.name}</Text>
             <Text className="text-lg text-light-grey">@{userProfile?.spotify_username}</Text>
@@ -122,9 +131,14 @@ export default function ProfilePage() {
                 renderScene={renderScene}
                 onIndexChange={setIndex}
                 initialLayout={{ width: layout.width }}      
+                style={{ width: "100%" }}
                 renderTabBar={(props) => (
                     <TabBar
                         {...props}
+                        activeColor="#000000"
+                        inactiveColor="#ffffff"
+                        
+                        labelStyle={{ fontWeight: '600', textTransform: 'capitalize', fontSize: moderateScale(16) }}
                         style={{ 
                             backgroundColor: "#B3B3B31A",
                             borderWidth: 1,
@@ -133,12 +147,20 @@ export default function ProfilePage() {
                             marginBottom: 10,
                             padding: 7,
                         }}
-                        contentContainerStyle={{ borderWidth: 1 }}
-                        tabStyle={{ width: "auto", borderWidth: 1, borderColor: "red" }}
+                        contentContainerStyle={{ display: "flex", flexDirection: "row" }}
+                        tabStyle={{ flex: 1 }}
                         indicatorStyle={{ backgroundColor: "#1DB954" }}
-                        indicatorContainerStyle={{ width: "100%" }}
+                        indicatorContainerStyle={{ }}
+                        renderTabBarItem={(props) => (
+                            <TabBarItem
+                                {...props}
+                                style={{ width: layout.width/(3.4) }}
+                                
+                            />
+                        )}
                     />
                 )}    
+                
                 
                     
             />

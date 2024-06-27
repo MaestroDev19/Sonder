@@ -7,7 +7,7 @@ import { Component, useEffect } from 'react';
 import * as icons from '../../assets/svg/exports'
 import useAccessToken from '../../hooks/access-token';
 import SonderApi from '../../api';
-import { MessageCircle, Settings, UserRound } from 'lucide-react-native';
+import { Home, MessageCircle, Settings, UserRound } from 'lucide-react-native';
 
 
 export default function Layout() {
@@ -60,17 +60,21 @@ export default function Layout() {
               ...drawer.options,
               drawerIcon: () =>
                 drawer.options.title === 'Profile' ?
-                        <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                          <UserRound stroke="white"/>
-                        </View>
-                  : drawer.options.title === 'Chats' ?
-                        <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                          <MessageCircle stroke="white"/>
-                        </View>
-                    : 
-                        <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                          <Settings stroke="white"/>
-                        </View>,
+                  <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
+                    <UserRound stroke="white"/>
+                  </View>
+              : drawer.options.title === 'Chats' ?
+                  <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
+                    <MessageCircle stroke="white"/>
+                  </View>
+              : drawer.options.title === 'Home' ?
+                  <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
+                    <Home stroke="white"/>
+                  </View>
+              : 
+                <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
+                  <Settings stroke="white"/>
+                </View>,
               drawerItemStyle: {
                 borderWidth: 1,
                 marginHorizontal: 0,

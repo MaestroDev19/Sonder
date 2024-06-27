@@ -18,7 +18,6 @@ const useFavouriteArtists = () => {
                     "Content-Type": "application/json"
                 }
             })
-            console.log(response.data)
             return response.data.data as FavouriteArtist[]
         },
     })
