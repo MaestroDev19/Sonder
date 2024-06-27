@@ -80,7 +80,7 @@ const HomeScreen: React.FC = () => {
                     albumArtUrl={currentTrack?.image || 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'}
                     artist={currentTrack?.artists.join(', ') || 'Jessica Pratt'}
                     timestamp={millisecondsToMSFormat(currentTrackProgress)}
-                    device='Your Phone'
+                    device={currentTrack?.device.name || "Your Device"}
                 />
             </View>
               <Animated.View

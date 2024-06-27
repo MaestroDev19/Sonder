@@ -35,8 +35,33 @@ export interface CurrentTrack {
     image: string,
     is_playing: boolean,
     name: string,
-    progress: number
+    progress: number,
+    device: {
+        name: string,
+        type: string
+    }
 }
+
+export interface FavouriteTrack {
+    id: string,
+    name: string,
+    image: string,
+    preview_url: string,
+    position: number
+    artists: {
+        name: string,
+        id: string,
+        image: string
+    }[]
+}
+
+export interface FavouriteArtist {
+    position: number
+    name: string,
+    id: string,
+    image: string
+}
+
 
 export enum AsyncStorageKeys {
     ACCESS_TOKEN = "access-token",
