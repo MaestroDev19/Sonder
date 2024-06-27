@@ -3,7 +3,7 @@ import * as icons from '../assets/svg/exports';
 
 export default [
     {
-        name: "home/index",
+        name: "profile/index",
         options: {
             drawerLabel: config =>
                 <View className="flex-row items-center w-full">
