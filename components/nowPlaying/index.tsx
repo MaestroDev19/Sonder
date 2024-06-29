@@ -28,6 +28,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     timestamp,
     device,
 }) => {
+
     return (
         <View style={styles.container}>
             <View style={styles.row}>

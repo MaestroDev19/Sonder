@@ -5,8 +5,14 @@ export const profileCards = [
         avatarInitials: 'G',
         userName: 'Greg',
         description: 'oh yeah i listen to all types of music',
-        likedArtist: ['Kanye West', 'Tyler, The Creator', 'Travis Scott'],
-        likedGenre: ['R&B', 'Hip-Hop', 'Pop'],
+        likedArtist: [
+            'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg',
+            'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg',
+            'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg',
+            'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg',
+            'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'
+        ],
+        // likedGenre: ['R&B', 'Hip-Hop', 'Pop'],
         favoriteSong: {
             albumart: 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg',
             songName: 'Pyramids',
