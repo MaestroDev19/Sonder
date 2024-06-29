@@ -4,7 +4,7 @@ import useAccessToken from "./access-token"
 import { User } from "../types/types";
 
 const useCurrentUser = () => {
-    const { accessToken } = useAccessToken();
+    const { accessToken, removeTokens } = useAccessToken();
     const queryClient = useQueryClient();
 
     const { isLoading, data: userProfile } = useQuery({
@@ -26,9 +26,16 @@ const useCurrentUser = () => {
         })
     }
 
+    const logoutUser = () => {
+        queryClient.removeQueries({
+            queryKey: ['current-user'],
+        })
+        return removeTokens()
+    }
 
 
-    return { isLoading, userProfile, refreshUser }
+
+    return { isLoading, userProfile, refreshUser, logoutUser }
 }
 
 export default useCurrentUser
