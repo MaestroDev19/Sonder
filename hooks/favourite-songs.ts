@@ -4,7 +4,7 @@ import useAccessToken from "./access-token"
 import useCurrentUser from "./current-user";
 import { FavouriteTrack } from "../types/types";
 
-const useFavouriteSongs = () => {
+const useFavouriteSongs = (userId?: string) => {
     const { accessToken } = useAccessToken();
     const { userProfile } = useCurrentUser();
 
@@ -21,9 +21,27 @@ const useFavouriteSongs = () => {
         },
     })
 
+    const { isLoading: favouriteSongsLoading, data: userFavouriteSongs } = useQuery({
+        queryKey: ['favourite-songs', userId],
+        queryFn: async () => {
+            const response = await SonderApi.get(`/users/${userId}/top/tracks`, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            return response.data.data as FavouriteTrack[]
+        },
+        enabled: !!userId
+    })
+
+    
+
     return {
         isLoading,
-        favouriteSongs
+        favouriteSongs,
+
+        favouriteSongsLoading,
+        userFavouriteSongs
     }
 }
 

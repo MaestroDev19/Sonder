@@ -14,6 +14,13 @@ async function getRefreshToken() {
     return result
 }
 
+async function deleteTokens() {
+    return await Promise.all([
+        await AsyncStorage.removeItem(AsyncStorageKeys.ACCESS_TOKEN),
+        await AsyncStorage.removeItem(AsyncStorageKeys.REFRESH_TOKEN)
+    ])
+}
+
 async function refreshAccessToken() {
     const refreshToken = await getRefreshToken();
         
@@ -33,6 +40,8 @@ async function getTokens(tokenUrl: string) {
     return data as { access_token: string, refresh_token: string }    
 }
 
+
+
 const useAccessToken = () => {
 
     const queryClient = useQueryClient();
@@ -51,6 +60,10 @@ const useAccessToken = () => {
             
             AsyncStorage.setItem(AsyncStorageKeys.ACCESS_TOKEN, data.access_token)
             AsyncStorage.setItem(AsyncStorageKeys.REFRESH_TOKEN, data.refresh_token)
+            
+            return queryClient.invalidateQueries({
+                queryKey: [AsyncStorageKeys.ACCESS_TOKEN]
+            })
         }
     })
 
@@ -63,12 +76,21 @@ const useAccessToken = () => {
         mutationKey: ["refresh-access-token"],
         mutationFn: refreshAccessToken,
         onSuccess: async (data) => {
-            console.log(data)
             await AsyncStorage.setItem(AsyncStorageKeys.ACCESS_TOKEN, data.access_token)
-            queryClient.invalidateQueries({
+            return queryClient.invalidateQueries({
                 queryKey: [AsyncStorageKeys.ACCESS_TOKEN]
             })
         },
+    })
+
+    const { mutateAsync: removeTokens } = useMutation({
+        mutationFn: deleteTokens,
+        mutationKey: ['logout'],
+        onSuccess: async () => {
+            return queryClient.invalidateQueries({
+                queryKey: [AsyncStorageKeys.ACCESS_TOKEN]
+            })
+        }
     })
 
     const unstable_refreshToken = async () => {
@@ -77,9 +99,8 @@ const useAccessToken = () => {
         queryClient.invalidateQueries({
             queryKey: [AsyncStorageKeys.ACCESS_TOKEN]
         })
-
     }
-    return { accessToken, refreshToken, saveAccessToken, unstable_refreshToken }
+    return { accessToken, refreshToken, saveAccessToken, unstable_refreshToken, removeTokens }
 
 
 
