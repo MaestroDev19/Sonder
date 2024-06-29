@@ -26,7 +26,9 @@ export interface User {
     email: string,
     created_at: null,
     bio: string,
-    spotify_username: string
+    spotify_username: string,
+    banner: string,
+    country: string
 }
 
 export interface CurrentTrack {
@@ -61,6 +63,8 @@ export interface FavouriteArtist {
     id: string,
     image: string
 }
+
+export type StorageFolder = "banners"|"avatars"|"images"
 
 
 export enum AsyncStorageKeys {
