@@ -4,29 +4,29 @@ import useAccessToken from "./access-token"
 import useCurrentUser from "./current-user";
 import { FavouriteArtist, FavouriteTrack } from "../types/types";
 
-const useFavouriteArtists = (userId?: string) => {
+const useFavouriteGenres = (userId?: string) => {
     const { accessToken } = useAccessToken();
     const { userProfile } = useCurrentUser();
 
-    const { isLoading, data: favouriteArtists } = useQuery({
-        queryKey: ['favourite-artists'],
+    const { isLoading, data: favouriteGenres } = useQuery({
+        queryKey: ['favourite-genres'],
         queryFn: async () => {
-            const response = await SonderApi.post('/users/me/top/artists', { user_id: userProfile?.id }, {
+            const response = await SonderApi.post('/users/me/top/genres', { user_id: userProfile?.id }, {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`,
                     "Content-Type": "application/json"
                 }
             })
-            return response.data.data as FavouriteArtist[]
+            return response.data.data as string[]
         },
         enabled: !!accessToken && !!userProfile?.id
     })
 
-    const { isLoading: favouriteArtistsLoading, data: userFavouriteArtists } = useQuery({
-        queryKey: ['favourite-artists', userId],
+    const { isLoading: favouriteGenresLoading, data: userFavouriteGenres } = useQuery({
+        queryKey: ['favourite-genres', userId],
         queryFn: async () => {
-            const response = await SonderApi.get(`/users/${userId}/top/artists`)
-            return response.data.data as FavouriteArtist[]
+            const response = await SonderApi.get(`/users/${userId}/top/genres`)
+            return response.data.data as string[]
         },
         enabled: !!userId
     })
@@ -34,11 +34,11 @@ const useFavouriteArtists = (userId?: string) => {
 
     return {
         isLoading,
-        favouriteArtists,
+        favouriteGenres,
 
-        favouriteArtistsLoading,
-        userFavouriteArtists
+        favouriteGenresLoading,
+        userFavouriteGenres
     }
 }
 
-export default useFavouriteArtists;
+export default useFavouriteGenres;
