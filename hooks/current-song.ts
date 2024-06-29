@@ -44,7 +44,7 @@ const useCurrentTrack = () => {
         if(currentTrackProgress >= currentTrack?.duration) {
             return refreshTrack();
         }
-    }, [currentTrackProgress])
+    }, [currentTrack, currentTrackProgress])
 
 
     const refreshTrack = () => {

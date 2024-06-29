@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageBackground, Animated } from 'react-native';
 import Avatar from "../avatar"
 import { ProfileCardProps } from '../../types/types';
+import { SharedValue } from 'react-native-reanimated';
+import useFavouriteArtists from '../../hooks/favourite-artists';
 
 const ProfileCard = (
     {
@@ -11,11 +13,12 @@ const ProfileCard = (
         userName,
         description,
         likedArtist,
-        likedGenre,
+        // likedGenre,
         favoriteSong,
-        favoriteArtist
+        favoriteArtist,
     }: ProfileCardProps
 ) => {
+    const {favouriteArtists, isLoading} = useFavouriteArtists();
     return (
         <View className={styles.container}>
             <ImageBackground imageStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16}} source={{uri: headerImage}} className={styles.headerImage}>
@@ -37,20 +40,18 @@ const ProfileCard = (
                 <Text className='font-bold text-white text-xl mb-4'>
                     Likes
                 </Text>
-                <View className={styles.row}>
-                    {likedArtist.map((artist) => (
-                        <View key={artist} className={styles.liked}>
-                            <Text className={styles.likedText}>{artist}</Text>
-                        </View>
+                <View className={styles.artistRow}>
+                    {favouriteArtists?.slice(0,5).map((artist, id) => (
+                        <Avatar key={id} containerStyle='w-[50px] h-[50px] mr-1' width={50} height={50} src={artist?.image || ""} initials="" />
                     ))}
                 </View>
-                <View className={styles.row}>
+                {/* <View className={styles.row}>
                     {likedGenre.map((genre) => (
                         <View key={genre} className={styles.liked}>
                             <Text className={styles.likedText}>{genre}</Text>
                         </View>
                     ))}
-                </View>
+                </View> */}
                 <Text className={styles.favoriteSong}>Favorite Song</Text>
                 <View className='flex-row gap-x-4'>
                     <Image className="w-9 h-9 rounded-md" source={{ uri: favoriteSong.albumart}} />
@@ -78,9 +79,10 @@ const styles = {
     description: "mt-1 text-sm text-[#EFEFEF80]",
     likesContainer: "mt-4 mx-4 mb-8 border border-[#EFEFEF33] p-4 rounded-xl",
     row: "flex-row mb-2 ml-1 flex-wrap gap-y-2 w-full",
+    artistRow: "flex-row mb-2",
     liked: "mr-2 bg-[#12121280] rounded-[10px] border-[#B3B3B333] border px-2 py-1.5",
     likedText: "text-center text-[#EFEFEF]",
-    favoriteSong: "mt-4 mb-2 font-bold text-white text-xl",
+    favoriteSong: "mb-2 font-bold text-white text-xl",
     favoriteArtist: "mt-2 mb-2 font-bold text-white text-xl",
 };
 

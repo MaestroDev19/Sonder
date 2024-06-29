@@ -1,3 +1,4 @@
+import {useRef} from "react"
 import { Pressable, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 import Page from "../components/page";
@@ -15,7 +16,7 @@ const LoginPage = () => {
     const { saveAccessToken } = useAccessToken()
 
     const getLoginUrl = async () => {
-        
+        // router.push('/home')
         const res = await fetch("https://sonder-api.vercel.app/login");
         const { data } = await res.json();
         //const result = await openBrowserAsync(data.url)
@@ -32,6 +33,17 @@ const LoginPage = () => {
         await saveAccessToken(url)
         return router.push('/home')
     }
+    const handleShouldStartLoadWithRequest = (request) => {
+        const { url } = request;
+
+        if (url.includes('sonder-api')) {
+            getAccessToken(url);
+            return false; // Prevent the WebView from navigating to this URL
+        }
+
+        return true; // Allow all other navigations
+    };
+
     return (
         <Page className="flex flex-col items-center justify-evenly px-3">
             <View className="flex flex-col items-center gap-3">
@@ -58,7 +70,7 @@ const LoginPage = () => {
                 <View className="absolute w-screen h-screen top-0" style={{ flex: 1 }}>
                     <WebView
                         source={{ uri: loginUrl }}
-                        onNavigationStateChange={({ url }) => getAccessToken(url)}
+                        onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
                         
                     />
                 </View>
