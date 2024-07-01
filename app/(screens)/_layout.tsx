@@ -8,6 +8,7 @@ import * as icons from '../../assets/svg/exports'
 import useAccessToken from '../../hooks/access-token';
 import SonderApi from '../../api';
 import { Home, MessageCircle, Settings, UserRound } from 'lucide-react-native';
+import { StatusBar } from 'expo-status-bar';
 
 
 export default function Layout() {
@@ -36,6 +37,7 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style='light'/>
       <Drawer
         drawerContent={props => <CustomDrawer {...props} containerStyle={{ paddingVertical: 0 }} />}
         screenOptions={{
