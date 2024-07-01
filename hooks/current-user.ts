@@ -10,7 +10,7 @@ const useCurrentUser = () => {
     const { isLoading, data: userProfile } = useQuery({
         queryKey: ['current-user'],
         queryFn: async () => {
-            const response = await SonderApi.get('/me', {
+            const response = await SonderApi.get('/users/me', {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`
                 }
@@ -19,6 +19,7 @@ const useCurrentUser = () => {
         },
         enabled: !!accessToken,
     })
+
 
     const refreshUser = () => {
         queryClient.invalidateQueries({
