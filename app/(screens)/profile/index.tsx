@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Drawer } from "expo-router/drawer";
 import { ArrowLeft, Calendar } from "lucide-react-native";
 import useFavouriteSongs from "../../../hooks/favourite-songs";
-import { Image } from "expo-image";
+import { Image, ImageBackground } from "expo-image";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import useFavouriteArtists from "../../../hooks/favourite-artists";
 import useDrawer from "../../../hooks/drawer";
@@ -16,7 +16,7 @@ import useFavouriteGenres from "../../../hooks/favourite-genres";
 const FirstRoute = () => {
     const { isLoading, favouriteSongs } = useFavouriteSongs();
     return (
-        <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "100%" }} contentContainerClassName="pb-56">
+        <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "80%" }} contentContainerClassName="pb-56">
             {
                 isLoading ? <Text className="text-white">Loading</Text> :
                 favouriteSongs?.map((track) => (
@@ -25,7 +25,7 @@ const FirstRoute = () => {
                         {track?.position}
                     </Text>
                     <Image source={{ uri: track?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
-                    <View>
+                    <View className="w-[60%] flex flex-col gap-0.5">
                         <Text className="text-white text-xl font-semibold whitespace-break-spaces">{track.name}</Text>
                         <Text className="text-light-grey">{track.artists.map((artist) => artist.name).join(', ')}</Text>
                     </View>
@@ -113,6 +113,12 @@ export default function ProfilePage() {
     return (
         <View className="px-3 h-screen w-screen">
             <Drawer.Screen options={{
+                headerBackground: () => (
+                    <ImageBackground
+                        source={{ uri: 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg' }}
+                        style={{ height: verticalScale(115), top: 0, zIndex: -20 }}
+                    />
+                ),
                 headerLeft: () => (
                     <Pressable onPress={openDrawer}>
                         <ArrowLeft stroke="white"/>
@@ -120,12 +126,13 @@ export default function ProfilePage() {
                 )
             }} />
 
-            <View className="flex flex-row items-end justify-between">
+            <View style={{ zIndex: 40 }} className="flex flex-row mt-20 items-end justify-between z-20">
                 <Avatar
                     src={userProfile?.profile_image}
                     initials={userProfile?.name.at(0) || "S"}
                     width={50}
                     height={50}
+                    containerStyle="z-40"
                 />
                 <Pressable className="text-white border border-[#EFEFEF4A] bg-[#EFEFEF1A] py-3 px-6 rounded-lg">
                     <Text className="text-white font-semibold">Edit Profile</Text>
@@ -165,12 +172,12 @@ export default function ProfilePage() {
                             borderColor: "#EFEFEF33",
                             borderRadius: 10,
                             marginBottom: 10,
-                            padding: 7,
+                            padding: 5,
                         }}
-                        contentContainerStyle={{ display: "flex", flexDirection: "row" }}
-                        tabStyle={{ flex: 1 }}
-                        indicatorStyle={{ backgroundColor: "#1DB954" }}
-                        indicatorContainerStyle={{ }}
+                        contentContainerStyle={{ display: "flex", flexDirection: "row", gap: 10 }}
+                        //tabStyle={{ flex: 0.5 }}
+                        indicatorStyle={{ backgroundColor: "#1DB954", height: "100%", borderRadius: 10 }}
+                        indicatorContainerStyle={{ margin: 7, marginRight: 10 }}
                         renderTabBarItem={(props) => (
                             <TabBarItem
                                 {...props}

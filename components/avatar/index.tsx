@@ -17,13 +17,13 @@ const Avatar = ({ src, initials, className, width, height, ...props }: AvatarPro
   return (
     <View
       className={cn(styles.containerStyles, props.containerStyle)}
-      // style={[styles.container, props.containerStyle]}
     >
       {src ? (
         <Image
           source={{ uri: src }}
           className={cn(styles.imageStyles, className)}
           style={{ width: width ?? 100, height: height ?? 100, borderRadius: 999 }}
+          contentFit="fill"
           // style={styles.image}
         />
       ) : (
@@ -32,7 +32,7 @@ const Avatar = ({ src, initials, className, width, height, ...props }: AvatarPro
           style={{ width: width ?? 100, height: height ?? 100, borderRadius: 999 }}
           className={styles.initialsStyles}
         > 
-            <Text className='text-3xl font-semibold'>
+            <Text className='text-3xl font-semibold mx-auto'>
               {initials}
             </Text>
         </View>
