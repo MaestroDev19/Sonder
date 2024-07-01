@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, Animated } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageBackground, Animated, Pressable } from 'react-native';
 import Avatar from "../avatar"
 import { ProfileCardProps } from '../../types/types';
 import { SharedValue } from 'react-native-reanimated';
@@ -12,23 +12,23 @@ const ProfileCard = (
         avatarInitials,
         userName,
         description,
-        likedArtist,
-        // likedGenre,
+        //likedArtist,
+        likedGenre,
         favoriteSong,
         favoriteArtist,
+        onPress
     }: ProfileCardProps
 ) => {
-    const {favouriteArtists, isLoading} = useFavouriteArtists();
     return (
-        <View className={styles.container}>
+        <Pressable onPress={onPress} className={styles.container}>
             <ImageBackground imageStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16}} source={{uri: headerImage}} className={styles.headerImage}>
-                <Avatar src={avatar} initials={avatarInitials} containerStyle={"w-16 h-16 translate-y-8"} />
+                <Avatar 
+                    src={avatar} 
+                    initials={avatarInitials} 
+                    containerStyle={"w-16 h-16 mr-12 translate-y-8"} 
+                />
             </ImageBackground>
-            {/* <Image
-                source={{uri: 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'}}
-                className={styles.headerImage}
-            /> */}
-            <View className='mx-4'>
+            <View className='mx-4 mt-5'>
                 <Text className={styles.userName}>
                     {userName}
                 </Text>
@@ -40,35 +40,30 @@ const ProfileCard = (
                 <Text className='font-bold text-white text-xl mb-4'>
                     Likes
                 </Text>
-                <View className={styles.artistRow}>
-                    {favouriteArtists?.slice(0,5).map((artist, id) => (
-                        <Avatar key={id} containerStyle='w-[50px] h-[50px] mr-1' width={50} height={50} src={artist?.image || ""} initials="" />
-                    ))}
-                </View>
-                {/* <View className={styles.row}>
-                    {likedGenre.map((genre) => (
+                <View className={styles.row}>
+                    {likedGenre.slice(0, 6).map((genre) => (
                         <View key={genre} className={styles.liked}>
                             <Text className={styles.likedText}>{genre}</Text>
                         </View>
                     ))}
-                </View> */}
+                </View>
                 <Text className={styles.favoriteSong}>Favorite Song</Text>
                 <View className='flex-row gap-x-4'>
-                    <Image className="w-9 h-9 rounded-md" source={{ uri: favoriteSong.albumart}} />
+                    <Image className="w-9 h-9 rounded-md" source={{ uri: favoriteSong.image}} />
                     <View>
-                        <Text className="text-base font-bold text-white">{favoriteSong.songName}</Text>
-                        <Text className="text-sm text-[#EFEFEF80]">{favoriteSong.songArtist}</Text>
+                        <Text className="text-base font-bold text-white">{favoriteSong.name}</Text>
+                        <Text className="text-sm text-[#EFEFEF80]">{favoriteSong.artists.map((artist) => artist.name).join(', ')}</Text>
                     </View>
                 </View>
                 <Text className={styles.favoriteArtist}>Favorite Artist</Text>
                 <View className='flex-row gap-x-4'>
-                    <Image className="w-9 h-9 rounded-md" source={{ uri: favoriteArtist.albumart }} />
+                    <Image className="w-9 h-9 rounded-md" source={{ uri: favoriteArtist.image }} />
                     <View>
-                        <Text className="text-base font-bold text-white">{favoriteArtist.artist}</Text>
+                        <Text className="text-base font-bold text-white">{favoriteArtist.name}</Text>
                     </View>
                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 };
 

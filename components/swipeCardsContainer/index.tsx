@@ -6,6 +6,7 @@ import { SimilarUser } from '../../types/types';
 import { useQuery } from '@tanstack/react-query';
 import SonderApi from '../../api';
 import { Skeleton } from '../skeleton';
+import { useRouter } from 'expo-router';
 
 
 const width = Dimensions.get('window').width;
@@ -57,6 +58,9 @@ export const SwipeCardsContainer = () => {
     }
   })
 
+  const router = useRouter();
+
+
   if (isLoading) {
     return (
       <View className='px-4 my-7 h-[600px]'>
@@ -87,14 +91,22 @@ export const SwipeCardsContainer = () => {
         data={isLoading ? [] : similarUsers!}
         scrollAnimationDuration={1000}
         onSnapToItem={(index) => console.log('current index:', index)}
-        renderItem={renderProfileCard}
+        renderItem={({ item }) => 
+          <RenderProfileCard 
+            item={item}
+            onPress={() => router.push(`/profile/${item.id}`)}
+          />
+        }
       />
     </Animated.View>
   )
 }
 
-const renderProfileCard = ({ item }: { item: SimilarUser }) => (
+const RenderProfileCard = ({ item, onPress }: { item: SimilarUser, onPress?: () => void }) => {
+
+  return (
     <ProfileCard
+      onPress={onPress}
       headerImage={item.banner || 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'}
       avatar={item.profile_image}
       avatarInitials={item.name.at(0)}
@@ -104,4 +116,5 @@ const renderProfileCard = ({ item }: { item: SimilarUser }) => (
       favoriteSong={item.track}
       favoriteArtist={item.artist}
     />
-)
+  )
+}
