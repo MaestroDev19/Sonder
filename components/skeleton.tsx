@@ -9,7 +9,7 @@ import {
 
 type SkeletonProps = {
   width: DimensionValue;
-  height: DimensionValue;
+  height?: DimensionValue;
   borderRadius?: number;
   bgColor?: string;  
   style?: StyleProp<ViewStyle>;
@@ -17,7 +17,7 @@ type SkeletonProps = {
 
 export const Skeleton = ({
   width,
-  height,
+  height = 15,
   bgColor = '#eee', // This can be any color, depending on your theme
   borderRadius = 3, // You can adjust the default borderRadius too
   style,
