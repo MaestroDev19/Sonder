@@ -14,6 +14,8 @@ import useDrawer from "../../../hooks/drawer";
 import useFavouriteGenres from "../../../hooks/favourite-genres";
 import useUserProfile from "../../../hooks/user";
 import { useLocalSearchParams } from "expo-router";
+import useFriends from "../../../hooks/friends";
+import { cn } from "../../../lib/utils";
 
 const FirstRoute = () => {
     const { id } = useLocalSearchParams();
@@ -111,6 +113,26 @@ export default function ProfilePage() {
     const layout = useWindowDimensions();
     const { openDrawer } = useDrawer();
 
+    const { 
+        addFriendMutation, 
+        friendRequests, 
+        acceptFriendRequestMutation,
+        isFriend,
+        isFriendLoading 
+    } = useFriends(id as string);
+
+    const friendRequestPresent = friendRequests.data.find((request) => {
+        return request.friend_id === currentUser.id && request.user_id === id as string
+    })
+
+    const handleProfileAction = async () => {
+        if (!!!friendRequestPresent) {
+            return await addFriendMutation.mutateAsync({ friend_id: id as string })
+        }
+
+        return await acceptFriendRequestMutation.mutateAsync({ user_id: id as string })
+    }
+
     const [index, setIndex] = useState(0);
     const [routes] = useState([
       { key: 'first', title: 'Songs' },
@@ -156,8 +178,18 @@ export default function ProfilePage() {
                         <Text className="text-white font-semibold">Edit Profile</Text>
                     </Pressable>
                     :
-                    <Pressable className="text-white bg-primary py-3 px-6 rounded-lg">
-                        <Text className="text-black font-semibold">Add Friend</Text>
+                    <Pressable 
+                        disabled={isFriendLoading || acceptFriendRequestMutation.isPending || addFriendMutation.isPending}
+                        className={cn("text-white disabled:opacity-50 bg-primary py-3 px-6 rounded-lg", isFriend && "bg-green-800/50")}
+                        onPress={handleProfileAction}
+                    >
+                        <Text className={cn("text-black font-semibold", isFriend && "text-primary")}>
+                            {
+                                isFriend ? "Friends" :
+                                !!!friendRequestPresent ? "Add Friend" : 
+                                "Accept Request"
+                            }
+                        </Text>
                     </Pressable>
                 }
             </View>
