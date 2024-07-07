@@ -1,22 +1,37 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import SonderApi from "../api"
-import { ReactQueryKeys } from "../types/types"
+import { FriendRequest, ReactQueryKeys } from "../types/types"
 import useCurrentUser from "./current-user"
 
-const useFriends = () => {
+const useFriends = (currentFriendId?: string) => {
     const { userProfile } = useCurrentUser();
+    const queryClient = useQueryClient();
 
     const { isLoading, data } = useQuery({
         queryKey:[ReactQueryKeys.FRIEND_REQUESTS],
         queryFn: async () => {
-            const response = await SonderApi.get('/friends/add', {
+            const response = await SonderApi.get('/friends/requests', {
                 params: {
                     user_id: userProfile?.id,
                 }
             })    
-            return response.data.data        
+            return response.data.data as FriendRequest[]    
         },
         enabled: !!userProfile
+    })
+
+    const { isLoading: isFriendLoading, data: isFriend } = useQuery({
+        queryKey:[ReactQueryKeys.FRIEND_REQUESTS],
+        queryFn: async () => {
+            const response = await SonderApi.get('/friends/requests', {
+                params: {
+                    user_id: userProfile?.id,
+                    friend_id: currentFriendId!
+                }
+            })    
+            return response.data.data.is_friend as boolean    
+        },
+        enabled: !!userProfile && !!currentFriendId
     })
     
     
@@ -32,32 +47,42 @@ const useFriends = () => {
     })
 
     const acceptFriendRequestMutation = useMutation({
-        mutationFn: async ({ friend_id }: { friend_id: string })  => {
+        mutationFn: async ({ user_id }: { user_id: string })  => {
             const response = await SonderApi.put('/friends/accept', {
-                user_id: userProfile?.id,
-                friend_id
+                friend_id: userProfile?.id,
+                user_id
             })            
 
             return response.data.data
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey:[ReactQueryKeys.FRIEND_REQUESTS],
+            })
         }
     })
 
     const rejectFriendRequestMutation = useMutation({
-        mutationFn: async ({ friend_id }: { friend_id: string })  => {
+        mutationFn: async ({ user_id }: { user_id: string })  => {
             const response = await SonderApi.put('/friends/reject', {
-                user_id: userProfile?.id,
-                friend_id
+                friend_id: userProfile?.id,
+                user_id
             })            
 
             return response.data.data
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey:[ReactQueryKeys.FRIEND_REQUESTS],
+            })
         }
     })
 
     const blockFriendMutation = useMutation({
-        mutationFn: async ({ friend_id }: { friend_id: string })  => {
+        mutationFn: async ({ user_id }: { user_id: string })  => {
             const response = await SonderApi.put('/friends/block', {
-                user_id: userProfile?.id,
-                friend_id
+                friend_id: userProfile?.id,
+                user_id
             })            
 
             return response.data.data
@@ -69,7 +94,9 @@ const useFriends = () => {
         blockFriendMutation,
         rejectFriendRequestMutation,
         acceptFriendRequestMutation,
-        friendRequests: { isLoading, data }
+        friendRequests: { isLoading, data },
+        isFriend,
+        isFriendLoading
     }
 
 
