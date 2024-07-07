@@ -126,9 +126,14 @@ export default function ProfilePage() {
     })
 
     const handleProfileAction = async () => {
+        if (isFriend) {
+            return null //Do nothing
+        }
+        
         if (!!!friendRequestPresent) {
             return await addFriendMutation.mutateAsync({ friend_id: id as string })
         }
+
 
         return await acceptFriendRequestMutation.mutateAsync({ user_id: id as string })
     }
