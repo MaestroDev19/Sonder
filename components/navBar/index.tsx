@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Avatar from '../avatar';
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { Bell } from 'lucide-react-native';
 import useCurrentUser from '../../hooks/current-user';
@@ -9,7 +9,8 @@ import { Skeleton } from '../skeleton';
 
 
 export function getHomeNavbarOptions() {
-  const navigation = useNavigation('/(screens)')
+  const navigation = useNavigation('/(screens)');
+  const router = useRouter()
 
   const { userProfile, isLoading } = useCurrentUser();
 
@@ -29,7 +30,10 @@ export function getHomeNavbarOptions() {
           </TouchableOpacity>
         }
         
-        <TouchableOpacity className="bg-[#EFEFEF1A] p-3 rounded-xl border border-muted">
+        <TouchableOpacity 
+          onPress={() => router.push('/friend-requests')} 
+          className="bg-[#EFEFEF1A] p-3 rounded-xl border border-muted"
+        >
           <Bell stroke="white"/>
         </TouchableOpacity>
       </View>
