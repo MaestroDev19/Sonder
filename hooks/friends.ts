@@ -21,9 +21,9 @@ const useFriends = (currentFriendId?: string) => {
     })
 
     const { isLoading: isFriendLoading, data: isFriend } = useQuery({
-        queryKey:[ReactQueryKeys.FRIEND_REQUESTS],
+        queryKey:[ReactQueryKeys.FRIEND_CHECK, currentFriendId!],
         queryFn: async () => {
-            const response = await SonderApi.get('/friends/requests', {
+            const response = await SonderApi.get('/friends/check', {
                 params: {
                     user_id: userProfile?.id,
                     friend_id: currentFriendId!

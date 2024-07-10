@@ -1,27 +1,33 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import SonderApi from "../api"
 import useAccessToken from "./access-token"
-import { CurrentTrack, User } from "../types/types";
+import { CurrentTrack, ReactQueryKeys, User } from "../types/types";
 import { useEffect, useState } from "react";
+import useCurrentUser from "./current-user";
+import { createSentrySpan } from "../sentry/spans";
 
 const useCurrentTrack = () => {
     const { accessToken } = useAccessToken();
+    const { userProfile } = useCurrentUser();
     const queryClient = useQueryClient();
 
     const { isLoading, data: currentTrack } = useQuery({
-        queryKey: ['current-track'],
+        queryKey: [ReactQueryKeys.CURRENT_TRACK],
         queryFn: async () => {
-            const response = await SonderApi.get('/users/me/playing?country=NG', {
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`
-                }
-            });
-            const currentTrack = response.data.data as CurrentTrack
-            console.log(currentTrack)
-            setCurrentTrackProgress(currentTrack?.progress)
-            return currentTrack
+            const res =  await createSentrySpan("current-song", async () => {
+                const response = await SonderApi.get(`/users/me/playing?country=${userProfile?.country}`, {
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                });
+                const currentTrack = response.data.data as CurrentTrack
+                setCurrentTrackProgress(currentTrack?.progress)
+                return currentTrack
+            })
+
+            return res
         },
-        enabled: !!accessToken,
+        enabled: !!accessToken && !!userProfile?.country,
     })
 
     const [currentTrackProgress, setCurrentTrackProgress] = useState<number>(0)
@@ -30,10 +36,7 @@ const useCurrentTrack = () => {
         if(!currentTrack) return
         const interval = setInterval(() => {
             setCurrentTrackProgress((prev) => prev + 1000)
-            
         }, 1000)
-        
-        
         
         return () => {
             clearInterval(interval)
@@ -49,7 +52,7 @@ const useCurrentTrack = () => {
 
     const refreshTrack = () => {
         queryClient.invalidateQueries({
-            queryKey: ['current-track'],
+            queryKey: [ReactQueryKeys.CURRENT_TRACK],
         })
     }
 

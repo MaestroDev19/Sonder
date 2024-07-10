@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import SonderApi from '../../api';
 import { Skeleton } from '../skeleton';
 import { useRouter } from 'expo-router';
+import { createSentrySpan } from '../../sentry/spans';
 
 
 const width = Dimensions.get('window').width;
@@ -52,9 +53,13 @@ export const SwipeCardsContainer = () => {
   const { isLoading, data: similarUsers } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const response = await SonderApi.get('/users');
-      const profiles = response.data.data as SimilarUser[]
-      return profiles
+      const res = await createSentrySpan("similar-users", async () => {
+        const response = await SonderApi.get('/users');
+        const profiles = response.data.data as SimilarUser[]
+        return profiles
+      }) as SimilarUser[]
+
+      return res
     }
   })
 
