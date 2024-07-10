@@ -89,7 +89,12 @@ export enum AsyncStorageKeys {
 
 export enum ReactQueryKeys {
     FRIEND_REQUESTS = "friend-requests",
+    FRIEND_CHECK = "friend-check",
     CURRENT_USER = "current-user",
     CURRENT_TRACK = "current-track",
-    SIMILAR_USERS = "similar-users"
+    SIMILAR_USERS = "similar-users",
+    FAVOURITE_ARTISTS = "favourite-artists",
+    FAVOURITE_TRACKS = "favourite-tracks",
+    FAVOURITE_GENRES = "favourite-genres",
+    USER = "user"
 }
