@@ -10,6 +10,7 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import Avatar from "../../../components/avatar";
 import AnimatedToggleButton from '../../../components/togglebutton';
 import { ArrowRight} from "lucide-react-native";
+import Header from '../../../components/header';
 
 export default function SettingsPage() {
     const { openDrawer } = useDrawer()
@@ -26,41 +27,40 @@ export default function SettingsPage() {
   return (
     
         <View className="px-3 h-screen w-screen">
-            <Drawer.Screen options={{
-                headerLeft: () => (
-                    <Pressable onPress={openDrawer}>
-                        <View className=' mt-6  ml-6 w-6 h-6 rounded-md border-[#EFEFEF33]  border  p-5 items-center justify-center'>
-                            <ArrowLeft size = "14px" stroke="white"/>
-                        </View>
-                        
-                    </Pressable>
-                ),
-                headerTitle: () => (
-                    <Text className=" mt-6 text-white text-xl font-bold">
-                        Settings
-                    </Text>
-                ),
+            <Drawer.Screen 
+                options={{
+                    header: () => (
+                        <Header className='gap-4 px-0'>
+                            <Pressable onPress={openDrawer} className=' mt-6  ml-6 w-6 h-6 rounded-md border-[#EFEFEF33]  border  p-5 items-center justify-center'>
+                                <ArrowLeft size="14px" stroke="white"/>
+                            </Pressable>
+
+                            <Text className=" mt-6 text-white text-xl font-bold">
+                                Settings
+                            </Text>
+                        </Header>
+                    )
             }} />
 
             <View className="border border-[#EFEFEF33] rounded-lg px-4 py-6 mt-10">
                 
                 <View  className="flex flex-row ">
-                <Avatar
-                    src={userProfile?.profile_image}
-                    initials={userProfile?.name.at(0) || "S"}
-                    width={40}
-                    height={40}
-                    containerStyle="z-40"
-                />
-                <View className="ml-5">
-                <Text className="text-white text-xl font-bold">{userProfile?.name}</Text>
-                <Text className="text-sm text-light-grey">@{userProfile?.email}</Text>
-                </View>
+                    <Avatar
+                        src={userProfile?.profile_image}
+                        initials={userProfile?.name.at(0) || "S"}
+                        width={40}
+                        height={40}
+                        containerStyle="z-40"
+                    />
+                    <View className="ml-5">
+                        <Text className="text-white text-xl font-bold">{userProfile?.name}</Text>
+                        <Text className="text-sm text-light-grey">{userProfile?.email}</Text>
+                    </View>
                 </View>
                
             </View>
         <ScrollView>
-            <Text className="text-white text-light-grey mt-6 ml-6 ">
+            <Text className="text-light-grey mt-6 ml-6 ">
                 Account Settings
             </Text>
         
@@ -93,7 +93,7 @@ export default function SettingsPage() {
                
             </View>
 
-            <Text className="text-white text-light-grey mt-6 ml-6 ">
+            <Text className="text-light-grey mt-6 ml-6 ">
                 More
             </Text>
         
