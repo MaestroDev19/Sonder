@@ -9,7 +9,7 @@ import useAccessToken from '../../hooks/access-token';
 import SonderApi from '../../api';
 import { Home, MessageCircle, Settings, UserRound } from 'lucide-react-native';
 import { StatusBar } from 'expo-status-bar';
-
+import * as Sentry from "@sentry/react-native"
 
 export default function Layout() {
 
@@ -25,7 +25,9 @@ export default function Layout() {
           // Handle 401 error here, refresh access token
           await refreshToken()
           return
-        } 
+        } else {
+          Sentry.captureException(error);
+        }
         return Promise.reject(error);
       },
     );
