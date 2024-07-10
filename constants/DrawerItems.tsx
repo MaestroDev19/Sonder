@@ -52,19 +52,19 @@ export default [
     //         title: 'Chats',
     //     }
     // },
-    // {
-    //     name: "settingsScreen/index",
-    //     options: {
-    //         drawerLabel: config =>
-                // <View className="flex-row items-center w-full">
-                //     <Text className="text-[#EFEFEF]">
-                //         Profile
-                //     </Text>
-                //     <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute right-0'>
-                //         <Image source={icons.ArrowRight} />
-                //     </View>
-                // </View>,
-    //         title: 'Settings',
-    //     }
-    // },
+    {
+        name: "settings/index",
+        options: {
+            drawerLabel: config =>
+                <View className="flex-row items-center w-full">
+                    <Text className="text-[#EFEFEF]">
+                        Settings
+                    </Text>
+                    <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute left-36'>
+                    <ArrowRight size="14px" stroke="#000"/>
+                    </View>
+                </View>,
+            title: 'Settings',
+        }
+    },
 ]

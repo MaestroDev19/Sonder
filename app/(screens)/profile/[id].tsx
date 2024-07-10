@@ -121,7 +121,7 @@ export default function ProfilePage() {
         isFriendLoading 
     } = useFriends(id as string);
 
-    const friendRequestPresent = friendRequests.data.find((request) => {
+    const friendRequestPresent = friendRequests.data?.find((request) => {
         return request.friend_id === currentUser.id && request.user_id === id as string
     })
 
@@ -164,7 +164,9 @@ export default function ProfilePage() {
                 ),
                 headerLeft: () => (
                     <Pressable onPress={openDrawer}>
-                        <ArrowLeft stroke="white"/>
+                        <View className=' mt-6  ml-6 w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#121212]  border  p-5 items-center justify-center'>
+                            <ArrowLeft size = "14px" stroke="white"/>
+                        </View>
                     </Pressable>
                 )
             }} />
