@@ -7,6 +7,8 @@ import * as Sentry from "@sentry/react-native";
 import Constants from "expo-constants";
 import { useEffect } from "react";
 import ErrorPage from "../components/error";
+import { Toasts } from "@backpackapp-io/react-native-toast";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation({
   enableTimeToInitialDisplay: Constants.appOwnership !== "expo", // Only in native builds, not in Expo Go.
@@ -48,15 +50,18 @@ function RootLayout() {
         fallback={ErrorPage}
         onError={(error) => Sentry.captureException(error)}  
       >
-        <StatusBar backgroundColor="#fff" style="light"/>
-        <Stack 
-          screenOptions={{
-            contentStyle: {
-              backgroundColor: "#121212",
-            },
-            headerShown: false,
-          }}
-        />
+        <GestureHandlerRootView>
+          <Toasts/>
+          <StatusBar backgroundColor="#fff" style="light"/>
+          <Stack 
+            screenOptions={{
+              contentStyle: {
+                backgroundColor: "#121212",
+              },
+              headerShown: false,
+            }}
+          />
+        </GestureHandlerRootView>
       </Sentry.ErrorBoundary>
     </QueryClientProvider>
   )
