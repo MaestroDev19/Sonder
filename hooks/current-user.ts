@@ -1,12 +1,16 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import SonderApi from "../api"
 import useAccessToken from "./access-token"
 import { ReactQueryKeys, User } from "../types/types";
 import { createSentrySpan } from "../sentry/spans";
+import { ImageUploadService } from "../services/ImageUpload";
+import { toast, ToastPosition } from "@backpackapp-io/react-native-toast";
+import { useEffect } from "react";
 
 const useCurrentUser = () => {
     const { accessToken, removeTokens } = useAccessToken();
     const queryClient = useQueryClient();
+    let currentMill = new Date().getMilliseconds().toString()
 
     const { isLoading, data: userProfile } = useQuery({
         queryKey: [ReactQueryKeys.CURRENT_USER],
@@ -14,7 +18,8 @@ const useCurrentUser = () => {
             const res = await createSentrySpan("current-user", async () => {
                 const response = await SonderApi.get('/users/me', {
                     headers: {
-                        "Authorization": `Bearer ${accessToken}`
+                        "Authorization": `Bearer ${accessToken}`,
+                        "Content-Type": "application/json"
                     }
                 });
                 return response.data.data as User
@@ -25,6 +30,67 @@ const useCurrentUser = () => {
         enabled: !!accessToken,
     })
 
+    const { mutateAsync: updateUser, isPending: userPending, reset: updateUserReset } = useMutation({
+        mutationFn: async (updatedUser: Partial<User>) => {
+            return await SonderApi.put('/users/me', { ...updatedUser }, {
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            })
+        },
+        mutationKey: ['update'],
+        onSuccess: () => {
+            toast('Updated Profile Sucessfully', {
+                position: ToastPosition.BOTTOM
+            })
+
+            return queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.CURRENT_USER],
+            })
+        }
+    })
+
+    const { mutateAsync: updateBanner, isPending: bannerPending } = useMutation({
+        mutationFn: async (banner: string) => {
+            const url = await ImageUploadService.uploadImage("banners", `${userProfile.id}.png`, banner)
+            return await SonderApi.put('/users/me/banner', { url }, {
+                params: {
+                    user_id: userProfile?.id
+                }
+            })
+        },
+        onSuccess: () => {
+            toast('Updated Banner Sucessfully', {
+                position: ToastPosition.BOTTOM
+            })
+
+            return queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.CURRENT_USER],
+            })
+        }
+    })
+
+    const { mutateAsync: updateAvatar, isPending: avatarPending } = useMutation({
+        mutationFn: async (avatar: string) => {
+            const url = await ImageUploadService.uploadImage("avatars", `${userProfile.id}.png`, avatar)
+            return await SonderApi.put('/users/me/avatar', { url }, {
+                params: {
+                    user_id: userProfile?.id
+                }
+            })
+        },
+        onSuccess: () => {
+            toast('Updated Avatar Sucessfully', {
+                position: ToastPosition.BOTTOM
+            })
+
+            return queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.CURRENT_USER],
+            })
+        }
+
+    })
 
     const refreshUser = () => {
         queryClient.invalidateQueries({
@@ -41,7 +107,17 @@ const useCurrentUser = () => {
 
 
 
-    return { isLoading, userProfile, refreshUser, logoutUser }
+    return { 
+        isLoading, 
+        userProfile, 
+        refreshUser, 
+        logoutUser,
+        updateAvatar, 
+        updateBanner,
+        updateUser,
+        savePending: avatarPending || bannerPending || userPending,
+        updateUserReset 
+    }
 }
 
 export default useCurrentUser
