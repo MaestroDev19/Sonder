@@ -2,12 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCzW9SVgYAYKOz0SI1DQBmZXIUlEWNz9Zc",
-  authDomain: "resturant-website-1789.firebaseapp.com",
-  projectId: "resturant-website-1789",
-  storageBucket: "resturant-website-1789.appspot.com",
-  messagingSenderId: "288811136521",
-  appId: "1:288811136521:web:ac8b295cd243f2c038ead8"
+  apiKey: "AIzaSyBpGkXLKsnk0P__ivGtkC99-Tv6YGbmsm8",
+  authDomain: "sonder-63ac2.firebaseapp.com",
+  projectId: "sonder-63ac2",
+  storageBucket: "sonder-63ac2.appspot.com",
+  messagingSenderId: "644209681871",
+  appId: "1:644209681871:web:e59476b70b96647eb3deba",
+  measurementId: "G-EV76811WKJ"
 };
 
 // Initialize Firebase
