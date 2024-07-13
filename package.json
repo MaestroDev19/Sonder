@@ -10,6 +10,7 @@
     "generate:api": "orval"
   },
   "dependencies": {
+    "@backpackapp-io/react-native-toast": "^0.11.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/drawer": "^6.6.15",
     "@sentry/react-native": "^5.25.0",
