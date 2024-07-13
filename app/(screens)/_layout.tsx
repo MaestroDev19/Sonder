@@ -2,9 +2,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import CustomDrawer from '../../components/sidebar';
 import DrawerItems from '../../constants/DrawerItems';
-import { View, Button, Image, _View } from 'react-native';
-import { Component, useEffect } from 'react';
-import * as icons from '../../assets/svg/exports'
+import { View } from 'react-native';
+import { useEffect } from 'react';
 import useAccessToken from '../../hooks/access-token';
 import SonderApi from '../../api';
 import { Home, MessageCircle, Settings, UserRound } from 'lucide-react-native';
@@ -12,12 +11,11 @@ import { StatusBar } from 'expo-status-bar';
 import * as Sentry from "@sentry/react-native"
 
 export default function Layout() {
-
-  const { refreshToken } = useAccessToken()
+  const { refreshToken } = useAccessToken();
 
   useEffect(() => {
     const interceptor = SonderApi.interceptors.response.use(
-      response => {
+      (response) => {
         return response;
       },
       async (error) => {
@@ -29,7 +27,7 @@ export default function Layout() {
           Sentry.captureException(error);
         }
         return Promise.reject(error);
-      },
+      }
     );
 
     return () => {
@@ -39,15 +37,17 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar style='light'/>
+      <StatusBar style="light" />
       <Drawer
-        drawerContent={props => <CustomDrawer {...props} containerStyle={{ paddingVertical: 0 }} />}
+        drawerContent={(props) => (
+          <CustomDrawer {...props} containerStyle={{ paddingVertical: 0 }} />
+        )}
         screenOptions={{
           drawerContentStyle: {
             backgroundColor: "#121212",
           },
           sceneContainerStyle: {
-            backgroundColor: "#121212"
+            backgroundColor: "#121212",
           },
           headerStyle: {
             backgroundColor: "#121212",
@@ -56,33 +56,34 @@ export default function Layout() {
           headerTitle: "",
         }}
       >
-        {DrawerItems.map(drawer => (
+        {DrawerItems.map((drawer) => (
           <Drawer.Screen
             key={drawer.name}
             name={drawer.name}
             options={{
               ...drawer.options,
               drawerIcon: () =>
-                drawer.options.title === 'Profile' ?
-                  <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                    <UserRound stroke="white"/>
+                drawer.options.title === "Profile" ? (
+                  <View className="w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center">
+                    <UserRound stroke="white" />
                   </View>
-              : drawer.options.title === 'Chats' ?
-                  <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                    <MessageCircle stroke="white"/>
+                ) : drawer.options.title === "Chats" ? (
+                  <View className="w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center">
+                    <MessageCircle stroke="white" />
                   </View>
-              : drawer.options.title === 'Home' ?
-                  <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                    <Home stroke="white"/>
+                ) : drawer.options.title === "Home" ? (
+                  <View className="w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center">
+                    <Home stroke="white" />
                   </View>
-              : 
-                <View className='w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center' >
-                  <Settings stroke="white"/>
-                </View>,
+                ) : (
+                  <View className="w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center">
+                    <Settings stroke="white" />
+                  </View>
+                ),
               drawerItemStyle: {
                 borderWidth: 1,
                 marginHorizontal: 0,
-                borderColor: '#B3B3B333',
+                borderColor: "#B3B3B333",
                 borderRadius: 10,
                 padding: 5,
                 flex: 1,
@@ -92,7 +93,6 @@ export default function Layout() {
           />
         ))}
       </Drawer>
-
     </GestureHandlerRootView>
   );
 }
