@@ -1,11 +1,11 @@
 import React from 'react';
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 import useDrawer from "../../../hooks/drawer";
 import { Drawer } from "expo-router/drawer";
 import useCurrentUser from "../../../hooks/current-user";
 import Page from "../../../components/page";
 import { Image, ImageBackground } from "expo-image";
-import { ArrowLeft, Calendar } from "lucide-react-native";
+import { Activity, ArrowLeft, Calendar } from "lucide-react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import Avatar from "../../../components/avatar";
 import AnimatedToggleButton from '../../../components/togglebutton';
@@ -19,7 +19,7 @@ export default function SettingsPage() {
     if (isLoading) {
         return (
             <Page>
-                <Text>Loading</Text>
+                <ActivityIndicator size="large" color="white" />
             </Page>
         )
     }
