@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tinder-for-spotify-frontend",
-    "slug": "tinder-for-spotify-frontend",
+    "name": "Sonder",
+    "slug": "sonder",
     "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -29,7 +29,10 @@
       "splash": {
         "backgroundColor": "#121212",
         "image": "./assets/logo.png"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -46,6 +49,15 @@
         }
       ]
     ],
-    "scheme": "sonder"
+    "scheme": "sonder",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "679e31a3-80cc-4d3e-ae9c-a9e1f1a7b798"
+      }
+    },
+    "owner": "fortune710"
   }
 }
