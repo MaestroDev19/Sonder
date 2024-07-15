@@ -67,6 +67,7 @@ export default function EditProfilePage() {
         }))
         updateUserReset()
         console.log("here")
+        console.log(updatedFields)
         return updateUser(updatedFields)
     }
 
@@ -108,7 +109,7 @@ export default function EditProfilePage() {
     return (
         <Page>
             <Drawer.Screen options={{ header: () => null }}/>
-            <KeyboardAvoidingView>
+            <KeyboardAvoidingView behavior="position">
 
                 <Header className="flex items-center my-2 flex-row gap-4">
                     <Pressable onPress={goBack} className='w-6 h-6 p-5 rounded-md border-[#EFEFEF33] border flex flex-row items-center justify-center'>
