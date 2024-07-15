@@ -17,6 +17,7 @@ import Page from "../../../components/page";
 import Drawer from "expo-router/drawer";
 import Header from "../../../components/header";
 import useDrawer from "../../../hooks/drawer";
+import { useRouter } from "expo-router";
 
 interface ChatListPreview {
   id: string;
@@ -71,6 +72,7 @@ export default function ChatList({ navigation }) {
   ];
 
   const { userProfile, isLoading } = useCurrentUser();
+  const router = useRouter()
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState(chatpreview);
   const [selectedId, setSelectedId] = useState(null);
@@ -80,7 +82,8 @@ export default function ChatList({ navigation }) {
 
   const handlePress = (item) => {
     setSelectedId(item.id);
-    navigation.navigate("ChatScreen", { userName: item.name });
+    router.push("/chat/1");
+    //navigation.navigate("ChatScreen", { userName: item.name });
   };
 
   const handleSearch = (text) => {
