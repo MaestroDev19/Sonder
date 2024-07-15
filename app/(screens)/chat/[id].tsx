@@ -12,16 +12,17 @@ import { GiftedChat, Send, Bubble } from "react-native-gifted-chat";
 
 const ChatScreen = () => {
   const [message, setMessage] = useState([]);
-  const onSend = useCallback((message = []) => {
-    setMessage((previousMessage) =>
-      GiftedChat.append(previousMessage, message)
+
+  const onSend = useCallback((messages = []) => {
+    setMessage((previousMessages) =>
+      GiftedChat.append(previousMessages, messages)
     );
   }, []);
 
   useEffect(() => {
     setMessage([
       {
-        id: 1,
+        _id: 1,
         text: "Hello",
         createdAt: new Date(),
         user: {
@@ -31,23 +32,87 @@ const ChatScreen = () => {
       },
     ]);
   }, []);
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar style="light" />
-      <View className=" flex flex-row justify-between px-2 h-[60px]">
-        <View>
-          <Text className="flex flex-row items-center text-xl">Rex</Text>
+
+  const renderBubble = (props) => {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: "#DCF8C6",
+          },
+          left: {
+            backgroundColor: "#EAEAEA",
+          },
+        }}
+        textStyle={{
+          right: {
+            color: "#000",
+          },
+          left: {
+            color: "#000",
+          },
+        }}
+      />
+    );
+  };
+
+  const renderSend = (props) => {
+    return (
+      <Send {...props}>
+        <View style={styles.sendingContainer}>
+          <Text style={styles.sendText}>Send</Text>
         </View>
+      </Send>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Rex</Text>
       </View>
       <GiftedChat
         messages={message}
-        onSend={(message) => onSend(message)}
+        onSend={(messages) => onSend(messages)}
         user={{
           _id: 1,
         }}
+        renderBubble={renderBubble}
+        renderSend={renderSend}
         scrollToBottom
+        alwaysShowSend
       />
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#000", // Dark background for the entire screen
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    height: 60,
+    alignItems: "center",
+    backgroundColor: "#111", // Dark background for the header
+  },
+  headerText: {
+    fontSize: 24,
+    color: "#fff", // White text for the header
+  },
+  sendingContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+  sendText: {
+    color: "#007AFF",
+    fontSize: 16,
+  },
+});
+
 export default ChatScreen;
