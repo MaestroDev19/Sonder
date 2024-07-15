@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 
 
 export interface ProfileCardProps {
@@ -79,6 +80,29 @@ export interface FriendRequest {
     created_at: string
 }
 
+export interface Chat {
+    lastMessage: string,
+    members: string[],
+    updatedAt: Timestamp,
+    createdBy: string,
+    createdAt: Timestamp,
+    type: "group"|"private"
+    id: string
+}
+
+export interface Media {
+    url: string,
+    type: "video"|"image"
+}
+
+export interface Message {
+    content: string,
+    senderId: string,
+    createdAt: Timestamp,
+    id: string,
+    media: Media[]
+}
+
 export type StorageFolder = "banners"|"avatars"|"images"
 
 
@@ -96,5 +120,6 @@ export enum ReactQueryKeys {
     FAVOURITE_ARTISTS = "favourite-artists",
     FAVOURITE_TRACKS = "favourite-tracks",
     FAVOURITE_GENRES = "favourite-genres",
-    USER = "user"
+    USER = "user",
+    CHATS = "chats"
 }
