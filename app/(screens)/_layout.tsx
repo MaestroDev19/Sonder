@@ -56,7 +56,11 @@ export default function Layout() {
           headerTitle: "",
         }}
       >
-        {DrawerItems.map((drawer) => (
+        {DrawerItems
+        .filter((drawer) => {
+          return drawer.name === "profile/index" || drawer.name === "chat/index" || drawer.name === "home/index" || drawer.name === "settings/index"
+        })
+        .map((drawer) => (
           <Drawer.Screen
             key={drawer.name}
             name={drawer.name}
