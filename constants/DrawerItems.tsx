@@ -15,16 +15,14 @@ export default [
                     <ArrowRight size="14px" stroke="#000"/>
                 </View>
             </View>
-            )
-  ,
+            ),
             title: 'Home',
-
         }
     },
     {
         name: "profile/index",
         options: {
-            drawerLabel: config =>
+            drawerLabel: () => (
                 <View className="flex-row items-center w-full">
                     <Text className="text-[#EFEFEF]">
                         Profile
@@ -32,38 +30,40 @@ export default [
                     <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute left-36'>
                         <ArrowRight size="14px" stroke="#000"/>
                     </View>
-                </View>,
+                </View>
+            ),
             title: 'Profile',
         }
     },
-    //uncomment these when the screens are ready
-    // {
-    //     name: "chatScreen/index",
-    //     options: {
-    //         drawerLabel: config =>
-                // <View className="flex-row items-center w-full">
-                //     <Text className="text-[#EFEFEF]">
-                //         Profile
-                //     </Text>
-                //     <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute right-0'>
-                //         <Image source={icons.ArrowRight} />
-                //     </View>
-                // </View>,
-    //         title: 'Chats',
-    //     }
-    // },
+    {
+        name: "chat/index",
+        options: {
+            drawerLabel: () => (
+                <View className="flex-row items-center w-full">
+                    <Text className="text-[#EFEFEF]">
+                        Chats
+                    </Text>
+                    <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute left-36'>
+                        <ArrowRight size="14px" stroke="#000"/>
+                    </View>
+                </View>
+            ),
+            title: 'Chats',
+        }
+    },
     {
         name: "settings/index",
         options: {
-            drawerLabel: config =>
+            drawerLabel: () => (
                 <View className="flex-row items-center w-full">
                     <Text className="text-[#EFEFEF]">
                         Settings
                     </Text>
                     <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute left-36'>
-                    <ArrowRight size="14px" stroke="#000"/>
+                        <ArrowRight size="14px" stroke="#000"/>
                     </View>
-                </View>,
+                </View>
+            ),
             title: 'Settings',
         }
     },
