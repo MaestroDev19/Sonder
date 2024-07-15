@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
+import { Pressable, Text, useWindowDimensions, View } from "react-native";
 import Page from "../../../components/page";
 import useCurrentUser from "../../../hooks/current-user";
 import Avatar from "../../../components/avatar";
@@ -6,89 +6,24 @@ import { SceneMap, TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import { useState } from "react";
 import { Drawer } from "expo-router/drawer";
 import { ArrowLeft, Calendar } from "lucide-react-native";
-import useFavouriteSongs from "../../../hooks/favourite-songs";
-import { Image, ImageBackground } from "expo-image";
-import { moderateScale, scale, verticalScale } from "react-native-size-matters";
-import useFavouriteArtists from "../../../hooks/favourite-artists";
+import { ImageBackground } from "expo-image";
+import { moderateScale, verticalScale } from "react-native-size-matters";
 import useDrawer from "../../../hooks/drawer";
-import useFavouriteGenres from "../../../hooks/favourite-genres";
 import { Link } from "expo-router";
 
-const FirstRoute = () => {
-    const { isLoading, favouriteSongs } = useFavouriteSongs();
-    return (
-        <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "80%" }} contentContainerClassName="pb-56">
-            {
-                isLoading ? <Text className="text-white">Loading</Text> :
-                favouriteSongs?.map((track) => (
-                <View className="bg-[#B3B3B31A] rounded-md flex flex-row gap-4 items-center p-3 border border-[#EFEFEF33] mb-4" key={track.id}>
-                    <Text className="text-white py-4 px-5 font-bold rounded-md border border-[#EFEFEF4A] bg-[#B3B3B31A]">
-                        {track?.position}
-                    </Text>
-                    <Image source={{ uri: track?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
-                    <View className="w-[60%] flex flex-col gap-0.5">
-                        <Text className="text-white text-xl font-semibold whitespace-break-spaces">{track.name}</Text>
-                        <Text className="text-light-grey">{track.artists.map((artist) => artist.name).join(', ')}</Text>
-                    </View>
-                </View>
-                ))
-            }
+import FavouriteSongsTab from "../../../components/profile/songs";
+import FavouriteArtistsTab from "../../../components/profile/artists";
+import FavouriteGenresTab from "../../../components/profile/genres";
 
-        </ScrollView>
-    )
-};
   
-const SecondRoute = () => {
-    const { isLoading, favouriteArtists } = useFavouriteArtists();
-    return (
-        <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "100%" }} contentContainerClassName="pb-56">
-            {
-                isLoading ? <Text className="text-white">Loading</Text> :
-                favouriteArtists?.map((artist) => (
-                <View className="bg-[#B3B3B31A] rounded-md flex flex-row gap-4 items-center p-3 border border-[#EFEFEF33] mb-4" key={artist.id}>
-                    <Text className="text-white py-4 px-5 font-bold rounded-md border border-[#EFEFEF4A] bg-[#B3B3B31A]">
-                        {artist?.position}
-                    </Text>
-                    <Image source={{ uri: artist?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
-                    <View>
-                        <Text className="text-white text-xl font-semibold whitespace-break-spaces">{artist.name}</Text>
-                    </View>
-                </View>
-                ))
-            }
 
-        </ScrollView>
-    )
-};
 
-const ThirdRoute = () => {
-    const { isLoading, favouriteGenres } = useFavouriteGenres();
-
-    return (
-        <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "100%" }} contentContainerClassName="pb-56">
-            {
-                isLoading ? <Text className="text-white">Loading</Text> :
-                favouriteGenres?.map((genre, index) => (
-                <View className="bg-[#B3B3B31A] rounded-md flex flex-row gap-4 items-center p-3 border border-[#EFEFEF33] mb-4" key={genre}>
-                    <Text className="text-white py-4 px-5 font-bold rounded-md border border-[#EFEFEF4A] bg-[#B3B3B31A]">
-                        {index + 1}
-                    </Text>
-                    <View>
-                        <Text className="text-white capitalize text-xl font-semibold whitespace-break-spaces">{genre}</Text>
-                    </View>
-                </View>
-                ))
-            }
-
-        </ScrollView>
-    )
-};
   
   
 const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-    third: ThirdRoute
+    first: FavouriteSongsTab,
+    second: FavouriteArtistsTab,
+    third: FavouriteGenresTab
 });
 
 export default function ProfilePage() {
@@ -124,7 +59,7 @@ export default function ProfilePage() {
                 headerLeft: () => (
                     <Pressable onPress={openDrawer}>
                         <View className=' mt-6  ml-6 w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#121212]  border  p-5 items-center justify-center'>
-                        <ArrowLeft size="14px" stroke="white"/>
+                            <ArrowLeft size="14px" stroke="white"/>
                         </View>
                     </Pressable>
                 )
