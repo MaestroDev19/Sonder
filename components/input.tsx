@@ -24,7 +24,8 @@ const Input = ({ control, name, label, multiline, className }: InputProps) => {
                 value={field.value}
                 onChangeText={field.onChange}
                 multiline={multiline}
-                className="my-1.5 text-white"
+                numberOfLines={4}
+                className="my-1.5 text-white h-max"
             />
         </View>
     )
