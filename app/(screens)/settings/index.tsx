@@ -35,7 +35,7 @@ export default function SettingsPage() {
                                 <ArrowLeft size="14px" stroke="white"/>
                             </Pressable>
 
-                            <Text className=" mt-6 text-white text-xl font-bold">
+                            <Text className="mt-6 text-white text-xl font-bold">
                                 Settings
                             </Text>
                         </Header>

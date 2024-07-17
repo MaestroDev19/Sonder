@@ -6,18 +6,23 @@ import {
   Text,
   TextInput,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../../../components/avatar/styles";
 import { Fragment, useState } from "react";
 import Avatar from "../../../components/avatar";
 import useCurrentUser from "../../../hooks/current-user";
-import { ArrowLeft, ArrowRight, Search } from "lucide-react-native";
+import { ArrowLeft, ArrowRight, Plus, Search } from "lucide-react-native";
 import Page from "../../../components/page";
 import Drawer from "expo-router/drawer";
 import Header from "../../../components/header";
 import useDrawer from "../../../hooks/drawer";
 import { useRouter } from "expo-router";
+import useChats from "../../../hooks/chats";
+import { Chat } from "../../../types/types";
+import useFriend from "../../../hooks/friend";
+import { formatRelativeDate } from "../../../utils/functions";
 
 interface ChatListPreview {
   id: string;
@@ -71,11 +76,13 @@ export default function ChatList({ navigation }) {
     },
   ];
 
-  const { userProfile, isLoading } = useCurrentUser();
+  const { userProfile } = useCurrentUser();
   const router = useRouter()
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState(chatpreview);
   const [selectedId, setSelectedId] = useState(null);
+
+  const { isLoading, data: chats } = useChats();
 
   const { openDrawer } = useDrawer();
 
@@ -94,50 +101,7 @@ export default function ChatList({ navigation }) {
     setFilteredUsers(filteredData);
   };
 
-  const renderItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        key={item.id}
-        className={`my-5  px-5 mb-2 flex-row  flex items-center ${
-          item.id === selectedId ? "bg-muted" : "bg-current"
-        }`}
-        onPress={() => handlePress(item)}
-      >
-        <View className="z-40 py-2.5  mr-5">
-          <Avatar
-            src={userProfile?.profile_image}
-            initials={userProfile?.name.at(0) || "S"}
-            width={50}
-            height={50}
-          />
-          {item.isOnline && (
-            <View
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 7,
-                backgroundColor: "#22c55e",
-                position: "absolute",
-                top: 14,
-                right: 2,
-              }}
-            ></View>
-          )}
-        </View>
-        <View className="flex flex-row justify-between items-center flex-1">
-          <View>
-            <Text className="text-xl font-bold text-white">{item.name}</Text>
-            <Text className="text-lg font-medium text-grey-text">
-              {item.isTyping ? "Typing..." : item.lastMessage}
-            </Text>
-          </View>
-          <Text className="text-base font-medium text-white">
-            {item.messageStatus}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -176,11 +140,14 @@ export default function ChatList({ navigation }) {
 
       <View className="flex flex-1">
 
-        {filteredUsers.length > 0 ? (
+        {
+          isLoading ? <ActivityIndicator size="large" color="white" /> :
+          chats.length > 0 ? (
           <FlatList
-            data={filteredUsers}
+            data={chats}
             keyExtractor={(item) => item.id}
-            renderItem={renderItem}
+            renderItem={({ item }) => <ChatListItem item={item} />}
+            className="px-6"
           />
         ) : (
           <View className="flex items-center justify-center flex-1">
@@ -189,7 +156,68 @@ export default function ChatList({ navigation }) {
             </Text>
           </View>
         )}
+
+        <TouchableOpacity 
+          onPress={() => router.push("/friends")} 
+          className="bg-primary p-2 rounded-lg absolute bottom-32 right-7"
+        >
+          <Plus stroke="#000" size="40px"/>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+
+const ChatListItem = ({ item }: { item: Chat }) => {
+  const { userProfile } = useCurrentUser();
+  const friend = useFriend(item.members.find((member) => member !== userProfile?.id));
+  const router = useRouter();
+
+  const relativeDate = item.updatedAt.toDate();
+
+
+
+  return (
+    <TouchableOpacity
+      className={`bg-[#b3b3b333] border-[#EFEFEF33] border rounded-md my-5 px-5 mb-2 flex-row flex items-center`}
+      onPress={() => router.push(`/chat/${item.id}`)}
+    >
+      <View className="z-40 py-2.5  mr-5">
+        <Avatar
+          src={userProfile?.profile_image}
+          initials={userProfile?.name.at(0) || "S"}
+          width={50}
+          height={50}
+        />
+        {true && (
+          <View
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: 7,
+              backgroundColor: "#22c55e",
+              position: "absolute",
+              top: 14,
+              right: 2,
+            }}
+          ></View>
+        )}
+      </View>
+      <View className="flex flex-row justify-between items-center flex-1">
+        <View>
+          <View className="flex flex-row items-center gap-2">
+            <Text className="text-xl font-bold text-white">{friend?.name}</Text>
+            <Text className="text-sm font-semibold text-light-grey">@{friend?.username}</Text>
+          </View>
+          <Text className="text-lg font-medium text-grey-text">
+            {item.lastMessage || "Start Chat"}
+          </Text>
+        </View>
+        <Text className="text-base font-medium text-white">
+          {formatRelativeDate(relativeDate)}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
