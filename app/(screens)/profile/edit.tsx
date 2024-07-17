@@ -98,7 +98,7 @@ export default function EditProfilePage() {
         if (!status.granted) return null
         const photo = await launchImageLibraryAsync({
             allowsEditing: true,
-            aspect: [3, 1],
+            aspect: [1, 1],
             selectionLimit: 1,
             mediaTypes: MediaTypeOptions.Images
         })

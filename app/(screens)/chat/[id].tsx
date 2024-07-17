@@ -100,6 +100,7 @@ const ChatScreen = () => {
                       placeholderClassName="font-bold"
                       value={message}
                       onChangeText={(text) => setMessage(text)}
+                      style={{ color: "#fff" }}
                   />
                   <TouchableOpacity 
                       onPress={createNewMessage}
