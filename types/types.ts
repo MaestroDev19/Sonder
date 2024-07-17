@@ -121,5 +121,7 @@ export enum ReactQueryKeys {
     FAVOURITE_TRACKS = "favourite-tracks",
     FAVOURITE_GENRES = "favourite-genres",
     USER = "user",
-    CHATS = "chats"
+    CHATS = "chats",
+    FRIENDS_LIST = "friends-list",
 }
+
