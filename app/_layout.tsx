@@ -9,9 +9,6 @@ import { useEffect, useRef, useState } from "react";
 import ErrorPage from "../components/error";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { AppState } from "react-native";
-import { useSetOnlineStatus } from "../hooks/online-status";
-import useCurrentUser from "../hooks/current-user";
 
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation({
   enableTimeToInitialDisplay: Constants.appOwnership !== "expo", // Only in native builds, not in Expo Go.
@@ -36,11 +33,7 @@ Sentry.init({
 
 
 function RootLayout() {
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const queryClient = new QueryClient();
-  const { setStatusToOffline, setStatusToOnline } = useSetOnlineStatus();
-  const { userProfile } = useCurrentUser();
 
   const ref = useNavigationContainerRef();
 
@@ -50,26 +43,6 @@ function RootLayout() {
     }
   }, [ref]);
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', async (nextAppState) => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        await setStatusToOnline(userProfile?.id)
-      } else if (nextAppState === "inactive" || nextAppState === "background") {
-        await setStatusToOffline(userProfile?.id)
-      }
-
-
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [])
   
   return (
     <QueryClientProvider client={queryClient}>
