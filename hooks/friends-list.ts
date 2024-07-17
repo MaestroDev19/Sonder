@@ -1,16 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import SonderApi from '../api';
 import useCurrentUser from './current-user';
-import { ReactQueryKeys } from '../types/types';
+import { Friend, ReactQueryKeys } from '../types/types';
 
-interface Friend {
-
-  id: string;
-  name: string;
-  username: string;
-  profile_image: string;
-  bio: string;
-}
 
 export const useFriendsList = () => {
     const { userProfile } = useCurrentUser()
