@@ -18,7 +18,7 @@
       "supportsTablet": true,
       "splash": {
         "backgroundColor": "#121212",
-        "image": "./assets/logo.png"
+        "image": "./assets/splash.png"
       }
     },
     "android": {
@@ -28,7 +28,7 @@
       },
       "splash": {
         "backgroundColor": "#121212",
-        "image": "./assets/logo.png"
+        "image": "./assets/splash.png"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"

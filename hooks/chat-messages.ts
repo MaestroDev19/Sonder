@@ -49,7 +49,7 @@ const useChatMessages = (chatId: string) => {
                 media
             } satisfies Omit<Message, "id">),
             await updateDoc(chatDocReference, {
-                lastMessage: content
+                lastMessage: content || `${media.length} Media Sent`
             })
         ])
 

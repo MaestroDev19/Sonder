@@ -103,6 +103,19 @@ export interface Message {
     media: Media[]
 }
 
+export interface Friend {
+    id: string;
+    name: string;
+    username: string;
+    profile_image: string;
+    bio: string;
+}
+
+export interface OnlineStatus {
+    status: "online"|"offline",
+    last_seen: string
+}
+
 export type StorageFolder = "banners"|"avatars"|"images"
 
 

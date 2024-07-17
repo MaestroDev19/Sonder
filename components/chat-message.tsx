@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import useFriend from '../hooks/friend';
 import { format } from 'date-fns';
-import { Timestamp } from 'firebase/firestore';
 import { Message as IMessage } from '../types/types';
 import { Dot } from 'lucide-react-native';
-
+import { Image as ExpoImage } from "expo-image"
 interface MessageProps {
   message: IMessage;
   currentUserId: string;
@@ -19,7 +18,15 @@ export const Message: React.FC<MessageProps> = ({ showDate, message, currentUser
 
   return (
     <View className={`p-1.5 max-w-[80%] ${isCurrentUser ? 'ml-auto' : 'mr-auto'}`}>
-      <View className={`rounded-xl px-4 py-2 ${isCurrentUser ? 'bg-primary' : 'bg-[#b3b3b31a] border-[#efefef33]'}`}>
+      {
+        message.media.map((media) => (
+          <ExpoImage  
+            source={{ uri: media.url }}
+            style={{ width: 100, height: 100, borderRadius: 10, }}
+          />
+        ))
+      }
+      <View className={`rounded-xl px-4 py-2 ${isCurrentUser ? 'bg-primary' : 'bg-[#b3b3b31a] border border-[#efefef33]'}`}>
         {/*!isCurrentUser && friend && (
           <Text className="text-sm font-bold mb-1">{friend.name}</Text>
         )*/}
@@ -38,14 +45,10 @@ export const Message: React.FC<MessageProps> = ({ showDate, message, currentUser
       </View>
       {
         showDate &&
-        <View className='mt-2 px-0 rounded-lg flex flex-row items-center justify-center p-1 border border-gray-500'>
-            <Text className="text-xs text-gray-500 mt-1">
-                {format(messageDate, 'HH:mm')}
-            </Text>
-            <Dot color="grey"/>
-            <Text className="text-xs text-gray-500 mt-1">
-                Sent
-            </Text>
+        <View className={`${isCurrentUser ? 'ml-auto' : 'mr-auto'} mt-2 py-1 px-2 rounded-lg flex flex-row items-center justify-center border border-gray-500 self-start flex-wrap`}>
+          <Text className="text-xs text-gray-500">
+            {format(messageDate, 'HH:mm')}
+          </Text>
         </View>
       }
     </View>
