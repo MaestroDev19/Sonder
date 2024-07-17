@@ -1,6 +1,6 @@
 import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/firestore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Chat, Message, ReactQueryKeys } from "../types/types";
+import { Chat, Media, Message, ReactQueryKeys } from "../types/types";
 import { createSentrySpan } from "../sentry/spans";
 import { firestore } from "../lib/firebase"
 import useCurrentUser from "./current-user";
@@ -27,15 +27,15 @@ const useChats = () => {
                 })
             })
 
-            return res
+            return res as Chat[]
         }
     })
 
     const addChatMutation = useMutation({
-        mutationFn: async ({ friend_id, message }: { friend_id: string, message: Omit<Message, "id"> }) => {
+        mutationFn: async ({ friend_id, message, media }: { media: Media[], friend_id: string, message: string}) => {
             const res = await createSentrySpan("add-chat", async () => {
                 const newChat: Omit<Chat, "id"> = {
-                    lastMessage: message.content,
+                    lastMessage: message,
                     members: [userProfile?.id, friend_id],
                     updatedAt: Timestamp.now(),
                     createdBy: userProfile?.id,
@@ -45,7 +45,13 @@ const useChats = () => {
                 const docRef = await addDoc(chatsCollection, newChat)
                 const messagesCollection = collection(firestore, `chats/${docRef.id}/messages`)
                                 
-                await addDoc(messagesCollection, message)
+                const newMessage: Omit<Message, "id"> = {
+                    content: message,
+                    senderId: userProfile?.id,
+                    createdAt: Timestamp.now(),
+                    media
+                }
+                await addDoc(messagesCollection, newMessage)
                 return docRef.id
             })
             
