@@ -87,7 +87,7 @@ export default function ProfilePage() {
                 <View className="flex flex-row gap-1 items-center">
                     <Calendar size="16px" stroke="#EFEFEF33"/>
                     <Text className="text-[#EFEFEF33] text-lg">
-                        {userProfile?.created_at || "June " +new Date().getFullYear()}
+                        Joined {userProfile?.created_at || "June " +new Date().getFullYear()}
                     </Text>
                 </View>
             </View>
