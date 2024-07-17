@@ -38,3 +38,32 @@ export function generateRandomId(length: number = 20): string {
   }
   return result;
 }
+
+export function generateConsistentString(str1: string, str2: string): string {
+  // Concatenate the strings
+  const [sortedStr1, sortedStr2] = [str1, str2].sort();
+  
+  // Concatenate the sorted strings
+  const combined = sortedStr1 + sortedStr2;
+  
+  // Convert the combined string to a numeric hash
+  let hash = 0;
+  for (let i = 0; i < combined.length; i++) {
+    const char = combined.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  
+  // Use the hash to seed a simple random number generator
+  const seed = Math.abs(hash);
+  
+  // Generate a string based on the seeded random number generator
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 20; i++) {
+    const randomIndex = (seed * (i + 1)) % chars.length;
+    result += chars.charAt(randomIndex);
+  }
+  
+  return result;
+}
