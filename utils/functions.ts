@@ -28,3 +28,13 @@ export function millisecondsToMSFormat(milliseconds: number): string {
     // Combine minutes and seconds with colon separator
     return `${formattedMinutes}:${formattedSeconds}`;
 }
+
+export function generateRandomId(length: number = 20): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  const charactersLength = chars.length;
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
