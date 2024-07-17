@@ -194,7 +194,7 @@ const ChatListItem = ({ item }: { item: Chat }) => {
       <View className="z-40 py-2.5  mr-5">
         <Avatar
           src={friend?.profile_image}
-          initials={userProfile?.name.at(0) || "S"}
+          initials={friend?.name.at(0) || "S"}
           width={50}
           height={50}
         />
