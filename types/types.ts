@@ -111,6 +111,11 @@ export interface Friend {
     bio: string;
 }
 
+export interface OnlineStatus {
+    status: "online"|"offline",
+    last_seen: string
+}
+
 export type StorageFolder = "banners"|"avatars"|"images"
 
 

@@ -23,6 +23,7 @@ import useChats from "../../../hooks/chats";
 import { Chat } from "../../../types/types";
 import useFriend from "../../../hooks/friend";
 import { formatRelativeDate } from "../../../utils/functions";
+import { useOnlineStatus } from "../../../hooks/online-status";
 
 interface ChatListPreview {
   id: string;
@@ -176,6 +177,7 @@ const ChatListItem = ({ item }: { item: Chat }) => {
   const { userProfile } = useCurrentUser();
   const friend = useFriend(item.members.find((member) => member !== userProfile?.id));
   const router = useRouter();
+  const { status } = useOnlineStatus(userProfile?.id);
 
   const relativeDate = item.updatedAt.toDate();
 
@@ -196,7 +198,7 @@ const ChatListItem = ({ item }: { item: Chat }) => {
           width={50}
           height={50}
         />
-        {true && (
+        {status && status.status === 'online' && (
           <View
             style={{
               width: 10,
@@ -207,7 +209,7 @@ const ChatListItem = ({ item }: { item: Chat }) => {
               top: 14,
               right: 2,
             }}
-          ></View>
+          />
         )}
       </View>
       <View className="flex flex-row justify-between items-center flex-1">
