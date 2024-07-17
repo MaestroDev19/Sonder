@@ -120,23 +120,26 @@ export default function ChatList({ navigation }) {
             )
         }} 
       />
-
-      <View
-        className="bg-[#b3b3b333] h-12 my-5 py-3 flex-row justify-between items-center px-3 flex border rounded-md border-[#EFEFEF33]"
-        style={{ marginHorizontal: 22 }}
-      >
-        <TextInput
-          className="w-[70%] h-full"
-          placeholder="Search Chats"
-          placeholderTextColor="#fff"
-          placeholderClassName="font-bold"
-          value={search}
-          onChangeText={handleSearch}
-        />
-        <Pressable className="bg-primary rounded-md p-2">
-          <ArrowRight size="14px" stroke="black" />
-        </Pressable>
-      </View>
+      {
+        /*
+        <View
+          className="bg-[#b3b3b333] h-12 my-5 py-3 flex-row justify-between items-center px-3 flex border rounded-md border-[#EFEFEF33]"
+          style={{ marginHorizontal: 22 }}
+        >
+          <TextInput
+            className="w-[70%] h-full"
+            placeholder="Search Chats"
+            placeholderTextColor="#fff"
+            placeholderClassName="font-bold"
+            value={search}
+            onChangeText={handleSearch}
+          />
+          <Pressable className="bg-primary rounded-md p-2">
+            <ArrowRight size="14px" stroke="black" />
+          </Pressable>
+        </View>        
+        */
+      }
 
       <View className="flex flex-1">
 
@@ -152,13 +155,13 @@ export default function ChatList({ navigation }) {
         ) : (
           <View className="flex items-center justify-center flex-1">
             <Text className="text-lg font-medium text-grey-text">
-              Your friend was not added
+              You don't have any friends yet. Add a friend to start chatting.
             </Text>
           </View>
         )}
 
         <TouchableOpacity 
-          onPress={() => router.push("/friends")} 
+          onPress={() => router.push("/chat/new")} 
           className="bg-primary p-2 rounded-lg absolute bottom-32 right-7"
         >
           <Plus stroke="#000" size="40px"/>
@@ -181,7 +184,10 @@ const ChatListItem = ({ item }: { item: Chat }) => {
   return (
     <TouchableOpacity
       className={`bg-[#b3b3b333] border-[#EFEFEF33] border rounded-md my-5 px-5 mb-2 flex-row flex items-center`}
-      onPress={() => router.push(`/chat/${item.id}`)}
+      onPress={() => router.push({
+        pathname: `/chat/${item.id}`,
+        params: { friend_id: friend.id }
+      })}
     >
       <View className="z-40 py-2.5  mr-5">
         <Avatar
