@@ -12,6 +12,7 @@ import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navi
 import useCurrentUser from "../../hooks/current-user";
 import { useState, useCallback } from "react";
 import { Skeleton } from "../skeleton";
+import { router } from "expo-router";
   
   const CustomDrawer = (props) => {
     const { userProfile, isLoading, refreshUser } = useCurrentUser();
@@ -61,7 +62,7 @@ import { Skeleton } from "../skeleton";
             }
 
             <TouchableOpacity
-              onPress={refreshUser}
+              onPress={() => router.push("/friends")}
               className="flex-row flex gap-2 items-center mt-3.5"
             >
               <View style={{ padding: 4, borderRadius: 3 }} className="bg-[#EFEFEF1A] rounded-[10px] border-[#B3B3B333] border p-4 px-4 py-1.5">
