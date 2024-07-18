@@ -1,12 +1,18 @@
-import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, setDoc, Timestamp, where } from "firebase/firestore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Chat, Media, Message, ReactQueryKeys } from "../types/types";
 import { createSentrySpan } from "../sentry/spans";
 import { firestore } from "../lib/firebase"
 import useCurrentUser from "./current-user";
 
+interface NewChatData { 
+    media: Media[], 
+    friend_id: string, 
+    message: string, 
+    chat_id: string 
+}
+
 const useChats = () => {
-    const chatsCollection = collection(firestore, "chats");
     const queryClient = useQueryClient();
 
     const { userProfile } = useCurrentUser();
@@ -16,6 +22,8 @@ const useChats = () => {
         queryKey: [ReactQueryKeys.CHATS],
         queryFn: async () => {
             const res = await createSentrySpan("chats", async () => {
+                const chatsCollection = collection(firestore, "chats");
+
                 const docsQuery = await getDocs(
                     query(chatsCollection, where("members", "array-contains", userProfile?.id)) 
                 )
@@ -32,7 +40,7 @@ const useChats = () => {
     })
 
     const addChatMutation = useMutation({
-        mutationFn: async ({ friend_id, message, media }: { media: Media[], friend_id: string, message: string}) => {
+        mutationFn: async ({ friend_id, message, media, chat_id }: NewChatData) => {
             const res = await createSentrySpan("add-chat", async () => {
                 const newChat: Omit<Chat, "id"> = {
                     lastMessage: message,
@@ -42,8 +50,10 @@ const useChats = () => {
                     createdAt: Timestamp.now(),
                     type: "private"
                 }
-                const docRef = await addDoc(chatsCollection, newChat)
-                const messagesCollection = collection(firestore, `chats/${docRef.id}/messages`)
+                const newChatDoc = doc(firestore, "chats", chat_id);
+
+                await setDoc(newChatDoc, newChat)
+                const messagesCollection = collection(firestore, `chats/${newChatDoc.id}/messages`)
                                 
                 const newMessage: Omit<Message, "id"> = {
                     content: message,
@@ -52,7 +62,7 @@ const useChats = () => {
                     media
                 }
                 await addDoc(messagesCollection, newMessage)
-                return docRef.id
+                return newChatDoc.id
             })
             
             return res

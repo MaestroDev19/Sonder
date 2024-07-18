@@ -31,17 +31,53 @@ import { Media } from "../../../types/types"
 
 const ChatScreen = () => {
   const { data: chats } = useChats();
-  const { id: chatId } = useLocalSearchParams();
+  const { id: chatId, friend_id: friendId } = useLocalSearchParams();
   const { userProfile } = useCurrentUser();
   const { getPhotos } = usePhotoLibrary();
 
   const currentChat = chats.find((chat) => chat.id === chatId);
-  const friend = useFriend(currentChat?.members.find((member) => member !== userProfile?.id));
+  const friend = useFriend(friendId as string || currentChat?.members.find((member) => member !== userProfile?.id));
   const router = useRouter()
   const [message, setMessage] = useState("");
   const [selectedImages, setSelectedImages] = useState<ImagePickerAsset[]>([])
 
   const { messages, sendNewMessage } = useChatMessages(chatId as string);
+
+  const { addChatMutation } = useChats();
+
+  const createNewChat = async () => {
+    if (selectedImages.length === 0 && !message) return
+
+    if(selectedImages.length > 0) {
+      const images = await Promise.all(selectedImages.map(async (image) => {
+        const id = generateRandomId(7)
+        return await ImageUploadService.uploadImage("images", `${id}.png`, image.uri)
+      }))
+      setSelectedImages([])
+      const media: Media[] = images.map((image) => {
+        return {
+          url: image,
+          type: "image"
+        } satisfies Media
+      })
+      setMessage("")
+      return await addChatMutation.mutateAsync({ 
+        friend_id: friend.id as string,
+        message,
+        media,
+        chat_id: chatId as string
+      })
+    }
+
+    setMessage("")
+    return await addChatMutation.mutateAsync({ 
+      friend_id: friend.id as string,
+      message,
+      media: [],
+      chat_id: chatId as string
+    })
+
+  }
 
 
   const selectImages = async () => {
@@ -74,7 +110,7 @@ const ChatScreen = () => {
     return await sendNewMessage(message, [])
   }
 
-  const removeImageFromSlection = (image: ImagePickerAsset) => {
+  const removeImageFromSelection = (image: ImagePickerAsset) => {
     const remainingPhotos = selectedImages.filter((image_) => {
       return image.assetId !== image_.assetId
     })
@@ -111,19 +147,17 @@ const ChatScreen = () => {
 
         <View className="mt-5 -z-20">
           <ScrollView contentContainerStyle={{ height: 500 }} style={{ height: 600 }}>
-              {
-                  messages.map((message, index) => (
-                    <Message 
-                      key={message.id} 
-                      message={message} 
-                      currentUserId={userProfile?.id}
-                      showDate={messages[index + 1]?.senderId !== message?.senderId}
-                    />
-                  ))
-              }
-
+            {
+              messages.map((message, index) => (
+                <Message 
+                  key={message.id} 
+                  message={message} 
+                  currentUserId={userProfile?.id}
+                  showDate={messages[index + 1]?.senderId !== message?.senderId}
+                />
+              ))
+            }
           </ScrollView>
-
         </View>
         
         <View style={{ position: "absolute", bottom: -130, width: "100%", paddingHorizontal: 16, zIndex: 20 }}>
@@ -138,7 +172,7 @@ const ChatScreen = () => {
                 selectedImages?.map((image) => (
                   <View className="relative">
                     <TouchableOpacity 
-                      onPress={() => removeImageFromSlection(image)} 
+                      onPress={() => removeImageFromSelection(image)} 
                       className="bg-red-500 z-20 rounded-full absolute -top-2 -right-3 p-1"
                     >
                       <X size="12px" stroke="#fff" />
@@ -170,9 +204,10 @@ const ChatScreen = () => {
               placeholderClassName="font-bold"
               value={message}
               onChangeText={(text) => setMessage(text)}
+              style={{ color: "#fff" }}
             />
             <TouchableOpacity 
-              onPress={createNewMessage}
+              onPress={messages.length > 0 ? createNewMessage : createNewChat}
               className="bg-primary rounded-md p-3"
             >
               <Send size="14px" stroke="black" />

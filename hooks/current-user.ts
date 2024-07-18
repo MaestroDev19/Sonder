@@ -5,12 +5,13 @@ import { ReactQueryKeys, User } from "../types/types";
 import { createSentrySpan } from "../sentry/spans";
 import { ImageUploadService } from "../services/ImageUpload";
 import { toast, ToastPosition } from "@backpackapp-io/react-native-toast";
-import { useEffect } from "react";
+import { useSetOnlineStatus } from "./online-status";
 
 const useCurrentUser = () => {
     const { accessToken, removeTokens } = useAccessToken();
     const queryClient = useQueryClient();
-    let currentMill = new Date().getMilliseconds().toString()
+    const { setStatusToOnline } = useSetOnlineStatus()    
+
 
     const { isLoading, data: userProfile } = useQuery({
         queryKey: [ReactQueryKeys.CURRENT_USER],
@@ -22,7 +23,9 @@ const useCurrentUser = () => {
                         "Content-Type": "application/json"
                     }
                 });
-                return response.data.data as User
+                const user = response.data.data as User
+                await setStatusToOnline(user.id)
+                return user
             })
 
             return res as User

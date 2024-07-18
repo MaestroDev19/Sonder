@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { StatusBar } from "expo-status-bar";
 import * as Sentry from "@sentry/react-native";
 import Constants from "expo-constants";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import ErrorPage from "../components/error";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -33,7 +33,6 @@ Sentry.init({
 
 
 function RootLayout() {
-
   const queryClient = new QueryClient();
 
   const ref = useNavigationContainerRef();
@@ -43,6 +42,7 @@ function RootLayout() {
       routingInstrumentation.registerNavigationContainer(ref);
     }
   }, [ref]);
+
   
   return (
     <QueryClientProvider client={queryClient}>

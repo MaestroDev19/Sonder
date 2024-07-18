@@ -2,16 +2,24 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import CustomDrawer from '../../components/sidebar';
 import DrawerItems from '../../constants/DrawerItems';
-import { View } from 'react-native';
-import { useEffect } from 'react';
+import { AppState, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
 import useAccessToken from '../../hooks/access-token';
 import SonderApi from '../../api';
 import { Home, MessageCircle, Settings, UserRound } from 'lucide-react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Sentry from "@sentry/react-native"
+import { useSetOnlineStatus } from '../../hooks/online-status';
+import useCurrentUser from '../../hooks/current-user';
 
 export default function Layout() {
   const { refreshToken } = useAccessToken();
+  const { setStatusToOffline, setStatusToOnline } = useSetOnlineStatus();
+  const { userProfile } = useCurrentUser();
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+
 
   useEffect(() => {
     const interceptor = SonderApi.interceptors.response.use(
@@ -34,6 +42,28 @@ export default function Layout() {
       SonderApi.interceptors.response.eject(interceptor);
     };
   }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', async (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        await setStatusToOnline(userProfile?.id)
+      } else if (nextAppState === "inactive" || nextAppState === "background") {
+        await setStatusToOffline(userProfile?.id)
+      }
+
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, [])
+
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
