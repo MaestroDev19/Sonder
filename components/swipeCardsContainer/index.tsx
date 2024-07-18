@@ -37,7 +37,7 @@ export const SwipeCardsContainer = () => {
             duration: 300,
             useNativeDriver: true,
           }).start(() => {
-            dy > 0 ? carouselRef.current.prev() : carouselRef.current.next() // Reset position for potential reuse
+            dy > 0 ? carouselRef.current.prev() : carouselRef.current.next()
             pan.setValue(0);
           });
         } else {
@@ -80,30 +80,34 @@ export const SwipeCardsContainer = () => {
 
   
   return (
-    <Animated.View
-      style={{
-      transform: [{ translateY: pan }],
-      }}
-      {...panResponder.panHandlers}
-    >
-      <Carousel
-        ref={carouselRef}
-        loop
-        width={width}
-        height={height}
-        enabled={false}
-        autoPlay={false}
-        data={isLoading ? [] : similarUsers!}
-        scrollAnimationDuration={1000}
-        onSnapToItem={(index) => console.log('current index:', index)}
-        renderItem={({ item }) => 
-          <RenderProfileCard 
-            item={item}
-            onPress={() => router.push(`/profile/${item.id}`)}
+    <View>
+      <View style={{height: height, width: width, overflow: "hidden"}}>
+        <Animated.View
+          style={{
+          transform: [{ translateY: pan }],
+          }}
+          {...panResponder.panHandlers}
+        >
+          <Carousel
+            ref={carouselRef}
+            loop
+            width={width}
+            height={height}
+            enabled={false}
+            autoPlay={false}
+            data={isLoading ? [] : similarUsers!}
+            scrollAnimationDuration={1000}
+            onSnapToItem={(index) => console.log('current index:', index)}
+            renderItem={({ item }) => 
+              <RenderProfileCard 
+                item={item}
+                onPress={() => router.push(`/profile/${item.id}`)}
+              />
+            }
           />
-        }
-      />
-    </Animated.View>
+        </Animated.View>
+      </View>
+    </View>
   )
 }
 
