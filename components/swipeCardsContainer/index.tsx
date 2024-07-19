@@ -81,7 +81,7 @@ export const SwipeCardsContainer = () => {
   
   return (
     <View>
-      <View style={{height: height, width: width, overflow: "hidden"}}>
+      <View style={{height: height, width: width, overflow: "hidden" }}>
         <Animated.View
           style={{
           transform: [{ translateY: pan }],
@@ -124,6 +124,7 @@ const RenderProfileCard = ({ item, onPress }: { item: SimilarUser, onPress?: () 
       likedGenre={item.likes}
       favoriteSong={item.track}
       favoriteArtist={item.artist}
+      userId={item.id}
     />
   )
 }
