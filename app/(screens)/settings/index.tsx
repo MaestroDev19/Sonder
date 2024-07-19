@@ -77,22 +77,22 @@ export default function SettingsPage() {
             </Text>
         
             <View className=" flex border border-[#EFEFEF33] bg-[#B3B3B31A] rounded-lg px-4 py-4 mt-4">
-                
-                 <View  className=" rounded-md flex flex-row  justify-between items-center p-4 border border-[#EFEFEF33] mb-4 ">
+                {/* //dark mode disabled */}
+                 {/* <View  className=" rounded-md flex flex-row  justify-between items-center p-4 border border-[#EFEFEF33] mb-4 ">
                 
                     <Text className="text-white ">Dark Mode</Text>
                     <View>
                         <AnimatedToggleButton />
                     </View>
                 
-                </View>
+                </View> */}
                 <View  className=" rounded-md flex flex-row gap-4 items-center p-4 border border-[#EFEFEF33] mb-4 justify-between">
                     <Text className="text-white  ">Notifications</Text>
                     <View>
                         <AnimatedToggleButton />
                     </View>
                 </View>
-                <View  className=" rounded-md flex flex-row gap-4 items-center p-4 border border-[#EFEFEF33] justify-between ">
+                <View  className=" rounded-md flex flex-row gap-4 items-center p-4 border border-[#EFEFEF33] justify-between  opacity-50">
                     <View> 
                         <Text className="text-white  ">Language</Text>
                          <Text className="text-[#808080] text-xs ">English</Text>
