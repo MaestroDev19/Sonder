@@ -167,7 +167,7 @@ export default function ChatList({ navigation }) {
 
         <TouchableOpacity 
           onPress={() => router.push("/chat/new")} 
-          className="bg-primary p-2 rounded-lg absolute bottom-32 right-7"
+          className="bg-primary p-2 rounded-lg absolute bottom-24 right-7"
         >
           <Plus stroke="#000" size="40px"/>
         </TouchableOpacity>
