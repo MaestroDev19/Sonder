@@ -1,10 +1,14 @@
 import { ScrollView, View, Text } from "react-native";
-import useFavouriteGenres from "../../hooks/favourite-genres";
 import { Skeleton } from "../skeleton";
 import { verticalScale } from "react-native-size-matters";
 
-const FavouriteGenresTab = () => {
-    const { isLoading, favouriteGenres } = useFavouriteGenres();
+interface FavouriteGenresProps {
+    isLoading: boolean;
+    favouriteGenres: string[];
+}
+
+
+const FavouriteGenresTab = ({ isLoading, favouriteGenres }: FavouriteGenresProps) => {
 
     return (
         <View style={{ height: "75%" }}>

@@ -1,12 +1,16 @@
 import { ScrollView, View, Text } from "react-native";
-import useFavouriteArtists from "../../hooks/favourite-artists";
 import { Skeleton } from "../skeleton";
 import { scale, verticalScale } from "react-native-size-matters";
 import { Image } from "expo-image";
+import { FavouriteArtist } from "../../types/types";
+
+interface FavouriteArtistsProp {
+    isLoading: boolean;
+    favouriteArtists: FavouriteArtist[];
+}
 
 
-const FavouriteArtistsTab = () => {
-    const { isLoading, favouriteArtists } = useFavouriteArtists();
+const FavouriteArtistsTab = ({ isLoading, favouriteArtists }: FavouriteArtistsProp) => {
     return (
         <View style={{ height: "75%" }}>
             <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "100%" }}>
