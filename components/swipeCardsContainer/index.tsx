@@ -81,20 +81,21 @@ export const SwipeCardsContainer = () => {
 
   
   return (
-    <View>
-      <View style={{height: height, width: width, overflow: "hidden" }}>
-        <Animated.View
-          style={{
-          transform: [{ translateY: pan }],
-          }}
-          {...panResponder.panHandlers}
-        >
+    // <View>
+    //   <View style={{height: height, width: width, overflow: "hidden" }}>
+    //     <Animated.View
+    //       style={{
+    //       transform: [{ translateY: pan }],
+    //       }}
+    //       {...panResponder.panHandlers}
+    //     >
           <Carousel
             ref={carouselRef}
             loop
             width={width}
             height={height}
-            enabled={false}
+            // enabled={false}
+            vertical
             autoPlay={false}
             data={isLoading ? [] : similarUsers!}
             scrollAnimationDuration={1000}
@@ -106,9 +107,9 @@ export const SwipeCardsContainer = () => {
               />
             }
           />
-        </Animated.View>
-      </View>
-    </View>
+    //     </Animated.View>
+    //   </View>
+    // </View>
   )
 }
 
