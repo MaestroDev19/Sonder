@@ -10,12 +10,13 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Dimensions,
+  FlatList,
 } from "react-native";
 import Header from "../../../components/header";
 import { ArrowLeft, Send, Image, X } from "lucide-react-native";
 import Drawer from "expo-router/drawer";
 import Avatar from "../../../components/avatar";
-import { scale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 import { Message } from "../../../components/chat-message";
 import useFriend from "../../../hooks/friend";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -146,18 +147,20 @@ const ChatScreen = () => {
         </Header>
 
         <View className="mt-5 -z-20">
-          <ScrollView contentContainerStyle={{ height: 500 }} style={{ height: 600 }}>
-            {
-              messages.map((message, index) => (
-                <Message 
-                  key={message.id} 
-                  message={message} 
-                  currentUserId={userProfile?.id}
-                  showDate={messages[index + 1]?.senderId !== message?.senderId}
-                />
-              ))
-            }
-          </ScrollView>
+          <FlatList
+            data={messages}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item: message, index }) => (
+              <Message 
+              key={message.id} 
+              message={message} 
+              currentUserId={userProfile?.id}
+              showDate={messages[index + 1]?.senderId !== message?.senderId}
+            />
+            )}
+
+            style={{ height: verticalScale(450), zIndex: 10 }}
+          />
         </View>
         
         <View style={{ position: "absolute", bottom: -130, width: "100%", paddingHorizontal: 16, zIndex: 20 }}>
@@ -189,7 +192,7 @@ const ChatScreen = () => {
           }
 
           <View
-            className="z-20 w-auto bg-[#b3b3b333] my-5 py-3 flex-row justify-between items-center px-3 flex border rounded-xl border-[#EFEFEF33]"
+            className="z-20 w-auto bg-[#b3b3b333] my-4 py-3 flex-row justify-between items-center gap-4 px-3 flex border rounded-xl border-[#EFEFEF33]"
           >
             <TouchableOpacity
               onPress={selectImages}
@@ -198,7 +201,7 @@ const ChatScreen = () => {
               <Image stroke="#fff" size="14px"/>
             </TouchableOpacity>
             <TextInput
-              className="w-[60%] h-full"
+              className="w-[73%] h-full text-white font-semibold"
               placeholder="Type a message..."
               placeholderTextColor="#fff"
               placeholderClassName="font-bold"
