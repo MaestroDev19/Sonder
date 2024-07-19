@@ -15,7 +15,7 @@ import { Skeleton } from "../skeleton";
 import { router } from "expo-router";
   
   const CustomDrawer = (props) => {
-    const { userProfile, isLoading, refreshUser } = useCurrentUser();
+    const { userProfile, isLoading, refreshUser, logoutUser } = useCurrentUser();
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -78,7 +78,10 @@ import { router } from "expo-router";
         </DrawerContentScrollView>
         <View className="pb-20 px-4 bg-[#121212]">
 
-          <Pressable className="flex items-center justify-center h-10 rounded-md" style={{ backgroundColor: "#C62525", borderRadius: 12 }}>
+          <Pressable 
+            onPress={logoutUser} 
+            className="flex items-center justify-center h-12 rounded-md" 
+            style={{ backgroundColor: "#C62525", borderRadius: 12 }}>
             <Text className="text-white font-semibold text-xl">Logout</Text>
           </Pressable>
         </View>
