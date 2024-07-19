@@ -30,18 +30,12 @@ export const Message: React.FC<MessageProps> = ({ showDate, message, currentUser
         {/*!isCurrentUser && friend && (
           <Text className="text-sm font-bold mb-1">{friend.name}</Text>
         )*/}
-        <Text className={`font-semibold text-xl ${!isCurrentUser ? 'text-white' : 'text-black'}`}>
-          {message.content}
-        </Text>
-        {/*
-        message.media.map((mediaUrl, index) => (
-          <Image 
-            key={index}
-            source={{ uri: mediaUrl }}
-            className="w-full h-40 mt-2 rounded"
-            resizeMode="cover"
-          />
-        ))*/}
+        {
+          !message.content.trim() ? null :
+          <Text className={`font-semibold text-xl ${!isCurrentUser ? 'text-white' : 'text-black'}`}>
+            {message.content}
+          </Text>
+        }
       </View>
       {
         showDate &&
