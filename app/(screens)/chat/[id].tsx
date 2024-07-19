@@ -47,9 +47,9 @@ const ChatScreen = () => {
   const { addChatMutation } = useChats();
 
   const createNewChat = async () => {
-    if (selectedImages.length === 0 && !message) return
+    if (selectedImages?.length === 0 && !message) return
 
-    if(selectedImages.length > 0) {
+    if(selectedImages?.length > 0) {
       const images = await Promise.all(selectedImages.map(async (image) => {
         const id = generateRandomId(7)
         return await ImageUploadService.uploadImage("images", `${id}.png`, image.uri)
@@ -87,10 +87,10 @@ const ChatScreen = () => {
   }
 
   const createNewMessage = async () => {
-    if (selectedImages.length === 0 && !message) return
+    if (selectedImages?.length === 0 && !message) return
 
 
-    if(selectedImages.length > 0) {
+    if(selectedImages?.length > 0) {
       const images = await Promise.all(selectedImages.map(async (image) => {
         const id = generateRandomId(7)
         return await ImageUploadService.uploadImage("images", `${id}.png`, image.uri)
@@ -210,7 +210,7 @@ const ChatScreen = () => {
               style={{ color: "#fff" }}
             />
             <TouchableOpacity 
-              onPress={messages.length > 0 ? createNewMessage : createNewChat}
+              onPress={messages?.length > 0 ? createNewMessage : createNewChat}
               className="bg-primary rounded-md p-3"
             >
               <Send size="14px" stroke="black" />

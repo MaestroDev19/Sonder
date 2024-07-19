@@ -44,7 +44,7 @@ export default function FriendRequestsPage() {
 
       {friendRequests.isLoading ? (
         <Skeleton width="100%" />
-      ) : friendRequests.data.length > 0 ? (
+      ) : friendRequests.data?.length > 0 ? (
         <FlatList
           data={friendRequests.data}
           renderItem={({ item }) => (

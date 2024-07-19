@@ -150,7 +150,7 @@ export default function ChatList({ navigation }) {
             <ActivityIndicator size="large" color="#1DB954" />
           </View>
           :
-          chats.length > 0 ? (
+          chats?.length > 0 ? (
           <FlatList
             data={chats}
             keyExtractor={(item) => item.id}
