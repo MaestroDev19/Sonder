@@ -81,25 +81,14 @@ export const SwipeCardsContainer = () => {
 
   
   return (
-<<<<<<< HEAD
     // <View>
-    //   <View style={{height: height, width: width, overflow: "hidden"}}>
+    //   <View style={{height: height, width: width, overflow: "hidden" }}>
     //     <Animated.View
     //       style={{
     //       transform: [{ translateY: pan }],
     //       }}
     //       {...panResponder.panHandlers}
     //     >
-=======
-    <View>
-      <View style={{height: height, width: width, overflow: "hidden" }}>
-        <Animated.View
-          style={{
-          transform: [{ translateY: pan }],
-          }}
-          {...panResponder.panHandlers}
-        >
->>>>>>> 99bdbf32edaa83631e1545e7a184a26edec5e582
           <Carousel
             ref={carouselRef}
             loop
