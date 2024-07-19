@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles'
 import { Image } from 'expo-image';
 import { scale, verticalScale } from 'react-native-size-matters';
-import { Computer, Laptop } from 'lucide-react-native';
+import { Laptop, Smartphone, Tablet } from 'lucide-react-native';
 import { Skeleton } from '../skeleton';
+import TextTicker from 'react-native-text-ticker';
 
 interface NowPlayingProps {
     songName: string;
@@ -38,8 +39,11 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
 }) => {
 
     const renderIcon = {
-        'computer': <Laptop stroke="#1DB954"/>
+        'computer': <Laptop stroke="#1DB954"/>,
+        'smartphone': <Smartphone stroke="#1DB954"/>,
+        'tablet': <Tablet stroke="#1DB954"/>
     }
+
 
     if (isLoading) {
         return (
@@ -64,8 +68,13 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
         <View style={styles.container}>
             <View style={styles.row}>
                 <View className='max-w-[90%]'>
-                    <Text className="text-white text-xl font-semibold">{songName}</Text>
-                    <Text style={styles.text}>{artist}</Text>
+                    <TextTicker 
+                        duration={15000}
+                        className="text-white text-xl font-semibold"
+                    >
+                        {songName}
+                        </TextTicker>
+                    <TextTicker duration={15000} style={styles.text}>{artist}</TextTicker>
                 </View>
                 <Image style={{ borderRadius: 5, width: scale(40), height: verticalScale(40) }} source={{ uri: albumArtUrl }} />
             </View>

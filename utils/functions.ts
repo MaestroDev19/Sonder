@@ -48,7 +48,7 @@ export function generateConsistentString(str1: string, str2: string): string {
   
   // Convert the combined string to a numeric hash
   let hash = 0;
-  for (let i = 0; i < combined.length; i++) {
+  for (let i = 0; i < combined?.length; i++) {
     const char = combined.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
     hash = hash & hash; // Convert to 32-bit integer
@@ -61,7 +61,7 @@ export function generateConsistentString(str1: string, str2: string): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
   for (let i = 0; i < 20; i++) {
-    const randomIndex = (seed * (i + 1)) % chars.length;
+    const randomIndex = (seed * (i + 1)) % chars?.length;
     result += chars.charAt(randomIndex);
   }
   

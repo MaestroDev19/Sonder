@@ -1,11 +1,17 @@
 import { ScrollView, View, Text } from "react-native";
-import useFavouriteSongs from "../../hooks/favourite-songs";
 import { Skeleton } from "../skeleton";
 import { scale, verticalScale } from "react-native-size-matters";
 import { Image } from "expo-image";
+import { FavouriteTrack } from "../../types/types";
 
-const FavoriteSongsTab = () => {
-    const { isLoading, favouriteSongs } = useFavouriteSongs();
+
+interface FavouriteSongsProp {
+    isLoading: boolean;
+    favouriteSongs: FavouriteTrack[];
+}
+
+
+const FavoriteSongsTab = ({ isLoading, favouriteSongs }: FavouriteSongsProp) => {
     return (
         <View style={{ height: "75%" }}>
             <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "80%" }}>

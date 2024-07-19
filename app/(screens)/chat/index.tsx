@@ -145,8 +145,12 @@ export default function ChatList({ navigation }) {
       <View className="flex flex-1">
 
         {
-          isLoading ? <ActivityIndicator size="large" color="white" /> :
-          chats.length > 0 ? (
+          isLoading ? 
+          <View className="h-[500px] flex flex-row items-center justify-center">
+            <ActivityIndicator size="large" color="#1DB954" />
+          </View>
+          :
+          chats?.length > 0 ? (
           <FlatList
             data={chats}
             keyExtractor={(item) => item.id}

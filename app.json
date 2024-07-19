@@ -32,7 +32,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.sonder.music"
     },
     "web": {
       "favicon": "./assets/favicon.png",

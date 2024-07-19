@@ -8,6 +8,7 @@ import SonderApi from '../../api';
 import { Skeleton } from '../skeleton';
 import { useRouter } from 'expo-router';
 import { createSentrySpan } from '../../sentry/spans';
+import defaultBanner from '../../constants/banner';
 
 
 const width = Dimensions.get('window').width;
@@ -80,6 +81,7 @@ export const SwipeCardsContainer = () => {
 
   
   return (
+<<<<<<< HEAD
     // <View>
     //   <View style={{height: height, width: width, overflow: "hidden"}}>
     //     <Animated.View
@@ -88,6 +90,16 @@ export const SwipeCardsContainer = () => {
     //       }}
     //       {...panResponder.panHandlers}
     //     >
+=======
+    <View>
+      <View style={{height: height, width: width, overflow: "hidden" }}>
+        <Animated.View
+          style={{
+          transform: [{ translateY: pan }],
+          }}
+          {...panResponder.panHandlers}
+        >
+>>>>>>> 99bdbf32edaa83631e1545e7a184a26edec5e582
           <Carousel
             ref={carouselRef}
             loop
@@ -117,7 +129,7 @@ const RenderProfileCard = ({ item, onPress }: { item: SimilarUser, onPress?: () 
   return (
     <ProfileCard
       onPress={onPress}
-      headerImage={item.banner || 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'}
+      headerImage={item.banner || defaultBanner}
       avatar={item.profile_image}
       avatarInitials={item.name.at(0)}
       userName={item.spotify_username}
@@ -125,6 +137,7 @@ const RenderProfileCard = ({ item, onPress }: { item: SimilarUser, onPress?: () 
       likedGenre={item.likes}
       favoriteSong={item.track}
       favoriteArtist={item.artist}
+      userId={item.id}
     />
   )
 }

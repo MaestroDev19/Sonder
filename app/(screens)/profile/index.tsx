@@ -11,11 +11,31 @@ import { moderateScale, verticalScale } from "react-native-size-matters";
 import useDrawer from "../../../hooks/drawer";
 import { Link } from "expo-router";
 
-import FavouriteSongsTab from "../../../components/profile/songs";
-import FavouriteArtistsTab from "../../../components/profile/artists";
-import FavouriteGenresTab from "../../../components/profile/genres";
+import FavouriteSongs from "../../../components/profile/songs";
+import FavouriteArtists from "../../../components/profile/artists";
+import FavouriteGenres from "../../../components/profile/genres";
+import useFavouriteSongs from "../../../hooks/favourite-songs";
+import useFavouriteGenres from "../../../hooks/favourite-genres";
+import useFavouriteArtists from "../../../hooks/favourite-artists";
 
+
+const FavouriteSongsTab = () => {
+    const { isLoading, favouriteSongs } = useFavouriteSongs();
+
+    return <FavouriteSongs isLoading={isLoading} favouriteSongs={favouriteSongs} />
+};
   
+const FavouriteArtistsTab = () => {
+    const { isLoading, favouriteArtists } = useFavouriteArtists();
+
+    return <FavouriteArtists isLoading={isLoading} favouriteArtists={favouriteArtists} />
+};
+
+const FavouriteGenresTab = () => {
+    const { isLoading, favouriteGenres } = useFavouriteGenres();
+
+    return <FavouriteGenres isLoading={isLoading} favouriteGenres={favouriteGenres} />
+};
 
 
   

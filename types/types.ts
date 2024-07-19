@@ -11,6 +11,7 @@ export interface ProfileCardProps {
     likedGenre: string[];
     favoriteSong: FavouriteTrack;
     favoriteArtist: FavouriteArtist,
+    userId: string,
     onPress?: () => void
 }
 

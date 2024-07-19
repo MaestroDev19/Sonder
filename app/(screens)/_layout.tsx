@@ -18,6 +18,8 @@ export default function Layout() {
   const { userProfile } = useCurrentUser();
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  const [userId, setUserId] = useState(userProfile?.id);
+
 
 
 
@@ -50,8 +52,9 @@ export default function Layout() {
         nextAppState === 'active'
       ) {
         await setStatusToOnline(userProfile?.id)
+        setUserId(userProfile?.id)
       } else if (nextAppState === "inactive" || nextAppState === "background") {
-        await setStatusToOffline(userProfile?.id)
+        await setStatusToOffline(userId || userProfile?.id)
       }
 
 
@@ -69,9 +72,10 @@ export default function Layout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="light" />
       <Drawer
-        drawerContent={(props) => (
-          <CustomDrawer {...props} containerStyle={{ paddingVertical: 0 }} />
-        )}
+        drawerContent={(props) => {
+          return <CustomDrawer {...props} containerStyle={{ paddingVertical: 0 }} />
+
+        }}
         screenOptions={{
           drawerContentStyle: {
             backgroundColor: "#121212",
