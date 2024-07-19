@@ -15,6 +15,18 @@ import { Skeleton } from "../skeleton";
 import { router } from "expo-router";
   
   const CustomDrawer = (props) => {
+    const { state, ...rest } = props;
+
+  // Filter the routes to include only specific screens
+  const filteredState = {
+    ...state,
+    routes: state.routes.filter(route => {
+      // screens to be included in the drawer
+      return ['home/index', 'profile/index' , 'chat/index', 'settings/index'].includes(route.name);
+    }),
+    // Ensures the index is within the new routes array length to avoid referencing a non-existent screen
+    index: Math.min(state.index, state.routes.filter(route => ['home/index', 'profile/index' , 'chat/index', 'settings/index'].includes(route.name)).length - 1),
+  };
     const { userProfile, isLoading, refreshUser } = useCurrentUser();
 
     const [refreshing, setRefreshing] = useState(false);
@@ -73,7 +85,7 @@ import { router } from "expo-router";
           </View>
 
           <View className="mt-6">
-            <DrawerItemList {...props} /> 
+          <DrawerItemList state={filteredState} {...rest} />
           </View>
         </DrawerContentScrollView>
         <View className="pb-20 px-4 bg-[#121212]">
