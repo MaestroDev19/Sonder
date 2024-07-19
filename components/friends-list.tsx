@@ -38,7 +38,7 @@ export const FriendsList = ({ friends, mode, currentUserId }: FriendsListProps) 
 
     return (
     <>
-        {friends.length > 0 ? (
+        {friends?.length > 0 ? (
         <FlatList
           ListHeaderComponent={
             <Header className="flex px-0 mb-5 flex-row gap-4 items-center">

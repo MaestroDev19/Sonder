@@ -11,7 +11,7 @@ import useFriends from "../hooks/friends";
 import { Skeleton } from "../components/skeleton";
 import Avatar from "../components/avatar";
 import { useRouter } from "expo-router";
-import { ArrowLeft, Check, Cross, X } from "lucide-react-native";
+import { ArrowLeft, Check, X } from "lucide-react-native";
 
 export default function FriendRequestsPage() {
   const {
@@ -39,12 +39,12 @@ export default function FriendRequestsPage() {
           <ArrowLeft stroke="white" />
         </TouchableOpacity>
 
-        <Text className="text-white font-bold text-3xl">Friend Requests</Text>
+        <Text className="text-white font-bold text-2xl">Friend Requests</Text>
       </View>
 
       {friendRequests.isLoading ? (
         <Skeleton width="100%" />
-      ) : friendRequests.data.length > 0 ? (
+      ) : friendRequests.data?.length > 0 ? (
         <FlatList
           data={friendRequests.data}
           renderItem={({ item }) => (

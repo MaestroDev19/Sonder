@@ -6,11 +6,13 @@ import { createSentrySpan } from "../sentry/spans";
 import { ImageUploadService } from "../services/ImageUpload";
 import { toast, ToastPosition } from "@backpackapp-io/react-native-toast";
 import { useSetOnlineStatus } from "./online-status";
+import { useRouter } from "expo-router";
 
 const useCurrentUser = () => {
     const { accessToken, removeTokens } = useAccessToken();
     const queryClient = useQueryClient();
-    const { setStatusToOnline } = useSetOnlineStatus()    
+    const { setStatusToOnline } = useSetOnlineStatus();
+    const router = useRouter();
 
 
     const { isLoading, data: userProfile } = useQuery({
@@ -105,6 +107,7 @@ const useCurrentUser = () => {
         queryClient.removeQueries({
             queryKey: [ReactQueryKeys.CURRENT_USER],
         })
+        router.replace('/login')
         return removeTokens()
     }
 
