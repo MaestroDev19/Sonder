@@ -8,6 +8,7 @@ import SonderApi from '../../api';
 import { Skeleton } from '../skeleton';
 import { useRouter } from 'expo-router';
 import { createSentrySpan } from '../../sentry/spans';
+import defaultBanner from '../../constants/banner';
 
 
 const width = Dimensions.get('window').width;
@@ -116,7 +117,7 @@ const RenderProfileCard = ({ item, onPress }: { item: SimilarUser, onPress?: () 
   return (
     <ProfileCard
       onPress={onPress}
-      headerImage={item.banner || 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg'}
+      headerImage={item.banner || defaultBanner}
       avatar={item.profile_image}
       avatarInitials={item.name.at(0)}
       userName={item.spotify_username}

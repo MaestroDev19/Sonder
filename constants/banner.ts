@@ -1,0 +1,2 @@
+const defaultBanner = "https://firebasestorage.googleapis.com/v0/b/sonder-63ac2.appspot.com/o/banners%2Fdefault-banner%20(1).png?alt=media&token=950a6bec-fb22-4df2-b6e7-553fc861658c"
+export default defaultBanner;
