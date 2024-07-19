@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles'
 import { Image } from 'expo-image';
 import { scale, verticalScale } from 'react-native-size-matters';
-import { Computer, Laptop } from 'lucide-react-native';
+import { Laptop, Smartphone, Tablet } from 'lucide-react-native';
 import { Skeleton } from '../skeleton';
 
 interface NowPlayingProps {
@@ -38,8 +38,11 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
 }) => {
 
     const renderIcon = {
-        'computer': <Laptop stroke="#1DB954"/>
+        'computer': <Laptop stroke="#1DB954"/>,
+        'smartphone': <Smartphone stroke="#1DB954"/>,
+        'tablet': <Tablet stroke="#1DB954"/>
     }
+
 
     if (isLoading) {
         return (
