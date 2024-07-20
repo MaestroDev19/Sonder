@@ -16,8 +16,6 @@ import {
     MediaTypeOptions
 } from "expo-image-picker"
 import { useState } from "react";
-import { ImageUploadService } from "../../../services/ImageUpload";
-import { toast } from "@backpackapp-io/react-native-toast";
 
 export default function EditProfilePage() {
 
@@ -45,9 +43,8 @@ export default function EditProfilePage() {
     })
 
     const onSubmit = (data?: any) => {
-        const { banner, image } = getValues()
+        const { banner, image, name, bio, email } = getValues()
         const formKeys = Object.keys(formState.dirtyFields)
-        console.log(formKeys)
         
         if (!!banner) {
             updateBanner(banner)
@@ -66,9 +63,8 @@ export default function EditProfilePage() {
             return [key, getValues(key as any)]
         }))
         updateUserReset()
-        console.log("here")
-        console.log(updatedFields)
-        return updateUser(updatedFields)
+        //console.log(updatedFields)
+        return updateUser({ name, email, bio })
     }
 
     const goBack = () => {
@@ -89,7 +85,7 @@ export default function EditProfilePage() {
             mediaTypes: MediaTypeOptions.Images
         })
         setCurrentBanner(photo.assets![0].uri)
-        return setValue("banner", photo.assets![0].uri)
+        return setValue("banner", photo!.assets![0].uri)
     }
 
     const changeAvatar = async () => {
@@ -165,7 +161,7 @@ export default function EditProfilePage() {
 
                     <Pressable 
                         //disabled={!formState.isDirty || (!currentBanner || !currentProfilePic)}
-                        onPress={onSubmit} 
+                        onPress={handleSubmit(onSubmit)} 
                         disabled={savePending}
                         className="bg-primary rounded-lg w-1/4 py-2 disabled:bg-primary/50"
                     >
