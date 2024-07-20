@@ -103,12 +103,12 @@ const useCurrentUser = () => {
         })
     }
 
-    const logoutUser = () => {
+    const logoutUser = async () => {
         queryClient.removeQueries({
             queryKey: [ReactQueryKeys.CURRENT_USER],
         })
-        router.replace('/login')
-        return removeTokens()
+        await removeTokens()
+        return router.replace('/login')
     }
 
 
