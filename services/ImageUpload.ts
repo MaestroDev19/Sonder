@@ -17,7 +17,6 @@ class ImageUpload {
               resolve(xhr.response);
             };
             xhr.onerror = function (e) {
-              console.log(e);
               reject(new TypeError("Network request failed"));
             };
             xhr.responseType = "blob";
