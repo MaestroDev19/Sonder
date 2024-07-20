@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../../../components/avatar/styles";
@@ -34,74 +35,26 @@ interface ChatListPreview {
   messageStatus?: "Seen" | "Sent";
 }
 
-export default function ChatList({ navigation }) {
-  const chatpreview: ChatListPreview[] = [
-    {
-      id: "1",
-      name: "Zuhran",
-      lastMessage: "Hi, Muntasir! 👋 Can you help...",
-      isOnline: false,
-      isTyping: false,
-      messageStatus: "Seen",
-    },
-    {
-      id: "2",
-      name: "Mujahid",
-      lastMessage: "Typing...",
-      isTyping: true,
-      isOnline: true,
-    },
-    {
-      id: "4",
-      name: "Rex",
-      lastMessage: "hey",
-      isTyping: false,
-      isOnline: true,
-      messageStatus: "Sent",
-    },
-    {
-      id: "5",
-      name: "Rex",
-      lastMessage: "hey",
-      isTyping: false,
-      isOnline: true,
-      messageStatus: "Sent",
-    },
-    {
-      id: "6",
-      name: "Rex",
-      lastMessage: "hey",
-      isTyping: false,
-      isOnline: true,
-      messageStatus: "Sent",
-    },
-  ];
+export default function ChatList() {
 
   const { userProfile } = useCurrentUser();
   const router = useRouter()
   const [search, setSearch] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState(chatpreview);
-  const [selectedId, setSelectedId] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const { isLoading, data: chats } = useChats();
-
+  
+  const { isLoading, data: chats, refreshChats } = useChats();
+  
   const { openDrawer } = useDrawer();
+  
 
-
-  const handlePress = (item) => {
-    setSelectedId(item.id);
-    router.push("/chat/1");
-    //navigation.navigate("ChatScreen", { userName: item.name });
-  };
-
-  const handleSearch = (text) => {
-    setSearch(text);
-    const filteredData = chatpreview.filter((user) =>
-      user.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredUsers(filteredData);
-  };
-
+const onRefresh = () => {
+  setRefreshing(true);
+  refreshChats();
+  setTimeout(() => {
+    setRefreshing(false);
+  }, 1000);
+};
 
 
   return (
@@ -115,7 +68,7 @@ export default function ChatList({ navigation }) {
                     </Pressable>
 
                     <Text className=" mt-6 text-white text-xl font-bold">
-                        Chats
+                      Chats
                     </Text>
                 </Header>
             )
@@ -155,6 +108,13 @@ export default function ChatList({ navigation }) {
             data={chats}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <ChatListItem item={item} />}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+            refreshing={refreshing}
             className="px-6"
           />
         ) : (

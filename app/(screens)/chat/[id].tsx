@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -45,6 +45,7 @@ const ChatScreen = () => {
   const { messages, sendNewMessage } = useChatMessages(chatId as string);
 
   const { addChatMutation } = useChats();
+  const chatList = useRef<FlatList>(null);
 
   const createNewChat = async () => {
     if (selectedImages?.length === 0 && !message) return
@@ -148,18 +149,20 @@ const ChatScreen = () => {
 
         <View className="mt-5 -z-20">
           <FlatList
+            ref={chatList}
             data={messages}
             keyExtractor={(item) => item.id}
             renderItem={({ item: message, index }) => (
               <Message 
-              key={message.id} 
-              message={message} 
-              currentUserId={userProfile?.id}
-              showDate={messages[index + 1]?.senderId !== message?.senderId}
+                key={message.id} 
+                message={message} 
+                currentUserId={userProfile?.id}
+                showDate={messages[index + 1]?.senderId !== message?.senderId}
             />
             )}
-
             style={{ height: verticalScale(450), zIndex: 10 }}
+            onContentSizeChange={() => chatList?.current.scrollToEnd({ animated: true })}
+            onLayout={() => chatList?.current.scrollToEnd({ animated: true })}
           />
         </View>
         
@@ -226,32 +229,5 @@ const ChatScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000", // Dark background for the entire screen
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-    height: 60,
-    alignItems: "center",
-    backgroundColor: "#111", // Dark background for the header
-  },
-  headerText: {
-    fontSize: 24,
-    color: "#fff", // White text for the header
-  },
-  sendingContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-  },
-  sendText: {
-    color: "#007AFF",
-    fontSize: 16,
-  },
-});
 
 export default ChatScreen;
