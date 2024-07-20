@@ -9,6 +9,7 @@ import { Skeleton } from '../skeleton';
 import { useRouter } from 'expo-router';
 import { createSentrySpan } from '../../sentry/spans';
 import defaultBanner from '../../constants/banner';
+import useCurrentUser from '../../hooks/current-user';
 
 
 const width = Dimensions.get('window').width;
@@ -51,17 +52,23 @@ export const SwipeCardsContainer = () => {
     })
   ).current;
 
+  const { userProfile } = useCurrentUser();
   const { isLoading, data: similarUsers } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
       const res = await createSentrySpan("similar-users", async () => {
-        const response = await SonderApi.get('/users');
+        const response = await SonderApi.get('/users', {
+          params: {
+            user_id: userProfile?.id
+          }
+        });
         const profiles = response.data.data as SimilarUser[]
         return profiles
       }) as SimilarUser[]
 
       return res
-    }
+    },
+    enabled: !!userProfile,
   })
 
   const router = useRouter();
