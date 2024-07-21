@@ -1,16 +1,19 @@
-import { View } from "react-native"
+import { Dimensions, ScrollView, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { cn } from "../../lib/utils"
+import { cn } from "../lib/utils"
 
 interface PageProps {
     children?: React.ReactNode,
     className?: string
 }
 
+const { width, height } = Dimensions.get('window')
+
 const Page = ({ children, className }: PageProps) => {
+
     return (
         <SafeAreaView>
-            <View className={cn("w-screen h-screen text-white", className)}>
+            <View style={{ width, height }}  className={cn("text-white", className)}>
                 { children }
             </View>
         </SafeAreaView>

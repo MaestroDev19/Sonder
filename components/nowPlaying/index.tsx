@@ -1,6 +1,11 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles'
+import { Image } from 'expo-image';
+import { scale, verticalScale } from 'react-native-size-matters';
+import { Laptop, Smartphone, Tablet } from 'lucide-react-native';
+import { Skeleton } from '../skeleton';
+import TextTicker from 'react-native-text-ticker';
 
 interface NowPlayingProps {
     songName: string;
@@ -8,7 +13,20 @@ interface NowPlayingProps {
     albumArtUrl: string;
     timestamp: string;
     device: string;
+    deviceType: string,
+    isLoading: boolean
 }
+
+const row = "flex flex-row items-center justify-between mb-2"
+const leftColumn = "flex-1"
+const songName = "text-lg font-bold text-white"
+const artist = "text-sm text-[#EFEFEF80]"
+const albumArt = "w-10 h-10 rounded-lg"
+const timestamp = "text-sm text-[#EFEFEF80]"
+const device = "text-sm text-white"
+const divider = "h-px  mb-2"
+
+const SKELETON_HEIGHT = 15
 
 const NowPlaying: React.FC<NowPlayingProps> = ({
     songName,
@@ -16,20 +34,57 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     albumArtUrl,
     timestamp,
     device,
+    deviceType,
+    isLoading
 }) => {
-    return (
-        <View className={styles.container}>
-            <View className={styles.row}>
-                <View className={styles.leftColumn}>
-                    <Text className={styles.songName}>{songName}</Text>
-                    <Text className={styles.artist}>{artist}</Text>
+
+    const renderIcon = {
+        'computer': <Laptop stroke="#1DB954"/>,
+        'smartphone': <Smartphone stroke="#1DB954"/>,
+        'tablet': <Tablet stroke="#1DB954"/>
+    }
+
+
+    if (isLoading) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.row}>
+                    <View className='flex flex-col w-[60%] gap-3'>
+                        <Skeleton width={"100%"} height={SKELETON_HEIGHT}/>
+                        <Skeleton width={"60%"} height={SKELETON_HEIGHT}/>
+                    </View>
+                    <Skeleton width={scale(40)} height={verticalScale(40)} borderRadius={5}/>
                 </View>
-                <Image className={styles.albumArt} source={{ uri: albumArtUrl }} />
+                <View style={styles.divider}/>
+                <View style={styles.row}>
+                    <Skeleton width={"60%"} height={SKELETON_HEIGHT}/>
+                    <Skeleton width={"10%"} height={SKELETON_HEIGHT}/>
+                </View>
             </View>
-            <View className={styles.divider}></View>
-            <View className={styles.row}>
-                <Text className={styles.device}>{device}</Text>
-                <Text className={styles.timestamp}>{timestamp}</Text>
+        )
+    }
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.row}>
+                <View className='max-w-[90%]'>
+                    <TextTicker 
+                        duration={15000}
+                        className="text-white text-xl font-semibold"
+                    >
+                        {songName}
+                        </TextTicker>
+                    <TextTicker duration={15000} style={styles.text}>{artist}</TextTicker>
+                </View>
+                <Image style={{ borderRadius: 5, width: scale(40), height: verticalScale(40) }} source={{ uri: albumArtUrl }} />
+            </View>
+            <View style={styles.divider}></View>
+            <View style={styles.row}>
+                <View className='flex items-center flex-row gap-1'>
+                    {renderIcon[deviceType.toLowerCase()]}
+                    <Text className="text-white font-semibold">{device}</Text>
+                </View>
+                <Text style={styles.text}>{timestamp}</Text>
             </View>
         </View>
     );
