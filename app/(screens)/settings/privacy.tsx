@@ -17,7 +17,7 @@ const Privacy = () => {
 
 
     return (
-        <Page>
+        <View>
             <Drawer.Screen 
                 options={{
                     header: () => (
@@ -37,7 +37,7 @@ const Privacy = () => {
                 }}
             />
 
-            <View style ={{height: "85%" }}>
+            <View style ={{ paddingBottom: 50 }}>
                 <ScrollView className='p-6'contentContainerStyle={{ paddingBottom: 20 }} >
                     <H1>Privacy Policy</H1>
                     <Text className='text-light-grey mt-4'>
@@ -112,7 +112,7 @@ const Privacy = () => {
                     
                 </ScrollView>
             </View>
-        </Page>
+        </View>
     );
 };
 

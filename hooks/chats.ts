@@ -41,7 +41,8 @@ const useChats = () => {
             })
 
             return res as Chat[]
-        }
+        },
+        enabled: !!userProfile
     })
 
     const addChatMutation = useMutation({

@@ -17,11 +17,11 @@ const Termsofservice = ()=> {
 
 
     return (
-        <Page>
+        <View>
             <Drawer.Screen 
                 options={{
                     header: () => (
-                        <Header className='px-3'>
+                        <Header className='px-3 mb-4'>
                             <View  className='w-screen pr-6'>
                                 <View className='flex flex-row items-center'>
                                     <Pressable onPress={() => router.push("settings")} className=' mt-6  ml-3 mr-6 w-6 h-6 rounded-md border-[#EFEFEF33]  border  p-5 items-center justify-center'>
@@ -37,7 +37,7 @@ const Termsofservice = ()=> {
                 }}
             />
 
-            <View style ={{height: "85%" }}>
+            <View style ={{ paddingBottom: 50 }}>
                 <ScrollView className='p-6'contentContainerStyle={{ paddingBottom: 20 }} >
                     <H1>Terms of Service</H1>
 
@@ -93,7 +93,7 @@ const Termsofservice = ()=> {
                     
                 </ScrollView>
             </View>
-        </Page>
+        </View>
     );
 }
 export default Termsofservice;
