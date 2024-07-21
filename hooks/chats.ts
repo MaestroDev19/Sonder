@@ -27,6 +27,11 @@ const useChats = () => {
                 const docsQuery = await getDocs(
                     query(chatsCollection, where("members", "array-contains", userProfile?.id)) 
                 )
+
+                if (docsQuery.empty) {
+                    return []
+                }
+
                 return docsQuery.docs.map((doc) => {
                     return {
                         id: doc.id,
