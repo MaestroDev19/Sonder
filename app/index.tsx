@@ -1,6 +1,5 @@
 import { Link, useRouter } from "expo-router";
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Dimensions, Text } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import useAccessToken from "../hooks/access-token";
@@ -29,24 +28,25 @@ const content = [
 ];
 export default function Onboarding() {
   const router = useRouter();
-  const [showPage, setShowPage] = useState<boolean | null>(null);
   const { accessToken } = useAccessToken();
-
+  const [viewApp, setViewApp] = useState<boolean | null>(null);
+  
   useEffect(() => {
     if (accessToken === undefined) return;
 
     //True if access_token is not present meaning user is not logged in and shoould show onboarding, will fix later
-    setShowPage(!!!accessToken);
+    setViewApp(!!!accessToken);
   }, [accessToken]);
 
-  if (showPage === null) {
-    return null;
-  }
+  useEffect(() => {
+    if (viewApp === null) return;
+    if (!viewApp) {
+      return router.replace("/home");
+    }
 
-  if (!showPage) {
-    router.push("/home");
-    return null;
-  }
+  }, [viewApp])
+
+
 
   return (
     <SafeAreaProvider>
@@ -68,13 +68,13 @@ export default function Onboarding() {
           return (
             <View className="flex flex-1 bg-background justify-center items-start p-5 space-y-2">
               <Text
-                className=" tracking-widest leading-10  Poppins_400Regular text-muted-foreground "
+                className="tracking-widest leading-10  Poppins_400Regular text-muted-foreground text-white"
                 style={{ fontSize: 16 }}
               >
                 {item.heading}
               </Text>
               <Text
-                className="text-foreground font-Poppins_600SemiBold  dark:muted-foreground font-semibold tracking-widest "
+                className="text-foreground font-Poppins_600SemiBold  dark:muted-foreground font-semibold tracking-widest text-white"
                 style={{
                   fontSize: 36,
                   lineHeight: 40,
@@ -88,9 +88,9 @@ export default function Onboarding() {
         onDone={() => router.push("/login")}
         renderNextButton={() => {
           return (
-            <View className="p-5 flex flex-1 bg-primary">
+            <View className="p-5 flex flex-1 bg-primary rounded-lg">
               <Text
-                className="text-center font-Poppins_500Medium"
+                className="text-center font-Poppins_500SemiBold font-semibold text-white"
                 style={{ fontSize: 16 }}
               >
                 Next
@@ -100,9 +100,9 @@ export default function Onboarding() {
         }}
         renderDoneButton={() => {
           return (
-            <View className="p-5 flex flex-1 bg-primary">
+            <View className="p-5 flex flex-1 bg-primary rounded-lg">
               <Text
-                className="text-center font-Poppins_500Medium"
+                className="text-center font-Poppins_500Medium text-white font-semibold"
                 style={{ fontSize: 16 }}
               >
                 Get started

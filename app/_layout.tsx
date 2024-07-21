@@ -42,7 +42,6 @@ function RootLayout() {
       routingInstrumentation.registerNavigationContainer(ref);
     }
   }, [ref]);
-
   
   return (
     <QueryClientProvider client={queryClient}>
@@ -59,7 +58,7 @@ function RootLayout() {
                 backgroundColor: "#121212",
               },
               headerShown: false,
-            }}
+            }}            
           />
         </GestureHandlerRootView>
       </Sentry.ErrorBoundary>
