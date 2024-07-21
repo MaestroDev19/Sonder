@@ -5,12 +5,17 @@
     "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -36,8 +41,9 @@
       "package": "com.sonder.music"
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "favicon": "./assets/logo.png",
+      "bundler": "metro",
+      "output": "single"
     },
     "plugins": [
       "expo-router",
@@ -59,6 +65,12 @@
         "projectId": "679e31a3-80cc-4d3e-ae9c-a9e1f1a7b798"
       }
     },
-    "owner": "fortune710"
+    "owner": "fortune710",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/679e31a3-80cc-4d3e-ae9c-a9e1f1a7b798"
+    }
   }
 }
