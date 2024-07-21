@@ -74,7 +74,7 @@ export const SwipeCardsContainer = () => {
   const router = useRouter();
 
 
-  if (isLoading) {
+  if (isLoading || !userProfile) {
     return (
       <View className='px-4 my-7 h-[600px]'>
         <Skeleton
