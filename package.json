@@ -32,7 +32,7 @@
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.20",
     "expo-web-browser": "~13.0.3",
-    "firebase": "9.0.0",
+    "firebase": "^10.12.4",
     "lucide-react-native": "^0.394.0",
     "nativewind": "^4.0.1",
     "react": "18.2.0",
