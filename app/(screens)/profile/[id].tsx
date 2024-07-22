@@ -19,6 +19,11 @@ import { cn } from "../../../lib/utils";
 import FavoriteSongs from "../../../components/profile/songs";
 import FavouriteArtists from "../../../components/profile/artists";
 import FavouriteGenres from "../../../components/profile/genres";
+import { couldStartTrivia } from "typescript";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from 'react';
+import useCheckRequestStatus from '../../../hooks/check-request-status';
+import { saveFriendRequestSent } from '../../../utils/functions';
 
 const FavouriteSongsTab = () => {
     const { id } = useLocalSearchParams();
@@ -66,7 +71,8 @@ export default function ProfilePage() {
     const layout = useWindowDimensions();
     const { openDrawer } = useDrawer();
     const router = useRouter();
-
+    const [requestFirstSent, setRequestFirstSent] = useState(false);
+  
 
     const { 
         addFriendMutation, 
@@ -75,10 +81,63 @@ export default function ProfilePage() {
         isFriend,
         isFriendLoading 
     } = useFriends(id as string);
+    const requestSent = useCheckRequestStatus(currentUser.id, id, isFriend);
 
     const friendRequestPresent = friendRequests.data?.find((request) => {
         return request.friend_id === currentUser.id && request.user_id === id as string
     })
+
+    
+    // useEffect(() => {
+    //     const checkRequestStatus = async () => {
+    //         if (!isFriend) {
+    //         const requestAlreadySent = await checkIfFriendRequestSent(currentUser.id, id as string);
+    //         setRequestSent(requestAlreadySent);
+    //         }  else {
+    //             // If they are now friends, then the request not pending anymore
+    //             setRequestSent(false);
+    //         } 
+
+    //     };
+        
+    //     checkRequestStatus();
+    // }, [currentUser.id, id, isFriend]); 
+
+    
+
+
+    
+    
+
+    
+// Function to save that a friend request has been sent
+//     async function saveFriendRequestSent(currentUser_id, friend_id) {
+//   try {
+//     const key = `friendRequest-${currentUser_id}-${friend_id}`;
+//     await AsyncStorage.setItem(key, 'sent');
+//     console.log('Friend request status saved');
+//   } catch (error) {
+//     console.error('Error saving friend request status', error);
+//   }
+// }
+
+// Function to check if a friend request has been sent
+// async function checkIfFriendRequestSent(currentUser_id, friend_id) {
+//     try {
+//       const key = `friendRequest-${currentUser_id}-${friend_id}`;
+//       const value = await AsyncStorage.getItem(key);
+//       if(value !== null) {
+//         // Value retrieved
+//         console.log('Friend request status:', value);
+//         return true;
+//       }
+//       // No value found
+//       return false;
+//     } catch (error) {
+//       console.error('Error retrieving friend request status', error);
+//       return false;
+//     }
+//   }
 
     const handleProfileAction = async () => {
         if (isFriend) {
@@ -86,7 +145,16 @@ export default function ProfilePage() {
         }
         
         if (!!!friendRequestPresent) {
-            return await addFriendMutation.mutateAsync({ friend_id: id as string })
+            try {
+                await addFriendMutation.mutateAsync({ friend_id: id as string });
+                await saveFriendRequestSent(currentUser.id, id as string);
+                setRequestFirstSent(true);
+                 // Update button label on success
+            } catch (error) {
+                console.error("Failed to add friend:", error);
+                
+            }
+            return;
         }
 
 
@@ -153,13 +221,14 @@ export default function ProfilePage() {
                     </Pressable>
                     :
                     <Pressable 
-                        disabled={isFriendLoading || acceptFriendRequestMutation.isPending || addFriendMutation.isPending}
+                        disabled={isFriendLoading || acceptFriendRequestMutation.isPending || addFriendMutation.isPending || requestSent|| requestFirstSent}
                         className={cn("text-white disabled:opacity-50 bg-primary py-3 px-6 rounded-lg", isFriend && "bg-green-800/50")}
                         onPress={handleProfileAction}
                     >
                         <Text className={cn("text-black font-semibold", isFriend && "text-primary")}>
                             {
                                 isFriend ? "Friends" :
+                                requestFirstSent || requestSent === true ? "Requested" :
                                 !!!friendRequestPresent ? "Add Friend" : 
                                 "Accept Request"
                             }
