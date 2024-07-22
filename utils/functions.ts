@@ -1,5 +1,5 @@
 import { formatDistanceToNowStrict, isToday, isYesterday, format } from 'date-fns';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export function formatRelativeDate(date: Date): string {
   if (isToday(date)) {
     const distance = formatDistanceToNowStrict(date, { addSuffix: false });
@@ -66,4 +66,16 @@ export function generateConsistentString(str1: string, str2: string): string {
   }
   
   return result;
+}
+
+
+
+export async function saveFriendRequestSent(currentUser_id: string, friend_id: string) {
+  try {
+    const key = `friendRequest-${currentUser_id}-${friend_id}`;
+    await AsyncStorage.setItem(key, 'sent');
+    console.log('Friend request status saved');
+  } catch (error) {
+    console.error('Error saving friend request status', error);
+  }
 }

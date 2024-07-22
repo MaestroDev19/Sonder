@@ -4,8 +4,14 @@ import Avatar from "../avatar"
 import { ProfileCardProps } from '../../types/types';
 import { SharedValue } from 'react-native-reanimated';
 import useFavouriteArtists from '../../hooks/favourite-artists';
-import { UserRoundPlus } from 'lucide-react-native';
+import { UserRoundPlus, UserRoundCheck, MailCheck } from 'lucide-react-native';
 import useFriends from '../../hooks/friends';
+import useCheckRequestStatus from '../../hooks/check-request-status';
+import useCurrentUser from "../../hooks/current-user";
+import useUserProfile from '../../hooks/user';
+import { saveFriendRequestSent } from '../../utils/functions';
+import { useState } from 'react';
+
 
 const ProfileCard = (
     {
@@ -22,7 +28,13 @@ const ProfileCard = (
         onPress
     }: ProfileCardProps
 ) => {
-    const { addFriendMutation } = useFriends();
+    const { addFriendMutation , isFriend } = useFriends(userId as string);
+    
+   
+    const { userProfile: currentUser } = useCurrentUser();
+    const requestSent = useCheckRequestStatus(currentUser.id, userId, isFriend);
+    const [requestFirstSent, setRequestFirstSent] = useState(false);
+   
 
     return (
         <Pressable onPress={onPress} className={styles.container}>
@@ -44,11 +56,18 @@ const ProfileCard = (
                 </View>
 
                 <TouchableOpacity 
-                    onPress={() => addFriendMutation.mutateAsync({ friend_id: userId })}
-                    disabled={addFriendMutation.isPending}
+                    onPress={ async () =>{ addFriendMutation.mutateAsync({ friend_id: userId }
+                        
+                    ); await saveFriendRequestSent(currentUser.id, userId  as string);
+                    setRequestFirstSent(true);
+                }
+                }
+                    disabled={addFriendMutation.isPending || requestSent || requestFirstSent || isFriend}
                     className='bg-primary mt-auto w-14 h-14 flex justify-center items-center flex-row rounded-full disabled:opacity-50'
                 >
                     {
+                        isFriend ? <UserRoundCheck stroke="#fff" /> :
+                        requestSent ? < MailCheck stroke="#fff" /> :
                         addFriendMutation.isPending ? <ActivityIndicator/> :
                         <UserRoundPlus stroke="#000" />
                     }
