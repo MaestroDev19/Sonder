@@ -8,6 +8,7 @@ import { useState } from "react";
 import WebView from "react-native-webview";
 import { useRouter } from "expo-router";
 import useAccessToken from "../hooks/access-token";
+import SonderApi from "../api";
 
 const LoginPage = () => {
 
@@ -17,17 +18,15 @@ const LoginPage = () => {
 
     const getLoginUrl = async () => {
         // router.push('/home')
-        const res = await fetch("https://sonder-api.vercel.app/login");
-        const { data } = await res.json();
-        //const result = await openBrowserAsync(data.url)
-        //console.log(result)
+        const res = await SonderApi.get('/login')
+        const { data } = res.data
         setLoginUrl(data.url)
         
         
     }
 
     const getAccessToken = async (url: string) => {
-        if(!url.includes('sonder-api')) return
+        if(!url.includes('https://sonder-api')) return
 
         //Authenticate
         await saveAccessToken(url)
@@ -36,7 +35,7 @@ const LoginPage = () => {
     const handleShouldStartLoadWithRequest = (request) => {
         const { url } = request;
 
-        if (url.includes('sonder-api')) {
+        if (url.includes('https://sonder-api')) {
             getAccessToken(url);
             return false; // Prevent the WebView from navigating to this URL
         }
@@ -71,7 +70,7 @@ const LoginPage = () => {
                     <WebView
                         source={{ uri: loginUrl }}
                         onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
-                        
+                        onError={(e) => console.log(e)}
                     />
                 </View>
             }
