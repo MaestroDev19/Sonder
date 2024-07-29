@@ -6,6 +6,7 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { Laptop, Smartphone, Tablet } from 'lucide-react-native';
 import { Skeleton } from '../skeleton';
 import TextTicker from 'react-native-text-ticker';
+import { SpotifyLink } from '../spotify-linking';
 
 interface NowPlayingProps {
     songName: string;
@@ -14,7 +15,8 @@ interface NowPlayingProps {
     timestamp: string;
     device: string;
     deviceType: string,
-    isLoading: boolean
+    isLoading: boolean,
+    songID: string,
 }
 
 const row = "flex flex-row items-center justify-between mb-2"
@@ -35,7 +37,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     timestamp,
     device,
     deviceType,
-    isLoading
+    isLoading,
+    songID,
 }) => {
 
     const renderIcon = {
@@ -65,6 +68,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     }
 
     return (
+        <SpotifyLink url={`https://open.spotify.com/track/${songID}`}>
         <View style={styles.container}>
             <View style={styles.row}>
                 <View className='max-w-[90%]'>
@@ -84,9 +88,16 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
                     {renderIcon[deviceType.toLowerCase()]}
                     <Text className="text-white font-semibold">{device}</Text>
                 </View>
-                <Text style={styles.text}>{timestamp}</Text>
+                <View className='flex items-center flex-row gap-1'>
+                    <Image 
+                        source={require('../../assets/spotify-icons/spotify_white.svg')} 
+                        style={{ width: 25, height:25 }}
+                    />
+                    <Text style={styles.text}>{timestamp}</Text>
+                </View>
             </View>
         </View>
+        </SpotifyLink>
     );
 };
 
