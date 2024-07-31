@@ -1,8 +1,9 @@
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Pressable, Linking } from "react-native";
 import { Skeleton } from "../skeleton";
 import { scale, verticalScale } from "react-native-size-matters";
 import { Image } from "expo-image";
 import { FavouriteArtist } from "../../types/types";
+import { SpotifyLink } from "../spotify-linking";
 
 interface FavouriteArtistsProp {
     isLoading: boolean;
@@ -37,6 +38,14 @@ const FavouriteArtistsTab = ({ isLoading, favouriteArtists }: FavouriteArtistsPr
                         <Image source={{ uri: artist?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
                         <View>
                             <Text className="text-white text-xl font-semibold whitespace-break-spaces">{artist.name}</Text>
+                            <SpotifyLink style={{width: 75, height: 25, backgroundColor: '#b3b3b31A'}} 
+                            className = 'rounded-sm flex justify-center items-center' url={`https://open.spotify.com/artist/${artist.id}`}>
+                                <Image 
+                                    source={require('../../assets/spotify-icons/spotify_black.svg')} 
+                                    style={{ width: 25, height: 25 }}
+                                />
+                                <Text className="text-white">See Artist</Text>
+                            </SpotifyLink>
                         </View>
                     </View>
                     ))
