@@ -5,7 +5,7 @@ import { Image } from "expo-image";
 import {useState} from "react";
 import { FavouriteTrack } from "../../types/types";
 import { SpotifyLink } from "../spotify-linking";
-import {Dropdown} from "react-native-element-dropdown"
+import Dropdown from "../dropdown";
 
 interface FavouriteSongsProp {
     isLoading: boolean;
@@ -14,8 +14,8 @@ interface FavouriteSongsProp {
 
 const FavoriteSongsTab = ({ isLoading, favouriteSongs }: FavouriteSongsProp) => {
      const data = [
-        { label: 'Listen on Spotify', value: 'open_spotify' },
-        { label: 'Preview', value: 'preview' },
+        { label: 'Listen on Spotify', value: 'open_spotify', icon: 'spotify' },
+        { label: 'Preview', value: 'preview', icon: 'play' },
     ];
 
     const [value, setValue] = useState(null);
@@ -31,7 +31,7 @@ const FavoriteSongsTab = ({ isLoading, favouriteSongs }: FavouriteSongsProp) => 
 
     return (
         <View style={{ height: "75%" }}>
-            <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, height: "80%" }}>
+            <ScrollView className="border border-[#EFEFEF4A] p-4 rounded-lg" style={{ flex: 1, zIndex: 30, height: "80%" }}>
                 {
                     isLoading ? 
                     <>
@@ -53,32 +53,18 @@ const FavoriteSongsTab = ({ isLoading, favouriteSongs }: FavouriteSongsProp) => 
                             {track?.position}
                         </Text>
                         <Image source={{ uri: track?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
-                        <View className="w-[60%] flex flex-col gap-0.5">
+                        <View className="w-[45%] flex flex-col gap-0.5">
                             <Text className="text-white text-xl font-semibold whitespace-break-spaces">{track.name}</Text>
                             <Text className="text-light-grey">{track.artists.map((artist) => artist.name).join(', ')}</Text>
-                            {/* <SpotifyLink url={`https://open.spotify.com/track/${track.id}`}>
-                                <Text className="text-green-400">Listen on Spotify</Text>
-                            </SpotifyLink> */}
-                            <Dropdown
-                            style={{width: 150, height:10}}
-                            data={data}
-                            maxHeight={150}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'...'}
-                            value={'...'}
-                            containerStyle={{backgroundColor: '#B3B3B3', borderRadius: 10}}
-                            onFocus={() => setIsFocus(true)}
-                            onBlur={() => setIsFocus(false)}
-                            onChange={item => {
+                        </View>
+                        <Dropdown
+                            options={data}
+                            onSelect={item => {
                                 setValue(item.value);
                                 setIsFocus(false);
                                 handleDropdownChange(track.id);
                             }}
-                            />
-                        </View>
-                        
-
+                        />
                     </View>
                     ))
                 }

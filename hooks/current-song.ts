@@ -28,6 +28,9 @@ const useCurrentTrack = () => {
             return res
         },
         enabled: !!accessToken && !!userProfile?.country,
+        refetchOnReconnect: true,
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
     })
 
     const [currentTrackProgress, setCurrentTrackProgress] = useState<number>(0)

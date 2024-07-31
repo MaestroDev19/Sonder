@@ -90,7 +90,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
                 </View>
                 <View className='flex items-center flex-row gap-1'>
                     <Image 
-                        source={require('../../assets/spotify-icons/spotify_white.svg')} 
+                        source={require('../../assets/spotify-icons/spotify_white.png')} 
                         style={{ width: 25, height:25 }}
                     />
                     <Text style={styles.text}>{timestamp}</Text>

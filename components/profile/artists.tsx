@@ -38,13 +38,16 @@ const FavouriteArtistsTab = ({ isLoading, favouriteArtists }: FavouriteArtistsPr
                         <Image source={{ uri: artist?.image }} style={{ width: scale(50), height: verticalScale(50), borderRadius: 6 }}/>
                         <View>
                             <Text className="text-white text-xl font-semibold whitespace-break-spaces">{artist.name}</Text>
-                            <SpotifyLink style={{width: 75, height: 25, backgroundColor: '#b3b3b31A'}} 
-                            className = 'rounded-sm flex justify-center items-center' url={`https://open.spotify.com/artist/${artist.id}`}>
+                            <SpotifyLink 
+                                style={{width: 110, height: 27, borderRadius: 30, backgroundColor: '#b3b3b31A'}} 
+                                className='flex flex-row justify-center items-center' 
+                                url={`https://open.spotify.com/artist/${artist.id}`}
+                            >
                                 <Image 
-                                    source={require('../../assets/spotify-icons/spotify_black.svg')} 
-                                    style={{ width: 25, height: 25 }}
+                                    source={require('../../assets/spotify-icons/spotify_white.png')} 
+                                    style={{ width: 20, height: 20, marginRight: 7 }}
                                 />
-                                <Text className="text-white">See Artist</Text>
+                                <Text className="text-white font-semibold">See Artist</Text>
                             </SpotifyLink>
                         </View>
                     </View>
