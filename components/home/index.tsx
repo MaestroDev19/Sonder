@@ -24,6 +24,7 @@ export const HomePageLayout = () => {
             timestamp={millisecondsToMSFormat(currentTrackProgress)}
             device={currentTrack?.device.name || "N/A"}
             deviceType={currentTrack?.device.type || "Computer"}
+            songID={currentTrack?.id || ""}
           />
         </View>
   
