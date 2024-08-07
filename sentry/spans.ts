@@ -9,7 +9,7 @@ type SentrySpanName =
   "artists"| "artists/:id" |
   "similar-users" | 
   "chats" | "add-chat" |
-  "chat-messages"
+  "chat-messages"| "sonar"
 
 export async function createSentrySpan(name: SentrySpanName, request: () => any) {
   const result = await Sentry.startSpan({ name, op: "http" },
