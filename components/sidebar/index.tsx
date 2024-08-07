@@ -22,10 +22,10 @@ import { router } from "expo-router";
     ...state,
     routes: state.routes.filter(route => {
       // screens to be included in the drawer
-      return ['home/index', 'profile/index' , 'chat/index', 'settings/index'].includes(route.name);
+      return ['home/index', 'profile/index' , 'chat/index', 'settings/index', 'sonar/index'].includes(route.name);
     }),
     // Ensures the index is within the new routes array length to avoid referencing a non-existent screen
-    index: Math.min(state.index, state.routes.filter(route => ['home/index', 'profile/index' , 'chat/index', 'settings/index'].includes(route.name)).length - 1),
+    index: Math.min(state.index, state.routes.filter(route => ['home/index', 'profile/index' , 'chat/index', 'settings/index', 'sonar/index'].includes(route.name)).length - 1),
   };
     const { userProfile, isLoading, refreshUser, logoutUser } = useCurrentUser();
 

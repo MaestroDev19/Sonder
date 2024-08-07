@@ -67,4 +67,21 @@ export default [
             title: 'Settings',
         }
     },
+    {
+        name: "sonar/index",
+        options: {
+            drawerLabel: () => (
+                <View className="flex-row items-center w-full">
+                    <Text className="text-[#EFEFEF]">
+                        Sonar
+                    </Text>
+                    <View className='w-6 h-6 rounded-md border-[#EFEFEF33] bg-[#1DB954] p-1.5 items-center justify-center absolute left-36'>
+                        <ArrowRight size="14px" stroke="#000"/>
+                    </View>
+                </View>
+            ),
+            title: 'Sonar',
+
+        }
+    }
 ]

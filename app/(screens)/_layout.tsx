@@ -6,7 +6,7 @@ import { AppState, View } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import useAccessToken from '../../hooks/access-token';
 import SonderApi from '../../api';
-import { Home, MessageCircle, Settings, UserRound } from 'lucide-react-native';
+import { Home, MessageCircle, Settings, Sparkle, UserRound } from 'lucide-react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Sentry from "@sentry/react-native"
 import { useSetOnlineStatus } from '../../hooks/online-status';
@@ -92,7 +92,7 @@ export default function Layout() {
       >
         {DrawerItems
         .filter((drawer) => {
-          return drawer.name === "profile/index" || drawer.name === "chat/index" || drawer.name === "home/index" || drawer.name === "settings/index"
+          return drawer.name === "profile/index" || drawer.name === "chat/index" || drawer.name === "home/index" || drawer.name === "settings/index" || drawer.name === "sonar/index"
         })
         .map((drawer) => (
           <Drawer.Screen
@@ -113,7 +113,12 @@ export default function Layout() {
                   <View className="w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center">
                     <Home stroke="white" />
                   </View>
-                ) : (
+                ) : drawer.options.title === "Sonar" ? (
+                  <View className="w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center">
+                    <Sparkle stroke="white" />
+                  </View>
+                ) : 
+                (
                   <View className="w-9 h-9 rounded-md border-[#EFEFEF33] bg-[#EFEFEF1A] p-1.5 items-center justify-center">
                     <Settings stroke="white" />
                   </View>
