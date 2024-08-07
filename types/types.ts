@@ -91,6 +91,13 @@ export interface Chat {
     id: string
 }
 
+export interface SonarSearchResult {
+    id: string,
+    summary: string,
+    users: User[],
+    question: string
+}
+
 export interface Media {
     url: string,
     type: "video"|"image"
@@ -123,6 +130,8 @@ export type StorageFolder = "banners"|"avatars"|"images"
 export enum AsyncStorageKeys {
     ACCESS_TOKEN = "access-token",
     REFRESH_TOKEN = "refresh-token",
+    SEARCH_RESULTS = "search-results",
+    LAST_MESSAGE = "last-message"
 }
 
 export enum ReactQueryKeys {
