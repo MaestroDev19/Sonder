@@ -72,7 +72,7 @@ export default function ProfilePage() {
                 headerBackground: () => (
                     <ImageBackground
                         source={{ uri: userProfile?.banner || 'https://upload.wikimedia.org/wikipedia/en/3/32/Frank_Ocean-Nostalgia_Ultra.jpeg' }}
-                        style={{ height: verticalScale(115), top: 0, zIndex: -20 }}
+                        style={{ height: verticalScale(140), top: 0, zIndex: -20 }}
                         contentPosition="center"
                     />
                 ),
@@ -85,7 +85,7 @@ export default function ProfilePage() {
                 )
             }} />
 
-            <View style={{ zIndex: 40 }} className="flex flex-row mt-20 items-end justify-between z-20">
+            <View style={{ zIndex: 40 }} className="flex flex-row mt-10 items-end justify-between z-20">
                 <Avatar
                     src={userProfile?.profile_image}
                     initials={userProfile?.name.at(0) || "S"}
@@ -93,13 +93,17 @@ export default function ProfilePage() {
                     height={50}
                     containerStyle="z-40"
                 />
-                <Link href="/profile/edit" className="text-white border border-[#EFEFEF4A] bg-[#EFEFEF1A] py-3 px-6 rounded-lg">
-                    <Text className="text-white font-semibold">Edit Profile</Text>
-                </Link>
             </View>
 
-            <Text className="text-white text-3xl font-bold">{userProfile?.name}</Text>
-            <Text className="text-lg text-light-grey">@{userProfile?.spotify_username}</Text>
+            <View className="flex flex-row justify-between">
+              <View>
+                <Text className="text-white text-2xl font-bold mt-2">{userProfile?.name}</Text>
+                <Text className="text-lg text-light-grey">@{userProfile?.spotify_username}</Text>
+              </View>
+              <Link href="/profile/edit" className="text-white border border-[#EFEFEF4A] bg-[#EFEFEF1A] py-3 px-6 rounded-lg self-end">
+                <Text className="text-white font-semibold">Edit Profile</Text>
+              </Link>
+            </View>
             
             <View className="border border-[#EFEFEF33] rounded-lg px-4 py-3 my-4">
                 <Text className="text-white font-medium text-xl mb-3">{userProfile?.bio || "Insert a bio"}</Text>
