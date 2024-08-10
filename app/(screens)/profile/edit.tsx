@@ -116,7 +116,7 @@ export default function EditProfilePage() {
                 </Header>
 
 
-                <Pressable onPress={changeBanner} className="w-screen h-60 relative flex flex-row items-center justify-center">
+                <Pressable onPress={changeBanner} className="w-screen h-40 relative flex flex-row items-center justify-center">
                     <ImagePlus stroke="white"/>
                     { 
                         userProfile?.banner && 
@@ -142,13 +142,14 @@ export default function EditProfilePage() {
                         name="name"
                         label="Name"
                         control={control}
-                        className="mt-10"
+                        className="mt-5 h-20"
                     />
                     
                     <Input
                         name="email"
                         label="Email"
                         control={control}
+                        className="h-20"
                     />
                     
                     <Input
