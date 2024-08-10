@@ -68,16 +68,14 @@ export const FriendsList = ({ friends, mode, currentUserId }: FriendsListProps) 
                   containerStyle="z-40"
                 />
                 <View>
-                  <View className="flex flex-row gap-2 items-center">
-                    <Text className="text-white text-2xl font-semibold">
+                    <Text className="text-white text-xl font-semibold">
                       {userProfile.name}
                     </Text>
-                    <Text className="text-[#efefef80] text-lg font-semibold">
+                    <Text className="text-[#efefef80] text-md font-semibold">
                       @{userProfile.username}
                     </Text>
-                  </View>
                   <Text className="text-sm text-light-grey">
-                    {userProfile.bio}
+                    {userProfile.bio.replace(/\n(\r\n|\n|\r)/gm,"").trim()}
                   </Text>
                 </View>
               </View>

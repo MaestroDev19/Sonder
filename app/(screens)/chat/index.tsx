@@ -155,7 +155,7 @@ const ChatListItem = ({ item }: { item: Chat }) => {
         params: { friend_id: friend.id }
       })}
     >
-      <View className="z-40 py-2.5  mr-5">
+      <View className="z-40 py-2.5 mr-5">
         <Avatar
           src={friend?.profile_image}
           initials={friend?.name.at(0) || "S"}
@@ -178,15 +178,17 @@ const ChatListItem = ({ item }: { item: Chat }) => {
       </View>
       <View className="flex flex-row justify-between items-center flex-1">
         <View>
-          <View className="flex flex-row items-center gap-2">
-            <Text className="text-xl font-bold text-white">{friend?.name}</Text>
-            <Text className="text-sm font-semibold text-light-grey">@{friend?.username}</Text>
+          <View className="flex flex-row items-between gap-2">
+              <View>
+                <Text className="text-md font-bold text-white">{friend?.name}</Text>
+                <Text className="text-sm font-semibold text-light-grey">@{friend?.username}</Text>
+              </View>
           </View>
           <Text className="text-lg font-medium text-grey-text">
-            {item.lastMessage || "Start Chat"}
+            {item.lastMessage.slice(0, 20) + '...' || "Start Chat"}
           </Text>
         </View>
-        <Text className="text-base font-medium text-white">
+        <Text className="text-base font-medium text-white justify-self-end">
           {formatRelativeDate(relativeDate)}
         </Text>
       </View>
