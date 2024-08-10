@@ -33,6 +33,7 @@ const FavouriteArtistsTab = () => {
 
 const FavouriteGenresTab = () => {
     const { isLoading, favouriteGenres } = useFavouriteGenres();
+    console.log(favouriteGenres)
 
     return <FavouriteGenres isLoading={isLoading} favouriteGenres={favouriteGenres} />
 };
