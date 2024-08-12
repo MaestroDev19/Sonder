@@ -16,6 +16,7 @@ import {
     MediaTypeOptions
 } from "expo-image-picker"
 import { useState } from "react";
+import editProfileValidation from "../../../validations/edit-profile";
 
 export default function EditProfilePage() {
 
@@ -42,7 +43,7 @@ export default function EditProfilePage() {
         }
     })
 
-    const onSubmit = (data?: any) => {
+    const onSubmit = async (data?: any) => {
         const { banner, image, name, bio, email } = getValues()
         const formKeys = Object.keys(formState.dirtyFields)
         
@@ -64,7 +65,17 @@ export default function EditProfilePage() {
         }))
         updateUserReset()
         //console.log(updatedFields)
-        return updateUser({ name, email, bio })
+        const { 
+            email: validatedEmail, 
+            name: validatedName, 
+            bio: validatedBio 
+        } = await editProfileValidation.parseAsync({ name, email, bio })
+        
+        return updateUser({
+            email: validatedEmail, 
+            name: validatedName, 
+            bio: validatedBio 
+        })
     }
 
     const goBack = () => {
