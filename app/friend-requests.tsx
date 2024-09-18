@@ -12,6 +12,7 @@ import { Skeleton } from "../components/skeleton";
 import Avatar from "../components/avatar";
 import { useRouter } from "expo-router";
 import { ArrowLeft, Check, X } from "lucide-react-native";
+import CustomBackButton from "../components/CustomBackButton";
 
 export default function FriendRequestsPage() {
   const {
@@ -32,12 +33,7 @@ export default function FriendRequestsPage() {
   return (
     <Page>
       <View className="flex items-center gap-5 flex-row w-screen px-3 py-5">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="bg-[#EFEFEF1A] p-3 rounded-xl border border-muted"
-        >
-          <ArrowLeft stroke="white" />
-        </TouchableOpacity>
+        <CustomBackButton />
 
         <Text className="text-white font-bold text-2xl">Friend Requests</Text>
       </View>

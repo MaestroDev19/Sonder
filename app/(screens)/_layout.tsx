@@ -1,16 +1,16 @@
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Drawer } from 'expo-router/drawer';
-import CustomDrawer from '../../components/sidebar';
-import DrawerItems from '../../constants/DrawerItems';
-import { AppState, View } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-import useAccessToken from '../../hooks/access-token';
-import SonderApi from '../../api';
-import { Home, MessageCircle, Settings, UserRound } from 'lucide-react-native';
-import { StatusBar } from 'expo-status-bar';
-import * as Sentry from "@sentry/react-native"
-import { useSetOnlineStatus } from '../../hooks/online-status';
-import useCurrentUser from '../../hooks/current-user';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Drawer } from "expo-router/drawer";
+import CustomDrawer from "../../components/sidebar";
+import DrawerItems from "../../constants/DrawerItems";
+import { AppState, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import useAccessToken from "../../hooks/access-token";
+import SonderApi from "../../api";
+import { Home, MessageCircle, Settings, UserRound } from "lucide-react-native";
+import { StatusBar } from "expo-status-bar";
+import * as Sentry from "@sentry/react-native";
+import { useSetOnlineStatus } from "../../hooks/online-status";
+import useCurrentUser from "../../hooks/current-user";
 
 export default function Layout() {
   const { refreshToken } = useAccessToken();
@@ -20,9 +20,6 @@ export default function Layout() {
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [userId, setUserId] = useState(userProfile?.id);
 
-
-
-
   useEffect(() => {
     const interceptor = SonderApi.interceptors.response.use(
       (response) => {
@@ -31,8 +28,8 @@ export default function Layout() {
       async (error) => {
         if (error.response && error.response.status === 401) {
           // Handle 401 error here, refresh access token
-          await refreshToken()
-          return
+          await refreshToken();
+          return;
         } else {
           Sentry.captureException(error);
         }
@@ -46,35 +43,40 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    const subscription = AppState.addEventListener('change', async (nextAppState) => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        await setStatusToOnline(userProfile?.id)
-        setUserId(userProfile?.id)
-      } else if (nextAppState === "inactive" || nextAppState === "background") {
-        await setStatusToOffline(userId || userProfile?.id)
+    const subscription = AppState.addEventListener(
+      "change",
+      async (nextAppState) => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === "active"
+        ) {
+          await setStatusToOnline(userProfile?.id);
+          setUserId(userProfile?.id);
+        } else if (
+          nextAppState === "inactive" ||
+          nextAppState === "background"
+        ) {
+          await setStatusToOffline(userId || userProfile?.id);
+        }
+
+        appState.current = nextAppState;
+        setAppStateVisible(appState.current);
       }
-
-
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
-    });
+    );
 
     return () => {
       subscription.remove();
     };
-  }, [])
-
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="light" />
       <Drawer
         drawerContent={(props) => {
-          return <CustomDrawer {...props} containerStyle={{ paddingVertical: 0 }} />
-
+          return (
+            <CustomDrawer {...props} containerStyle={{ paddingVertical: 0 }} />
+          );
         }}
         screenOptions={{
           drawerContentStyle: {
@@ -90,11 +92,14 @@ export default function Layout() {
           headerTitle: "",
         }}
       >
-        {DrawerItems
-        .filter((drawer) => {
-          return drawer.name === "profile/index" || drawer.name === "chat/index" || drawer.name === "home/index" || drawer.name === "settings/index"
-        })
-        .map((drawer) => (
+        {DrawerItems.filter((drawer) => {
+          return (
+            drawer.name === "profile/index" ||
+            drawer.name === "chat/index" ||
+            drawer.name === "home/index" ||
+            drawer.name === "settings/index"
+          );
+        }).map((drawer) => (
           <Drawer.Screen
             key={drawer.name}
             name={drawer.name}
