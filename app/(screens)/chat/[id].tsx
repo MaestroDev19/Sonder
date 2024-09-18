@@ -30,6 +30,7 @@ import { Image as ExpoImage } from "expo-image";
 import { ImageUploadService } from "../../../services/ImageUpload";
 import { generateRandomId } from "../../../utils/functions";
 import { Media } from "../../../types/types";
+import CustomBackButton from "../../../components/CustomBackButton";
 
 const ChatScreen = () => {
   const { data: chats } = useChats();
@@ -113,12 +114,7 @@ const ChatScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <Header className="gap-4 px-0">
-          <Pressable
-            onPress={() => router.push("chat")}
-            className=" mt-6  ml-6 w-6 h-6 rounded-md border-[#EFEFEF33]  border  p-5 items-center justify-center"
-          >
-            <ArrowLeft size="14px" stroke="white" />
-          </Pressable>
+          <CustomBackButton />
 
           <View className="h-full flex flex-row gap-4 items-end">
             <Avatar

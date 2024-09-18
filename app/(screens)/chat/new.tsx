@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import { FriendsList } from "../../../components/friends-list";
 import useCurrentUser from "../../../hooks/current-user";
 import { Drawer } from "expo-router/drawer";
+import CustomBackButton from "../../../components/CustomBackButton";
 
 export default function FriendsPage() {
   const { isLoading, data: friends } = useFriendsList();
@@ -24,12 +25,7 @@ export default function FriendsPage() {
       <Page>
         <Drawer.Screen options={{ header: () => null }} />
         <Header className="flex flex-row gap-4 items-center">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="w-6 h-6 rounded-md border-[#EFEFEF33] border p-5 items-center justify-center"
-          >
-            <ArrowLeft stroke="white" />
-          </TouchableOpacity>
+          <CustomBackButton />
 
           <Text className="text-white font-bold text-2xl">Friends</Text>
         </Header>
